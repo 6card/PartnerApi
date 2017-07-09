@@ -5,7 +5,9 @@ import 'rxjs/Rx';
 import {Observable} from 'rxjs';
 
 @Injectable()
-export class TransmissionService {
+export class PartnerService {
+  xSessionId:string;
+  loginName:string = 'NameTest';
   apiRoot:string = '/transmission/rpc/';
 
   constructor(private http: Http) { 

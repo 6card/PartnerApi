@@ -8,14 +8,11 @@ module.exports = webpackMerge(commonConfig,{
 
     output: {
         path: helpers.root('dist'),
-        publicPath: './',//publicPath: 'http://localhost:8080/', for dev
+        publicPath: 'http://localhost:8080/',
         filename: '[name].js',
         sourceMapFilename: '[name].js.map',
         chunkFilename: '[id].chunk.js'
     },
-
-    
-
     devServer: {
         historyApiFallback: true,
         stats: 'minimal'
