@@ -1,0 +1,77 @@
+<div class="ui grid">
+  <div class="four wide column">
+    <div class="ui segment">
+      <div class="ui secondary vertical filter menu">
+        <a class="item" (click)="setFilter(null)" [ngClass]="getFilterClass(null)">
+          All
+          <div class="ui teal left pointing label">{{ getAllCount() }}</div>
+        </a>
+        <a class="item" (click)="setFilter(4)" [ngClass]="getFilterClass(4)">
+          <i class="download icon"></i> Downloading
+          <div class="ui label">{{ getDownloadingCount() }}</div>
+        </a>
+        <a class="item" (click)="setFilter(6)" [ngClass]="getFilterClass(6)">
+          <i class="upload icon"></i> Sedding
+          <div class="ui label">{{ getSeedingCount() }}</div>
+        </a>
+        <a class="item" (click)="setFilter(0)" [ngClass]="getFilterClass(0)">
+          <i class="pause icon"></i> Paused
+          <div class="ui label">{{ getPausedCount() }}</div>
+        </a>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="twelve wide stretched column">
+    <div class="ui segment">
+      <button class="ui green button" (click)="startTorrents()" [disabled]="!selectedTorrents.length">
+        <i class="play icon"></i>
+        Start
+      </button>
+      <button class="ui yellow button" (click)="stopTorrents()" [disabled]="!selectedTorrents.length">
+        <i class="pause icon"></i>
+        Pause
+      </button>
+
+      <button class="ui red button" (click)="deleteTorrents()" [disabled]="!selectedTorrents.length">
+        <i class="remove icon"></i>
+        Remove
+      </button>
+      
+      
+
+
+      <table class="ui striped sortable table">
+        <thead>
+          <tr><th (click)="sortBy('name')" [ngClass]="getSortingClass('name')">Name</th>
+            <th (click)="sortBy('totalSize')" [ngClass]="getSortingClass('totalSize')">Size</th>
+            <th (click)="sortBy('status')" [ngClass]="getSortingClass('status')">Status</th>
+            <th (click)="sortBy('percentDone')" [ngClass]="getSortingClass('percentDone')">Progress</th>            
+            <th (click)="sortBy('addedDate')" [ngClass]="getSortingClass('addedDate')">Added date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr (click)="selectTorrent(torrent, $event)" [ngClass]="getSelectedTorrentClass(torrent)" *ngFor="let torrent of torrents | filterTorrent:this.filter | orderBy: [sort]" id="torrent_{{ torrent.id }}">
+            <td>{{ torrent.name }}</td>
+            <td>{{ torrent.totalSize | fileSize }}</td>
+            <td>{{ torrent.getStatus() }}<br>{{ torrent.getSpeed() | fileSpeed }}</td>
+            <td>
+              <div class="ui indicating progress no-margin" [ngClass]="torrent.getStatusColor()" >
+                <div class="bar" [ngStyle]="{ 'width': torrent.percentDone+'%' }">
+                  <div class="progress">{{ torrent.percentDone | number:'1.1-1' }}%</div>
+                </div>
+              </div>
+            </td>
+            <td>{{ torrent.addedDate  | date: 'dd.MM.yyyy'}}</td>
+          </tr>
+        </tbody>
+      </table>
+<!--
+      <button type=button class="btn btn-primary"  (click)="getSession()">Get session</button>
+
+      <button type=button class="btn btn-primary" *ngIf="remote" (click)="getTorrents()">Get torrents</button>
+-->
+    </div>
+  </div>
+</div>
