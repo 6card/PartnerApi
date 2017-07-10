@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 
 import { PartnerService } from '../../shared/partner.service';
@@ -9,7 +9,7 @@ import { PartnerService } from '../../shared/partner.service';
   styleUrls: ['./channels.component.css']
 })
 
-export class ChannelsComponent {
+export class ChannelsComponent implements OnInit {
     constructor(
         private	router:	Router,
         private partnerService:PartnerService
@@ -19,5 +19,15 @@ export class ChannelsComponent {
         this.router.navigate(['login']);
       }
       */
+    }
+
+    ngOnInit(){
+      this.partnerService.getChannels().subscribe( data => {  
+            console.log(data.Success);            
+        }, (err) => {
+            console.error('Get Channels ERROR');
+        }, () => {
+            //console.log('Torrents get');
+        });          
     }
 }

@@ -19,3 +19,6 @@ body > .grid {
 .no-margin{
     margin: 0 !important;
 }
+.ui.inverted.menu .green.color.item {
+    background-color: #21ba45;
+}
