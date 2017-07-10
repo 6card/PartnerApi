@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 
-import { PartnerService } from '../../shared/partner.service';
+import { PartnerService } from '../../services/partner.service';
 
 @Component({
   selector: 'app-channels',
-  templateUrl: './channels.component.html',
-  styleUrls: ['./channels.component.css']
+  templateUrl: './channels.component.html'
 })
 
 export class ChannelsComponent implements OnInit {

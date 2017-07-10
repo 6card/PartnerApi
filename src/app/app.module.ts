@@ -5,11 +5,11 @@ import { HttpModule } from '@angular/http';
 import { Routes, RouterModule } from	"@angular/router";
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './components/login/login.component';
 
-import { ChannelsComponent } from './media/channels/channels.component';
+import { ChannelsComponent } from './components/channels/channels.component';
 
-import { PartnerService } from './shared/partner.service';
+import { PartnerService } from './services/partner.service';
 
 import { AuthGuard } from './shared/auth.guard';
 

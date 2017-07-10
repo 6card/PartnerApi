@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewChecked  } from '@angular/core';
 import { Router } from "@angular/router";
-import { PartnerService } from './shared/partner.service';
+import { PartnerService } from './services/partner.service';
 
 
 import {Observable} from 'rxjs/Rx';
