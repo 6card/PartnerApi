@@ -4,8 +4,8 @@
   "license": "MIT",
   "main": "./main.js",
   "scripts": {
-    "build": "webpack --config config/webpack.dev.js --progress --profile --bail",
-    "build-prod": "webpack --config config/webpack.prod.js --progress --profile --bail",
+    "build": "rm -r dist && webpack --config config/webpack.dev.js --progress --profile --bail",
+    "build-prod": "rm -r dist && webpack --config config/webpack.prod.js --progress --profile --bail",
     "start": "webpack-dev-server --config config/webpack.dev.js --inline --progress --port 8080"
   },
   "dependencies": {

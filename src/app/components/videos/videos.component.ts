@@ -3,9 +3,6 @@ import { Router } from "@angular/router";
 
 import { PartnerService } from '../../services/partner.service';
 
-
-import 'jquery';
-
 @Component({
   selector: 'app-videos',
   templateUrl: './videos.component.html'
@@ -24,21 +21,23 @@ export class ChannelsComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(){
+        /*
       this.partnerService.getChannels().subscribe( data => {  
             console.log(data.Success);            
         }, (err) => {
             console.error('Get Channels ERROR');
         }, () => {
             //console.log('Torrents get');
-        });          
+        });    
+        */      
     }
 
     ngAfterViewInit() { 
-        /*
-        jQuery('.tag.example .ui.dropdown')
+        
+        jQuery('.ui.dropdown.example')
             .dropdown({
                 allowAdditions: true
             });
-        */
+        
     }
 }

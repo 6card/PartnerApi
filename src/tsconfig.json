@@ -9,7 +9,7 @@
         "lib": ["es2015", "dom"],
         "noImplicitAny": true,
         "suppressImplicitAnyIndexErrors": true,
-        "types": ["node"],
+        //"types": ["node", "jquery", "semantic-ui"],
         "typeRoots": [
             // add path to @types
             "../node_modules/@types"
