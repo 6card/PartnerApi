@@ -7,7 +7,7 @@ import { Routes, RouterModule } from	"@angular/router";
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 
-import { ChannelsComponent } from './components/channels/channels.component';
+import { ChannelsComponent } from './components/videos/videos.component';
 
 import { PartnerService } from './services/partner.service';
 
@@ -17,9 +17,9 @@ const	routes:	Routes	=	[
 		//{path:	'',	redirectTo:	'channels',	pathMatch:	'full'},
     { path: '', component: ChannelsComponent, canActivate: [AuthGuard] },
 		//{path:	'channels',	component:	ChannelsComponent, canActivate: [AuthGuard] },
-    { path:	'channels',	component:	ChannelsComponent },
+    { path:	'videos',	component:	ChannelsComponent },
 		{ path:	'login',	component:	LoginComponent },
-		{ path:	'**',	redirectTo:	'channels',	pathMatch:	'full'}
+		{ path:	'**',	redirectTo:	'videos',	pathMatch:	'full'}
     //{path:	'**',	component:	AppComponent}
 ];
 

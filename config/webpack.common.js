@@ -12,7 +12,7 @@ module.exports = {
     'vendor': './src/vendor.ts',
     'app': './src/main.ts'
   },
-  
+
   resolve: {
     extensions: ['.js', '.ts']
   },
@@ -61,6 +61,10 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery"
+    }),
 
     //Fix for warning
     new webpack.ContextReplacementPlugin(

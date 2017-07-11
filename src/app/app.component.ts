@@ -1,9 +1,10 @@
-import { Component, OnInit, AfterViewChecked  } from '@angular/core';
+import { Component, OnInit, AfterViewInit  } from '@angular/core';
 import { Router } from "@angular/router";
 import { PartnerService } from './services/partner.service';
 
-
 import {Observable} from 'rxjs/Rx';
+
+import 'jquery';
 
 import '../assets/css/styles.css';
 import '../assets/css/semantic.min.css';
@@ -14,7 +15,7 @@ import '../assets/css/semantic.min.css';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent implements OnInit, AfterViewChecked  {
+export class AppComponent implements OnInit, AfterViewInit  {
 
     constructor(
         private	router:	Router,
@@ -24,8 +25,8 @@ export class AppComponent implements OnInit, AfterViewChecked  {
     ngOnInit(){
 
     }
-    ngAfterViewChecked() { 
-        
+    ngAfterViewInit() { 
+        console.log(jQuery.fn.jquery);
     }
 
     goLogin()	{
