@@ -1,81 +1,86 @@
-<table class="ui celled striped table">
-  <thead>
-    <tr>
-      <th>Название</th>
-      <th>Время публикации</th>
-      <th>Картинки</th>
-      <th>Статус</th>
-      <th>Edit</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-        <td>
-          <a href="">Катар ответил на ультиматум 4 арабских государств</a>
-        </td>
-        <td>5 июля 2017 г. 8:08</td>
-        <td>IMAGE</td>
-        <td>Status</td>
-        <td>
-          <a href=""><i class="edit icon"></i></a>
-          <a href=""><i class="check circle icon"></i></a>
-          <a href=""><i class="remove circle icon"></i></a>
-          <a href=""><i class="external icon"></i></a>
-          <a href=""><i class="play icon"></i></a>
-        </td>
-    </tr>
-    <tr>
-        <td>Jamie</td>
-        <td>No Name Specified</td>
-        <td>Unknown</td>
-        <td>None</td>
-        <td>No Name Specified</td>
-    </tr>
-    <tr>
-        <td>Jamie</td>
-        <td>No Name Specified</td>
-        <td>Unknown</td>
-        <td>None</td>
-        <td>No Name Specified</td>
-    </tr>
-    <tr>
-        <td>Jamie</td>
-        <td>No Name Specified</td>
-        <td>Unknown</td>
-        <td>None</td>
-        <td>No Name Specified</td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <tr><th colspan="5">
-      <div class="ui pagination menu">
-        <a class="active item">
-          1
-        </a>
-        <div class="disabled item">
-          ...
+<div class="ui stackable grid">
+  <div class="row">
+    <div class="sixteen wide column">
+      <label>
+        Show 
+        <div class="ui compact selection dropdown example">
+          <input type="hidden" name="pageCount" value="10">
+          <i class="dropdown icon"></i>
+          <div class="text">10</div>
+          <div class="menu">
+            <div class="item" data-value="10">10</div>
+            <div class="item" data-value="20">20</div>
+          </div>
         </div>
-        <a class="item">
-          10
-        </a>
-        <a class="item">
-          11
-        </a>
-        <a class="item">
-          12
-        </a>
+         entries
+      </label>
+    </div>
+  </div>
+  <div class="row no-padding">
+    <div class="sixteen wide column">
+      <table class="ui celled striped table">
+        <thead>
+          <tr>
+            <th>Название</th>
+            <th>Время публикации</th>
+            <th>Картинки</th>
+            <th>Статус</th>
+            <th>Edit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+              <td>
+                <a href="">Катар ответил на ультиматум 4 арабских государств</a>
+              </td>
+              <td>5 июля 2017 г. 8:08</td>
+              <td>IMAGE</td>
+              <td>Status</td>
+              <td>
+                <a href=""><i class="edit icon"></i></a>
+                <a href=""><i class="check circle icon"></i></a>
+                <a href=""><i class="remove circle icon"></i></a>
+                <a href=""><i class="external icon"></i></a>
+                <a href=""><i class="play icon"></i></a>
+              </td>
+          </tr>
+          <tr>
+              <td>Jamie</td>
+              <td>No Name Specified</td>
+              <td>Unknown</td>
+              <td>None</td>
+              <td>No Name Specified</td>
+          </tr>
+          <tr>
+              <td>Jamie</td>
+              <td>No Name Specified</td>
+              <td>Unknown</td>
+              <td>None</td>
+              <td>No Name Specified</td>
+          </tr>
+          <tr>
+              <td>Jamie</td>
+              <td>No Name Specified</td>
+              <td>Unknown</td>
+              <td>None</td>
+              <td>No Name Specified</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="seven wide column">
+      <div class="table-info">Showing 1 to 10 of 57 entries</div>
+    </div>
+    <div class="right aligned nine wide column">
+      <div class="ui stackable pagination menu">
+        <a class="active item">1</a>
+        <div class="disabled item">...</div>
+        <a class="item">10</a>
+        <a class="item">11</a>
+        <a class="item">12</a>
       </div>
-
-      <div class="ui selection dropdown example">
-        <input type="hidden" name="gender">
-        <i class="dropdown icon"></i>
-        <div class="default text">Gender</div>
-        <div class="menu">
-          <div class="item" data-value="1">Male</div>
-          <div class="item" data-value="0">Female</div>
-        </div>
-      </div>
-
-    </th></tr>
-  </tfoot>
-</table>
+    </div>
+  </div>
+</div>
