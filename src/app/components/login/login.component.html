@@ -8,19 +8,19 @@
         </h2>
         <form class="ui large form" [formGroup]="loginForm" (ngSubmit)="doLogin($event)">
         <div class="ui segment">
-            <div class="field">
+            <div class="field" [ngClass]="{'error':!loginForm.controls['UserName'].valid && loginForm.controls['UserName'].touched}">
             <div class="ui left icon input">
                 <i class="user icon"></i>
                 <input formControlName="UserName" type="email" placeholder="E-mail address">
             </div>
             </div>
-            <div class="field">
+            <div class="field" [ngClass]="{'error':!loginForm.controls['Password'].valid && loginForm.controls['Password'].touched}">
             <div class="ui left icon input">
                 <i class="lock icon"></i>
                 <input formControlName="Password" type="password" placeholder="Password">
             </div>
             </div>
-            <button class="ui fluid large submit button" type="submit">Login</button>
+            <button class="ui fluid large submit button" type="submit" [disabled]="!loginForm.valid">Login</button>
         </div>
 
         <div class="ui error message"></div>

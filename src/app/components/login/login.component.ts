@@ -16,8 +16,8 @@ export class LoginComponent {
   ) {}
 
   public loginForm = this.fb.group({
-    UserName: ["string", Validators.required],
-    Password: ["string", Validators.required]
+    UserName: [null, Validators.required],
+    Password: [null, Validators.required]
   });
 
   doLogin(event:any) {
