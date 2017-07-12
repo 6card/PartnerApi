@@ -4,9 +4,11 @@ import { Http, Response, URLSearchParams, Headers, RequestOptions } from '@angul
 import 'rxjs/Rx';
 import {Observable} from 'rxjs';
 
+import { Media } from '../shared/media';
+
 @Injectable()
 export class PartnerService {
-  xSessionId:string = 'ATXsoxJ1fEuJEpDQzjlmOk8ih6psAkQIUc_GbEoFP4eAR9Z01fJBn5gKzvt0y1ba0';
+  xSessionId:string = 'C1P23MR0hkqlXa0JiZEKVhiQMlEBfhrx6817bdBO4gPdtzgN0NJoUIL6BgR9HDoa0';
   loginName:string = 'NameTest';
   apiRoot:string = 'https://api.newstube.ru/v2';
 
@@ -37,6 +39,20 @@ export class PartnerService {
     return this.http.get(apiURL, {search: params} )
       .map((res:Response) => {
         return res.json();
+    }).catch(this.handleError);
+  }
+
+  getMedia(mediaId: any, externalId: any): Observable<Media> {
+    let apiURL = this.apiRoot+'/Media/GetMedia';
+    let params: URLSearchParams = new URLSearchParams();
+
+    params.set('sessionId', this.xSessionId);
+    params.set('mediaId', mediaId);
+    params.set('externalId', externalId);
+
+    return this.http.get(apiURL, {search: params} )
+      .map((res:Response) => {
+        return res.json().Data;
     }).catch(this.handleError);
   }
 
