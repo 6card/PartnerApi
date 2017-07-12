@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 
 import { ChannelsComponent } from './components/videos/videos.component';
+import { MediaComponent } from './components/media/media.component';
 
 import { PartnerService } from './services/partner.service';
 
@@ -18,6 +19,7 @@ const	routes:	Routes	=	[
     { path: '', component: ChannelsComponent, canActivate: [AuthGuard] },
 		//{path:	'channels',	component:	ChannelsComponent, canActivate: [AuthGuard] },
     { path:	'videos',	component:	ChannelsComponent },
+    { path:	'media',	component:	MediaComponent },
 		{ path:	'login',	component:	LoginComponent },
 		{ path:	'**',	redirectTo:	'videos',	pathMatch:	'full'}
     //{path:	'**',	component:	AppComponent}
@@ -28,7 +30,8 @@ const	routes:	Routes	=	[
     AppComponent,
     LoginComponent,
 
-    ChannelsComponent
+    ChannelsComponent,
+    MediaComponent
   ],
   imports: [
     BrowserModule,
