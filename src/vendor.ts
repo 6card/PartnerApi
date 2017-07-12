@@ -8,4 +8,6 @@ import '@angular/router';
 // RxJS
 import 'rxjs';
 // Other vendors for example jQuery, Lodash or Bootstrap
+import 'jquery';
+import 'semantic-ui/dist/semantic.min.js'
 // You can import js, ts, css, sass, ...

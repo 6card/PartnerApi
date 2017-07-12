@@ -4,8 +4,6 @@ import { PartnerService } from './services/partner.service';
 
 import {Observable} from 'rxjs/Rx';
 
-import 'jquery';
-import 'semantic-ui/dist/semantic.min.js'
 import '../assets/css/styles.css';
 import '../assets/css/semantic.min.css';
 
