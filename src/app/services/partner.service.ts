@@ -8,7 +8,7 @@ import { Media } from '../shared/media';
 
 @Injectable()
 export class PartnerService {
-  xSessionId:string = 'C1P23MR0hkqlXa0JiZEKVhiQMlEBfhrx6817bdBO4gPdtzgN0NJoUIL6BgR9HDoa0';
+  xSessionId:string = 'YkS0pJJb7UOAhnQQtmnO3Ug1BGBNKPWnyCgOETd27UKDlwKlMrxMUpLFjnU63mga0';
   loginName:string = 'NameTest';
   apiRoot:string = 'https://api.newstube.ru/dev';
 

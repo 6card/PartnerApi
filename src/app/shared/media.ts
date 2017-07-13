@@ -1,3 +1,5 @@
+import { DomSanitizer } from     "@angular/platform-browser";
+
 export class Media {
   UpdateTime: string; //, optional),
   MediaId: number; //, optional): Внутренний идентификатор ролика. При обновление MediaId или ExternalId должны быть выставлены ,
@@ -28,6 +30,7 @@ export class Media {
   SourceGuid: string; //, optional): Источник из которого получена информация по ролику, значение выбирается импортером ,
   Data: string; //, optional): Дополнительные данные по ролику stringMax. Length:4000
 
+  EmbedUrl: string;
   constructor(obj: Object) {
     this.UpdateTime = obj['UpdateTime'];
     this.MediaId = obj['MediaId'];
@@ -57,6 +60,8 @@ export class Media {
     this.User = obj['User'];
     this.SourceGuid = obj['SourceGuid'];
     this.Data = obj['Data'];
+
+    this.EmbedUrl = '//www.newstube.ru/embed/'+ obj['MediaGuid'];
   }  
 }
 

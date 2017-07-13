@@ -14,6 +14,8 @@ import { PartnerService } from './services/partner.service';
 
 import { AuthGuard } from './shared/auth.guard';
 
+import { SafePipe } from './pipes/safe.pipe';
+
 const	routes:	Routes	=	[
 		//{path:	'',	redirectTo:	'channels',	pathMatch:	'full'},
     { path: '', component: ChannelsComponent, canActivate: [AuthGuard] },
@@ -31,7 +33,9 @@ const	routes:	Routes	=	[
     LoginComponent,
 
     ChannelsComponent,
-    MediaComponent
+    MediaComponent,
+
+    SafePipe
   ],
   imports: [
     BrowserModule,

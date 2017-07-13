@@ -23,8 +23,13 @@ export class MediaComponent implements OnInit, AfterViewInit {
 
     ngOnInit(){
 
-      this.partnerService.getMedia(1, 1).subscribe( data => {  
-            if (data != undefined) {
+         
+            
+    }
+
+    ngAfterViewInit() { 
+        this.partnerService.getMedia(1234, 1).subscribe( data => {  
+            if (data !== undefined) {
                 this.media = new Media(data);   
                 console.log(this.media);
             }   
@@ -32,11 +37,6 @@ export class MediaComponent implements OnInit, AfterViewInit {
             console.error('Get Media ERROR');
         }, () => {
             //console.log('Torrents get');
-        });    
-            
-    }
-
-    ngAfterViewInit() { 
-        
+        }); 
     }
 }
