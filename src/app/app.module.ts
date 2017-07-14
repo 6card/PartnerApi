@@ -10,6 +10,7 @@ import { LoginComponent } from './components/login/login.component';
 import { ChannelsComponent } from './components/videos/videos.component';
 import { MediaComponent } from './components/media/media.component';
 
+import { AuthService } from './services/auth.service';
 import { PartnerService } from './services/partner.service';
 
 import { AuthGuard } from './shared/auth.guard';
@@ -18,10 +19,10 @@ import { SafePipe } from './pipes/safe.pipe';
 
 const	routes:	Routes	=	[
 		//{path:	'',	redirectTo:	'channels',	pathMatch:	'full'},
-    { path: '', component: ChannelsComponent, canActivate: [AuthGuard] },
+    { path: '', component: MediaComponent, canActivate: [AuthGuard] },
 		//{path:	'channels',	component:	ChannelsComponent, canActivate: [AuthGuard] },
     { path:	'videos',	component:	ChannelsComponent },
-    { path:	'media',	component:	MediaComponent },
+    { path:	'media',	component:	MediaComponent, canActivate: [AuthGuard] },
 		{ path:	'login',	component:	LoginComponent },
 		{ path:	'**',	redirectTo:	'videos',	pathMatch:	'full'}
     //{path:	'**',	component:	AppComponent}
@@ -45,6 +46,7 @@ const	routes:	Routes	=	[
     RouterModule.forRoot(routes, {useHash: false})
   ],
   providers: [
+    AuthService,
     PartnerService,
     AuthGuard
   ],

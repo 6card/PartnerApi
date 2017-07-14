@@ -17,20 +17,6 @@ export class PartnerService {
   }
 
 
-  getSessionId(value:any) {
-    let apiURL = this.apiRoot+'/Auth/Login';
-    let bodyString = JSON.stringify(value); // Stringify payload
-    let headers = new Headers(); // ... Set content type to JSON
-    headers.append('Content-Type', 'application/json'); // also tried other types to test if its working with other types, but no luck
-    headers.append('Accept', 'application/json');
-    let options = new RequestOptions({ headers: headers }); // Create a request option
-
-    return this.http.post(apiURL, bodyString, options )
-      .map((res:Response) => {
-        return res.json();
-    });
-  }
-
   getChannels() {
     let apiURL = this.apiRoot+'/Media/Channels';
     let params: URLSearchParams = new URLSearchParams();
@@ -42,11 +28,11 @@ export class PartnerService {
     }).catch(this.handleError);
   }
 
-  getMedia(mediaId: any, externalId: any): Observable<Media> {
+  getMedia(sessionId: any, mediaId: any, externalId: any): Observable<Media> {
     let apiURL = this.apiRoot+'/Media/GetMedia';
     let params: URLSearchParams = new URLSearchParams();
 
-    params.set('sessionId', this.xSessionId);
+    params.set('sessionId', sessionId);
     params.set('mediaId', mediaId);
     params.set('externalId', externalId);
 

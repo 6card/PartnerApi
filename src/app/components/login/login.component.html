@@ -20,11 +20,10 @@
                 <input formControlName="Password" type="password" placeholder="Password">
             </div>
             </div>
-            <button class="ui fluid large submit button" type="submit" [disabled]="!loginForm.valid">Login</button>
+            <button [disabled]="loading" class="ui fluid large submit button" type="submit" [disabled]="!loginForm.valid">Login</button>
         </div>
 
-        <div class="ui error message"></div>
-
+        <div [ngStyle]="{'display': getError()}" class="ui error message">{{error}}</div>
         </form>
     </div>
 </div>

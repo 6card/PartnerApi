@@ -1,11 +1,11 @@
 <div class="ui inverted menu">
   <div class="ui container">    
     <a class="item header" [routerLinkActive]="['active']" [routerLink]="['/videos']">Videos</a>
+    <a class="item header" [routerLinkActive]="['active']" [routerLink]="['/media']">Media</a>
     <a class="green color item"><i class="plus icon"></i>Add media</a>
     <div class="right menu">
-      <div class="item">{{ partnerService.loginName }}</div>
-      <a class="item" [routerLinkActive]="['active']" [routerLink]="['/login']">Login</a>  
-      <a class="item" [routerLinkActive]="['active']" [routerLink]="['/logout']">Logout</a>  
+      <a *ngIf="!authService.isAuthenticated()" class="item" [routerLinkActive]="['active']" [routerLink]="['/login']">Login</a>  
+      <a *ngIf="authService.isAuthenticated()" class="item" [routerLinkActive]="['active']" [routerLink]="['/login']">{{ authService.username }} Logout</a>  
     </div>
   </div>
 </div>

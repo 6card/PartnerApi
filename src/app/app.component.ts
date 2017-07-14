@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit  } from '@angular/core';
 import { Router } from "@angular/router";
-import { PartnerService } from './services/partner.service';
+
+import { AuthService } from './services/auth.service';
 
 import {Observable} from 'rxjs/Rx';
 
@@ -17,8 +18,10 @@ export class AppComponent implements OnInit, AfterViewInit  {
 
     constructor(
         private	router:	Router,
-        private partnerService:PartnerService
-    ) { }
+        private authService:AuthService
+    ) {
+
+    }
  
     ngOnInit(){
 
@@ -27,7 +30,7 @@ export class AppComponent implements OnInit, AfterViewInit  {
         console.log(jQuery.fn.jquery);
     }
 
-    goLogin()	{
+    goLogin() {
         this.router.navigate(['login']);
     }
     

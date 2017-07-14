@@ -22,7 +22,7 @@ export class ChannelsComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(){
-
+/*
       this.partnerService.getMedia(1, 1).subscribe( data => {  
             this.media = new Media(data);   
             console.log(this.media);         
@@ -31,7 +31,7 @@ export class ChannelsComponent implements OnInit, AfterViewInit {
         }, () => {
             //console.log('Torrents get');
         });    
-            
+        */    
     }
 
     ngAfterViewInit() { 
