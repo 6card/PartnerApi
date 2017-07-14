@@ -1,4 +1,22 @@
-import { DomSanitizer } from     "@angular/platform-browser";
+export class Channel {
+  Description: string; //, optional): Описание канала ,
+  IconUrl: string; //, optional): Иконка канала ,
+  LogoUrl: string; //, optional): Баннер канала ,
+  Id: number; //, optional): Идентификатор ,
+  Guid: string; //, optional): Guid ,
+  Title: string; //, optional): Название ,
+  Url: string; //, optional): Страница объекта
+  
+  constructor(obj: Object) {
+    this.Description = obj['Description'];
+    this.IconUrl = obj['IconUrl'];
+    this.LogoUrl = obj['LogoUrl'];
+    this.Id = obj['Id'];
+    this.Guid = obj['Guid'];
+    this.Title = obj['Title'];
+    this.Url = obj['Url'];
+  }
+}
 
 export class Media {
   UpdateTime: string; //, optional),

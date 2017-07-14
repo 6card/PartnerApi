@@ -6,9 +6,10 @@ import { Routes, RouterModule } from	"@angular/router";
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
-
 import { VideoComponent } from './components/videos/videos.component';
 import { MediaComponent } from './components/media/media.component';
+
+import { MediaFormComponent } from "./components/media/media-form.component"
 
 import { AuthService } from './services/auth.service';
 import { PartnerService } from './services/partner.service';
@@ -32,9 +33,10 @@ const	routes:	Routes	=	[
   declarations: [
     AppComponent,
     LoginComponent,
-
     VideoComponent,
     MediaComponent,
+
+    MediaFormComponent,
 
     SafePipe
   ],

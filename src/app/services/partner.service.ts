@@ -4,7 +4,7 @@ import { Http, Response, URLSearchParams, Headers, RequestOptions } from '@angul
 import 'rxjs/Rx';
 import {Observable} from 'rxjs';
 
-import { Media } from '../shared/media';
+import { Media, Channel } from '../shared/media';
 
 @Injectable()
 export class PartnerService {
@@ -32,11 +32,12 @@ export class PartnerService {
   }
 
 
-  getChannels() {
+  getChannels(sessionId: any) {
     let apiURL = this.apiRoot+'/Media/Channels';
     let params: URLSearchParams = new URLSearchParams();
 
-    params.set('sessionId', this.xSessionId);
+    params.set('sessionId', sessionId);
+
     return this.http.get(apiURL, {search: params} )
       .map((res:Response) => {
         return res.json();

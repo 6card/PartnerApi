@@ -40,12 +40,12 @@ export class VideoComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() { 
-        /*
+        
         jQuery('.ui.dropdown.example')
             .dropdown({
                 allowAdditions: true
             });
-        */
+        
     }
 
 }
