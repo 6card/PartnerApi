@@ -7,7 +7,7 @@ import { Routes, RouterModule } from	"@angular/router";
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 
-import { ChannelsComponent } from './components/videos/videos.component';
+import { VideoComponent } from './components/videos/videos.component';
 import { MediaComponent } from './components/media/media.component';
 
 import { AuthService } from './services/auth.service';
@@ -18,11 +18,11 @@ import { AuthGuard } from './shared/auth.guard';
 import { SafePipe } from './pipes/safe.pipe';
 
 const	routes:	Routes	=	[
-		//{path:	'',	redirectTo:	'channels',	pathMatch:	'full'},
-    { path: '', component: MediaComponent, canActivate: [AuthGuard] },
+		{path:	'',	redirectTo:	'videos',	pathMatch:	'full'},
+    //{ path: '', component: MediaComponent, canActivate: [AuthGuard] },
 		//{path:	'channels',	component:	ChannelsComponent, canActivate: [AuthGuard] },
-    { path:	'videos',	component:	ChannelsComponent },
-    { path:	'media',	component:	MediaComponent, canActivate: [AuthGuard] },
+    { path:	'videos',	component:	VideoComponent, canActivate: [AuthGuard] },
+    { path:	'media/:id',	component:	MediaComponent, canActivate: [AuthGuard] },
 		{ path:	'login',	component:	LoginComponent },
 		{ path:	'**',	redirectTo:	'videos',	pathMatch:	'full'}
     //{path:	'**',	component:	AppComponent}
@@ -33,7 +33,7 @@ const	routes:	Routes	=	[
     AppComponent,
     LoginComponent,
 
-    ChannelsComponent,
+    VideoComponent,
     MediaComponent,
 
     SafePipe

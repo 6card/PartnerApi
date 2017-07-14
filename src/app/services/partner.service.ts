@@ -16,6 +16,21 @@ export class PartnerService {
  
   }
 
+  getMedias(sessionId: string) {
+    let apiURL = this.apiRoot+'/Media/ImportMediasPage';
+    let params: URLSearchParams = new URLSearchParams();
+
+    params.set('sessionId', sessionId);
+    params.set('channelId', '32703');
+    params.set('start', '0');
+    params.set('length', '50');
+
+    return this.http.get(apiURL, {search: params} )
+      .map((res:Response) => {
+        return res.json();
+    }).catch(this.handleError);
+  }
+
 
   getChannels() {
     let apiURL = this.apiRoot+'/Media/Channels';
