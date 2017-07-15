@@ -3,15 +3,11 @@
     <div class="sixteen wide column">
       <label>
         Show 
-        <div class="ui compact selection dropdown example">
-          <input type="hidden" name="pageCount" value="10">
-          <i class="dropdown icon"></i>
-          <div class="text">10</div>
-          <div class="menu">
-            <div class="item" data-value="10">10</div>
-            <div class="item" data-value="20">20</div>
-          </div>
-        </div>
+        <select [ngModel]="itemsPerPage" (ngModelChange)="onChange($event)" >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="5">5</option>
+        </select>
          entries
       </label>
     </div>
@@ -35,7 +31,7 @@
               </td>
               <td>5 июля 2017 г. 8:08</td>
               <td><img class="ui tiny image" src="https://i0.newstube.ru/509778"></td>
-              <td>Status</td>
+              <td><div class="ui label green">Status</div></td>
               <td>
                 <a href=""><i class="edit icon"></i></a>
                 <a href=""><i class="check circle icon"></i></a>
@@ -62,29 +58,27 @@
               <td>None</td>
               <td>No Name Specified</td>
           </tr>
-          <tr>
-              <td>Jamie</td>
-              <td>No Name Specified</td>
-              <td>Unknown</td>
+          <tr *ngFor="let media of medias">
+              <td>
+                <a  [routerLink]="['/media', media.MediaId]">{{media.Title}}</a>
+              </td>
+              <td>{{media.ShootDate | date:'medium'}} / {{media.PubDate | date:'medium'}}</td>
+              <td><img class="ui tiny image" [src]="media.ThumbnailUrl"></td>
+              <td><div [ngClass]="media.State ? 'green' : 'red'"class="ui label">State {{media.State}}</div></td>
               <td>None</td>
-              <td>No Name Specified</td>
-          </tr>
+          </tr>  
         </tbody>
       </table>
     </div>
   </div>
   <div class="row">
     <div class="seven wide column">
-      <div class="table-info">Showing 1 to 10 of 57 entries</div>
+      <div class="table-info">Showing {{currentPage * itemsPerPage - itemsPerPage + 1}} to {{itemsPerPage * currentPage}} of {{totalItems}} entries</div>
     </div>
     <div class="right aligned nine wide column">
-      <div class="ui stackable pagination menu">
-        <a class="active item">1</a>
-        <div class="disabled item">...</div>
-        <a class="item">10</a>
-        <a class="item">11</a>
-        <a class="item">12</a>
-      </div>
+
+      <pagination *ngIf="currentPage" (goToPage)="pageUpdated($event)" [page]="currentPage" [totalItems]="totalItems" [itemsPerPage]="itemsPerPage"></pagination>
+
     </div>
   </div>
 </div>

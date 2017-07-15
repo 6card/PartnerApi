@@ -16,14 +16,27 @@ export class PartnerService {
  
   }
 
-  getMedias(sessionId: string) {
+  getMediasCount(sessionId: string, channelId: any) {
+    let apiURL = this.apiRoot+'/Media/ImportMediasPageCount';
+    let params: URLSearchParams = new URLSearchParams();
+
+    params.set('sessionId', sessionId);
+    params.set('channelId', channelId);
+
+    return this.http.get(apiURL, {search: params} )
+      .map((res:Response) => {
+        return res.json();
+    }).catch(this.handleError);
+  }
+
+  getMedias(sessionId: string, channelId: any, startItem: any, countItems: any) {
     let apiURL = this.apiRoot+'/Media/ImportMediasPage';
     let params: URLSearchParams = new URLSearchParams();
 
     params.set('sessionId', sessionId);
-    params.set('channelId', '32703');
-    params.set('start', '0');
-    params.set('length', '50');
+    params.set('channelId', channelId);
+    params.set('start', startItem);
+    params.set('length', countItems);
 
     return this.http.get(apiURL, {search: params} )
       .map((res:Response) => {
@@ -55,6 +68,34 @@ export class PartnerService {
     return this.http.get(apiURL, {search: params} )
       .map((res:Response) => {
         return res.json().Data;
+    }).catch(this.handleError);
+  }
+
+  addMedia(sessionId: any, media: Media): Observable<any> {
+    let apiURL = this.apiRoot+'/Media/MediaAdd';
+    let headers = new Headers(); // ... Set content type to JSON
+    headers.append('Content-Type', 'application/json'); // also tried other types to test if its working with other types, but no luck
+    headers.append('Accept', 'application/json');
+    let options = new RequestOptions({ headers: headers }); // Create a request option
+
+
+    return this.http.post(apiURL, JSON.stringify({ SessionId: sessionId, Data: media }), options )
+      .map((res:Response) => {
+        return res.json();
+    }).catch(this.handleError);
+  }
+//mediaId сделать обязательным!!!
+  updateMedia(sessionId: any, media: Media): Observable<any> {
+    let apiURL = this.apiRoot+'/Media/MediaUpdate';
+    let headers = new Headers(); // ... Set content type to JSON
+    headers.append('Content-Type', 'application/json'); // also tried other types to test if its working with other types, but no luck
+    headers.append('Accept', 'application/json');
+    let options = new RequestOptions({ headers: headers }); // Create a request option
+
+
+    return this.http.post(apiURL, JSON.stringify({ SessionId: sessionId, Data: media }), options )
+      .map((res:Response) => {
+        return res.json();
     }).catch(this.handleError);
   }
 

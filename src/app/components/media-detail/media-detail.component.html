@@ -2,7 +2,7 @@
   <div class="row"> 
     <div class="sixteen wide column"> 
       <div *ngIf="media">
-        <iframe width="{{media.Video.Width}}" height="{{media.Video.Height}}" [src]="media.EmbedUrl | safe" frameborder="0" allowfullscreen></iframe>
+        <iframe *ngIf="media.Video" width="{{media.Video.Width}}" height="{{media.Video.Height}}" [src]="media.EmbedUrl | safe" frameborder="0" allowfullscreen></iframe>
         <media-form 
           [title]="media.Title" 
           [description]="media.Description" 

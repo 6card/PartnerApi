@@ -52,6 +52,7 @@ export class MediaDetailComponent implements OnInit {
         this.partnerService.getMedia(this.authService.sessionId, mediaId, 1).subscribe( data => {  
             if (data !== undefined) {
                 this.media = new Media(data); 
+                console.log(data);
             }   
         }, (err) => {
             console.error('Get Media ERROR');
@@ -60,7 +61,21 @@ export class MediaDetailComponent implements OnInit {
         }); 
     }
 
+    updateMedia() { 
+        this.partnerService.updateMedia(this.authService.sessionId, this.media).subscribe( data => {  
+            console.log(data);
+        }, (err) => {
+            console.error('Get Media ERROR');
+        }, () => {
+            //console.log('Torrents get');
+        }); 
+    }
+
     formUpdated(params: any) {
-        console.log(params);
+        this.media.Title = params.title;
+        this.media.Description = params.description;
+        this.media.ChannelId = params.channelId;
+        
+        this.updateMedia();
     }
 }

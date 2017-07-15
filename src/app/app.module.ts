@@ -7,9 +7,12 @@ import { Routes, RouterModule } from	"@angular/router";
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 
-import { MediaListComponent } from './components/videos/media-list.component';
-import { MediaDetailComponent } from './components/media/media-detail.component';
-import { MediaFormComponent } from "./components/media/media-form.component";
+import { MediaListComponent } from './components/media-list/media-list.component';
+import { MediaDetailComponent } from './components/media-detail/media-detail.component';
+import { MediaAddComponent } from './components/media-add/media-add.component';
+import { MediaFormComponent } from "./components/media-detail/media-form.component";
+
+import { Pagination } from "./components/pagination.component"
 
 import { AuthService } from './services/auth.service';
 import { PartnerService } from './services/partner.service';
@@ -23,6 +26,7 @@ const	routes:	Routes	=	[
     //{ path: '', component: MediaComponent, canActivate: [AuthGuard] },
 		//{path:	'channels',	component:	ChannelsComponent, canActivate: [AuthGuard] },
     { path:	'media',	component:	MediaListComponent, canActivate: [AuthGuard] },
+    { path:	'media/add',	component:	MediaAddComponent, canActivate: [AuthGuard] },
     { path:	'media/:id',	component:	MediaDetailComponent, canActivate: [AuthGuard] },
 		{ path:	'login',	component:	LoginComponent },
 		{ path:	'**',	redirectTo:	'media',	pathMatch:	'full'}
@@ -35,9 +39,11 @@ const	routes:	Routes	=	[
     LoginComponent,
     MediaListComponent,
     MediaDetailComponent,
-
+    MediaAddComponent,
     MediaFormComponent,
 
+    Pagination,
+    
     SafePipe
   ],
   imports: [

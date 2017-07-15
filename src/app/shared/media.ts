@@ -70,7 +70,7 @@ export class Media {
     this.VideoUrls = obj['VideoUrls'];
     this.ThumbnailUrl = obj['ThumbnailUrl'];
     this.NextVideo = obj['NextVideo'];
-    this.Video = new Video(obj['Video']);
+    this.Video = obj['Video'] ? new Video(obj['Video']) : undefined;
     this.Videos = obj['Videos'] ? obj['Videos'].map((item: any) => new Video(item)) : undefined;
     this.Downloads = obj['Downloads'] ? obj['Downloads'].map((item: any) => new Download(item)) : undefined;
     this.CreateTime = obj['CreateTime'];
@@ -126,7 +126,7 @@ export class Download  {
     this.Id = obj['Id'];
     this.Url = obj['Url'];
     this.CreateTime = obj['CreateTime'];
-    this.Video = new Video(obj['Video']);
+    this.Video = obj['Video'] ? new Video(obj['Video']) : undefined;
     this.UpdateTime = obj['UpdateTime'];
     this.State = obj['State'];
   }
