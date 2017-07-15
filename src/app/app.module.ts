@@ -6,10 +6,10 @@ import { Routes, RouterModule } from	"@angular/router";
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
-import { VideoComponent } from './components/videos/videos.component';
-import { MediaComponent } from './components/media/media.component';
 
-import { MediaFormComponent } from "./components/media/media-form.component"
+import { MediaListComponent } from './components/videos/media-list.component';
+import { MediaDetailComponent } from './components/media/media-detail.component';
+import { MediaFormComponent } from "./components/media/media-form.component";
 
 import { AuthService } from './services/auth.service';
 import { PartnerService } from './services/partner.service';
@@ -19,13 +19,13 @@ import { AuthGuard } from './shared/auth.guard';
 import { SafePipe } from './pipes/safe.pipe';
 
 const	routes:	Routes	=	[
-		{path:	'',	redirectTo:	'videos',	pathMatch:	'full'},
+		{path:	'',	redirectTo:	'media',	pathMatch:	'full'},
     //{ path: '', component: MediaComponent, canActivate: [AuthGuard] },
 		//{path:	'channels',	component:	ChannelsComponent, canActivate: [AuthGuard] },
-    { path:	'videos',	component:	VideoComponent, canActivate: [AuthGuard] },
-    { path:	'media/:id',	component:	MediaComponent, canActivate: [AuthGuard] },
+    { path:	'media',	component:	MediaListComponent, canActivate: [AuthGuard] },
+    { path:	'media/:id',	component:	MediaDetailComponent, canActivate: [AuthGuard] },
 		{ path:	'login',	component:	LoginComponent },
-		{ path:	'**',	redirectTo:	'videos',	pathMatch:	'full'}
+		{ path:	'**',	redirectTo:	'media',	pathMatch:	'full'}
     //{path:	'**',	component:	AppComponent}
 ];
 
@@ -33,8 +33,8 @@ const	routes:	Routes	=	[
   declarations: [
     AppComponent,
     LoginComponent,
-    VideoComponent,
-    MediaComponent,
+    MediaListComponent,
+    MediaDetailComponent,
 
     MediaFormComponent,
 

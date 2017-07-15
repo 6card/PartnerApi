@@ -5,11 +5,11 @@ import { AuthService } from '../../services/auth.service';
 import { PartnerService } from '../../services/partner.service';
 import { Media, Channel } from '../../shared/media';
 @Component({
-  selector: 'app-media',
-  templateUrl: './media.component.html'
+  selector: 'media-detail',
+  templateUrl: './media-detail.component.html'
 })
 
-export class MediaComponent implements OnInit {
+export class MediaDetailComponent implements OnInit {
     public media: Media;
     public mediaId: number;
     public channels: Array<Channel> = [];
