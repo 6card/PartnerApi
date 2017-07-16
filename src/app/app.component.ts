@@ -33,5 +33,10 @@ export class AppComponent implements OnInit, AfterViewInit  {
     goLogin() {
         this.router.navigate(['login']);
     }
+
+    doLogout() {
+        this.authService.logout();
+        this.router.navigate(['login']);
+    }
     
 }
