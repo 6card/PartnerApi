@@ -10,4 +10,5 @@ import 'rxjs';
 // Other vendors for example jQuery, Lodash or Bootstrap
 import 'jquery';
 import 'semantic-ui/dist/semantic.min.js'
+import 'semantic-ui-calendar/dist/calendar.min.js';
 // You can import js, ts, css, sass, ...

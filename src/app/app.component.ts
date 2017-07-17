@@ -7,6 +7,7 @@ import {Observable} from 'rxjs/Rx';
 
 import '../assets/css/styles.css';
 import '../assets/css/semantic.min.css';
+import 'semantic-ui-calendar/dist/calendar.min.css'
 
 @Component({
   selector: 'app-root',
