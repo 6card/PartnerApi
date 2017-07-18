@@ -21,6 +21,7 @@ import { PartnerService } from './services/partner.service';
 import { AuthGuard } from './shared/auth.guard';
 
 import { SafePipe } from './pipes/safe.pipe';
+//import { DatePipe } from '@angular/common';
 
 const	routes:	Routes	=	[
 		{path:	'',	redirectTo:	'media',	pathMatch:	'full'},
@@ -44,8 +45,9 @@ const	routes:	Routes	=	[
     MediaFormComponent,
 
     PaginationComponent,
-    CalendarComponent, 
-    
+    CalendarComponent,
+
+    //DatePipe,
     SafePipe
   ],
   imports: [

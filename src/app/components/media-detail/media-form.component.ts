@@ -1,6 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Channel } from '../../shared/media';
+import { DatePipe } from '@angular/common';
+
 
 @Component({
     selector: 'media-form',
@@ -35,7 +37,8 @@ import { Channel } from '../../shared/media';
                 <ul>If you are looking for validation you should check out.</ul>
             </div>
         </form>
-        `
+        `,
+        providers: [DatePipe]
 })
 
 export class MediaFormComponent implements AfterViewInit {
@@ -50,7 +53,8 @@ export class MediaFormComponent implements AfterViewInit {
     public mediaForm: FormGroup;
 
     constructor(
-        public fb: FormBuilder
+        public fb: FormBuilder,
+        public datepipe: DatePipe
     ) {
         this.mediaForm = this.fb.group({  
             'title': [null, Validators.required],
@@ -78,7 +82,7 @@ export class MediaFormComponent implements AfterViewInit {
     }
     onDateChange(date: Date): void {
         //this.mediaForm.controls['shootDate'].setValue(date);
-        console.log(date);
+        console.log(this.datepipe.transform(date, 'yyyy-MM-dd'));
     }
     ngAfterViewInit() {
         /*
