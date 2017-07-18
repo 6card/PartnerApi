@@ -12,7 +12,8 @@ import { MediaDetailComponent } from './components/media-detail/media-detail.com
 import { MediaAddComponent } from './components/media-add/media-add.component';
 import { MediaFormComponent } from "./components/media-detail/media-form.component";
 
-import { Pagination } from "./components/pagination.component"
+import { PaginationComponent } from "./components/pagination.component"
+import { CalendarComponent } from "./components/calendar.component"
 
 import { AuthService } from './services/auth.service';
 import { PartnerService } from './services/partner.service';
@@ -42,7 +43,8 @@ const	routes:	Routes	=	[
     MediaAddComponent,
     MediaFormComponent,
 
-    Pagination,
+    PaginationComponent,
+    CalendarComponent, 
     
     SafePipe
   ],

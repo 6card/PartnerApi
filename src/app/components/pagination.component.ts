@@ -37,7 +37,7 @@ const PAGINATION_TEMPLATE = `
     template: PAGINATION_TEMPLATE
 })
 
-export class Pagination {
+export class PaginationComponent {
 	@Input() page: number = 1;   
 	@Input() totalItems: number = 100;
 	@Input() itemsPerPage: number = 10;

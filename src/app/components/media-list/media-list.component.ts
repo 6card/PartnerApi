@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { Router } from "@angular/router";
 
-import { Pagination } from "../pagination.component"
+import { PaginationComponent } from "../pagination.component"
 
 import { AuthService } from '../../services/auth.service';
 import { PartnerService } from '../../services/partner.service';
@@ -64,7 +64,7 @@ export class MediaListComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log('media-list ngOnInit');
          
         this.getTotalMediaCount();
-        this.itemsPerPage = +localStorage.getItem('itemsPerPage');
+        this.itemsPerPage = +localStorage.getItem('itemsPerPage') || 2;
         this.loadMedia();
             
     }
