@@ -76,8 +76,8 @@ export class MediaDetailComponent implements OnInit {
         this.media.Description = params.description;
         this.media.ChannelId = params.channelId;
         this.media.ShootDate = params.shootDate;
-        console.log(params);
-        console.log(this.media);
+        //console.log(params);
+        //console.log(this.media);
         //this.updateMedia();
     }
 }
