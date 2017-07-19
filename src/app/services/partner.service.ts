@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, URLSearchParams, Headers, RequestOptions } from '@angular/http';
 
 import 'rxjs/Rx';
+import 'rxjs/add/observable/throw';
 import {Observable} from 'rxjs';
 
 import { Media, Channel } from '../shared/media';
@@ -102,8 +103,12 @@ export class PartnerService {
   private handleError(error: Response) {
       // in a real world app, we may send the server to some remote logging infrastructure
       // instead of just logging it to the console
-      console.error(error);
-      return Observable.throw(error.json().error || 'Server error');
+      //console.error(error);
+      return Observable.throw(error.json().Message || 'Server error');
   }
 
 }
+
+// Success: false
+// Id: 1
+// Message: "Ошибка авторизации. Получите заново SessionId"

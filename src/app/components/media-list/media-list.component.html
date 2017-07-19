@@ -3,7 +3,7 @@
     <div class="sixteen wide column">
       <label>
         Show 
-        <select [ngModel]="itemsPerPage" (ngModelChange)="onChange($event)" >
+        <select [ngModel]="itemsPerPage" (ngModelChange)="onItemsPerPageChange($event)" >
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="5">5</option>
