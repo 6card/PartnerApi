@@ -12,6 +12,7 @@ import { MediaDetailComponent } from './components/media-detail/media-detail.com
 import { MediaAddComponent } from './components/media-add/media-add.component';
 import { MediaFormComponent } from "./components/media-detail/media-form.component";
 
+import { NavigationComponent } from "./components/navigation.component"
 import { PaginationComponent } from "./components/pagination.component"
 import { CalendarComponent } from "./components/calendar.component"
 
@@ -44,6 +45,7 @@ const	routes:	Routes	=	[
     MediaAddComponent,
     MediaFormComponent,
 
+    NavigationComponent,
     PaginationComponent,
     CalendarComponent,
 

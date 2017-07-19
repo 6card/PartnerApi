@@ -1,19 +1,24 @@
+// https://netbasal.com/angular-2-persist-your-login-status-with-behaviorsubject-45da9ec43243
 import { Injectable } from '@angular/core';
 import { Http, Response, URLSearchParams, Headers, RequestOptions } from '@angular/http';
 
 import 'rxjs/Rx';
-import {Observable} from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()
 export class AuthService {
     sessionId: string;
     username: string;
-    
+    public authenticated = new BehaviorSubject(null);
 
     constructor(private http: Http) {
         let lcstg = localStorage.getItem('currentUser');
         this.sessionId = lcstg ? JSON.parse(lcstg).token : null;
         this.username = lcstg ? JSON.parse(lcstg).username : null;
+    }
+
+    isLoggedIn() : Observable<boolean> {
+        return this.authenticated.asObservable();
     }
 
     public isAuthenticated() {
@@ -34,7 +39,7 @@ export class AuthService {
                     // set token property
                     this.sessionId = 'token';
                     this.username = username;
-                    
+                    this.authenticated.next(true);
                     console.log(this.sessionId);
                     // store username and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token }));
@@ -51,6 +56,7 @@ export class AuthService {
     logout(): void {
         // clear token remove user from local storage to log user out
         this.sessionId = null;
+        this.authenticated.next(false);
         localStorage.removeItem('currentUser');
     }
 
