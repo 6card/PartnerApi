@@ -99,6 +99,8 @@ export class MediaFormComponent implements AfterViewInit {
         }
         
         myReader.readAsText(fileData);
+
+        // Загрузка по частям http://www.codenet.ru/webmast/js/html5-ajax-partial-upload/
         /*
             FileReader.readyState
             
