@@ -98,7 +98,7 @@ export class MediaFormComponent implements AfterViewInit {
             console.log(myReader.result);
         }
         
-        myReader.readAsText(fileData);
+        myReader.readAsBinaryString(inputValue.files[0]);
 
         // Загрузка по частям http://www.codenet.ru/webmast/js/html5-ajax-partial-upload/
         /*
