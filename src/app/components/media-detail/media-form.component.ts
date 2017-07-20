@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Channel } from '../../shared/media';
-import { DatePipe } from '@angular/common';
+
 
 
 @Component({
@@ -10,11 +10,11 @@ import { DatePipe } from '@angular/common';
         <form class="ui form segment" (ngSubmit)="onSubmit()" [formGroup]="mediaForm">
             <h4 class="ui dividing header">Video description</h4>
 
-            <div class="field" [ngClass]="{'error' : !mediaForm.controls['title'].valid}">
+            <div class="field" [ngClass]="{'error' : !mediaForm.controls['title'].valid && mediaForm.controls['title'].touched}">
                 <label>Title:</label>
                 <input placeholder="Title" type="text" [formControlName]="'title'">
             </div>
-            <div class="field" [ngClass]="{'error' : !mediaForm.controls['description'].valid}">
+            <div class="field" [ngClass]="{'error' : !mediaForm.controls['description'].valid && mediaForm.controls['description'].touched}">
                 <label>Description</label>
                 <textarea placeholder="Description" [formControlName]="'description'">{{description}}</textarea>
             </div>
@@ -27,18 +27,20 @@ import { DatePipe } from '@angular/common';
                 </select>
             </div>
 
-            <div class="field" [ngClass]="{'error' : !mediaForm.controls['shootDate'].valid}">
+            <div class="field" [ngClass]="{'error' : !mediaForm.controls['shootDate'].valid && mediaForm.controls['shootDate'].touched}">
                 <label>Shoot date:</label>
-                <calendar (change)="onDateChange($event)" [fGroup]="mediaForm" [fControlName]="'shootDate'"></calendar>                
+                <calendar (changeDate)="onDateChange($event)" [fGroup]="mediaForm" [fControlName]="'shootDate'"></calendar>                
             </div>
-
+            <div class="field">
+                <label>Video:</label>
+                <input type="file" (change)="changeListener($event)">
+            </div>
             <button type="submit" class="ui green submit button" [disabled]="!mediaForm.valid">Submit</button>
             <div class="ui error message">
                 <ul>If you are looking for validation you should check out.</ul>
             </div>
         </form>
-        `,
-        providers: [DatePipe]
+        `
 })
 
 export class MediaFormComponent implements AfterViewInit {
@@ -51,10 +53,10 @@ export class MediaFormComponent implements AfterViewInit {
     @Input() shootDate: string;
 
     public mediaForm: FormGroup;
+    public videoFile: any = null;
 
     constructor(
-        public fb: FormBuilder,
-        public datepipe: DatePipe
+        public fb: FormBuilder
     ) {
         this.mediaForm = this.fb.group({  
             'title': [null, Validators.required],
@@ -80,10 +82,32 @@ export class MediaFormComponent implements AfterViewInit {
         //console.log(this.mediaForm.controls['shootDate'].value);
         this.pushValues();
     }
-    onDateChange(date: Date): void {
-        //this.mediaForm.controls['shootDate'].setValue(date);
-        console.log(this.datepipe.transform(date, 'yyyy-MM-dd'));
+    onDateChange(date: any): void {
+        console.log(date);
     }
+
+    changeListener($event: any): void {
+        this.readThis($event.target);
+    }
+
+    readThis(inputValue: any) : void {
+        var file:File = inputValue.files[0];
+        var fileData = new Blob(["i am a blob"]); 
+        var myReader:FileReader = new FileReader();        
+        myReader.onloadend = function(e){            
+            console.log(myReader.result);
+        }
+        
+        myReader.readAsText(fileData);
+        /*
+            FileReader.readyState
+            
+            EMPTY   : 0 : Данные еще не были загружены.
+            LOADING : 1 : Данные в данный момент загружаются.
+            DONE    : 2 : Операция чтения была завершена.
+        */
+    }
+    
     ngAfterViewInit() {
         /*
         this.settings.onChange = (date: Date) => {

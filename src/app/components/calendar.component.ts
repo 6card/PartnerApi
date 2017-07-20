@@ -2,6 +2,8 @@
 
 import {Component, ElementRef, AfterViewInit, Output, EventEmitter, Input, Self} from '@angular/core';
 import {ControlValueAccessor, FormGroup, FormControl} from '@angular/forms';
+import { DatePipe } from '@angular/common';
+
 declare var $: any;
 @Component({
   selector: 'calendar',
@@ -12,10 +14,11 @@ declare var $: any;
             <input type="text" placeholder="Click to select Date/Time" [formControlName]="fControlName">
           </div>
         </div>
-`
+  `,
+  providers: [DatePipe]
 })
 export class CalendarComponent implements AfterViewInit {
-  @Output() change: EventEmitter<Date> = new EventEmitter<Date>();
+  @Output() changeDate: EventEmitter<any> = new EventEmitter<any>();
   @Output() htmlElement: EventEmitter<HTMLElement> = new EventEmitter<HTMLElement>();
 
   @Input() fGroup: FormGroup;
@@ -39,7 +42,10 @@ export class CalendarComponent implements AfterViewInit {
   //public onChange: any = Function.prototype;
   //public onTouched: any = Function.prototype;
   private selectedDate: Date;
-  constructor(private parentElement: ElementRef){
+  constructor(
+    public datepipe: DatePipe,
+    private parentElement: ElementRef
+  ){
   }
   ngAfterViewInit(): void {
     
@@ -49,6 +55,9 @@ export class CalendarComponent implements AfterViewInit {
 
     this.settings.formatter = {
         datetime: (date: Date) => {
+            if (!date) {
+              return '';
+            }
             //2017-07-15T19:06:00+03:00
             let year = date.getFullYear();
             let month = date.getMonth() + 1;
@@ -72,7 +81,14 @@ export class CalendarComponent implements AfterViewInit {
     if (value === this.selectedDate) {
       return;
     }
-    this.change.emit(value);
+    //this.changeDate.emit(value);
+
+    if (value instanceof Date) {
+        let transformDate = this.datepipe.transform(value, 'yyyy-MM-dd');
+        this.fGroup.controls[this.fControlName].setValue(transformDate);
+        this.changeDate.emit(transformDate);
+    }
+
     this.selectedDate = value;
   }
   //registerOnChange(fn: (_: any) => void): void { this.onChange = fn; }
