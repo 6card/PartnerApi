@@ -34,6 +34,13 @@ import { Channel } from '../../shared/media';
             <div class="field">
                 <label>Video:</label>
                 <input type="file" (change)="changeListener($event)">
+                <button type="button" *ngIf="videoFile" (click)="UploadVideoFile()" class="ui red button">Send</button>
+                <div class="ui indicating progress" [attr.data-percent]="videoFileProgress">
+                    <div class="bar" [ngStyle]="{'transition-duration': '300ms', 'width': videoFileProgress+'%'}">
+                        <div class="progress">{{videoFileProgress}}%</div>
+                    </div>
+                    <div class="label">Uploading Video</div>
+                </div>
             </div>
             <button type="submit" class="ui green submit button" [disabled]="!mediaForm.valid">Submit</button>
             <div class="ui error message">
@@ -54,7 +61,7 @@ export class MediaFormComponent implements AfterViewInit {
 
     public mediaForm: FormGroup;
     public videoFile: File = null;
-    public videoFilePosition: number = 0;
+    public videoFileProgress: number = 0;
 
     constructor(
         public fb: FormBuilder
@@ -88,24 +95,39 @@ export class MediaFormComponent implements AfterViewInit {
     }
 
     changeListener($event: any): void {
-        this.readThis($event.target);
+        this.videoFile = $event.target.files[0];
+        
     }
 
-    UploadPortion = (file: File, start: number) => {
+    UploadVideoFile(){        
+        this.readThis(this.videoFile);
+    }
+
+    UploadPortion = (file: File, start: number, length: number) => {
         var myReader:FileReader = new FileReader();
         var blob: Blob;
-        var portion: number = 10000; 
+        var position: number = start;
+        var portion: number = length; 
         var that = this;
 
         if (that.videoFile.slice) 
-            blob = that.videoFile.slice(that.videoFilePosition, that.videoFilePosition + portion);
+            blob = that.videoFile.slice(position, position + portion);
 
         myReader.onloadend = function(e){            
             //myReader.readAsBinaryString(blob);
             console.log('SIZE = ' + blob.size);
-            that.videoFilePosition += portion;
-            if (that.videoFile.size > that.videoFilePosition) {
-                that.UploadPortion(that.videoFile, that.videoFilePosition);
+
+            that.videoFileProgress = Math.round((position + blob.size) * 100 / that.videoFile.size);
+            
+            console.log('PERCENT = ' + that.videoFileProgress);
+
+            position += portion;
+            if (that.videoFile.size > position) {
+
+                setTimeout(function(){
+                    that.UploadPortion(that.videoFile, position, portion);
+                },  Math.floor(Math.random() * 1000) );
+                
             }
             //console.log(myReader.result);
         }
@@ -113,15 +135,17 @@ export class MediaFormComponent implements AfterViewInit {
         myReader.readAsBinaryString(blob);
     }
 
-    readThis(inputValue: any){        
-        this.videoFile = inputValue.files[0];
-
-        if (!this.videoFile) {
+    readThis(videoFile: File){        
+        //this.videoFile = inputValue.files[0];
+        
+        if (!videoFile) {            
             return;
         }
-
-        if (this.videoFile.size > 10000) 
-            this.UploadPortion(this.videoFile, 0);
+   
+        if (videoFile.size > 100000) 
+            this.UploadPortion(videoFile, 0, 100000);
+        else
+            this.UploadPortion(videoFile, 0, videoFile.size);
    
         // Загрузка по частям http://www.codenet.ru/webmast/js/html5-ajax-partial-upload/
         /*
@@ -134,6 +158,7 @@ export class MediaFormComponent implements AfterViewInit {
     }
     
     ngAfterViewInit() {
+        jQuery('.ui.progress').progress();
         /*
         this.settings.onChange = (date: Date) => {
             let year = date.getFullYear();
