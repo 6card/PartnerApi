@@ -53,7 +53,8 @@ export class MediaFormComponent implements AfterViewInit {
     @Input() shootDate: string;
 
     public mediaForm: FormGroup;
-    public videoFile: any = null;
+    public videoFile: File = null;
+    public videoFilePosition: number = 0;
 
     constructor(
         public fb: FormBuilder
@@ -90,16 +91,38 @@ export class MediaFormComponent implements AfterViewInit {
         this.readThis($event.target);
     }
 
-    readThis(inputValue: any) : void {
-        var file:File = inputValue.files[0];
-        var fileData = new Blob(["i am a blob"]); 
-        var myReader:FileReader = new FileReader();        
-        myReader.onloadend = function(e){            
-            console.log(myReader.result);
-        }
-        
-        myReader.readAsBinaryString(inputValue.files[0]);
+    UploadPortion = (file: File, start: number) => {
+        var myReader:FileReader = new FileReader();
+        var blob: Blob;
+        var portion: number = 10000; 
+        var that = this;
 
+        if (that.videoFile.slice) 
+            blob = that.videoFile.slice(that.videoFilePosition, that.videoFilePosition + portion);
+
+        myReader.onloadend = function(e){            
+            //myReader.readAsBinaryString(blob);
+            console.log('SIZE = ' + blob.size);
+            that.videoFilePosition += portion;
+            if (that.videoFile.size > that.videoFilePosition) {
+                that.UploadPortion(that.videoFile, that.videoFilePosition);
+            }
+            //console.log(myReader.result);
+        }
+ 
+        myReader.readAsBinaryString(blob);
+    }
+
+    readThis(inputValue: any){        
+        this.videoFile = inputValue.files[0];
+
+        if (!this.videoFile) {
+            return;
+        }
+
+        if (this.videoFile.size > 10000) 
+            this.UploadPortion(this.videoFile, 0);
+   
         // Загрузка по частям http://www.codenet.ru/webmast/js/html5-ajax-partial-upload/
         /*
             FileReader.readyState
