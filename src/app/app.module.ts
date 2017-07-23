@@ -13,9 +13,11 @@ import { MediaAddComponent } from './components/media-add/media-add.component';
 import { MediaFormComponent } from "./components/media-detail/media-form.component";
 
 import { NavigationComponent } from "./components/navigation.component"
+import { AlertComponent } from "./components/alert/alert.component"
 import { PaginationComponent } from "./components/pagination.component"
 import { CalendarComponent } from "./components/calendar.component"
 
+import { AlertService } from './services/alert.service';
 import { AuthService } from './services/auth.service';
 import { PartnerService } from './services/partner.service';
 
@@ -46,6 +48,7 @@ const	routes:	Routes	=	[
     MediaFormComponent,
 
     NavigationComponent,
+    AlertComponent,
     PaginationComponent,
     CalendarComponent,
 
@@ -60,6 +63,7 @@ const	routes:	Routes	=	[
     RouterModule.forRoot(routes, {useHash: false})
   ],
   providers: [
+    AlertService,
     AuthService,
     PartnerService,
     AuthGuard

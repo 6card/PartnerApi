@@ -14,7 +14,7 @@ body > .grid {
 }
 
 .main.container {
-    margin-top: 7em;
+    margin-top: 2em;
 }
 .no-margin{
     margin: 0 !important;
@@ -29,4 +29,8 @@ body > .grid {
 .table-info {
     padding-top: 13px;
     white-space: nowrap;
+}
+
+.ui.message {
+    margin-bottom: 1em;
 }

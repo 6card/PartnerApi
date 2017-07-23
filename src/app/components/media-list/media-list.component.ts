@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { PaginationComponent } from "../pagination.component"
 
 import { AuthService } from '../../services/auth.service';
+import { AlertService } from '../../services/alert.service';
 import { PartnerService } from '../../services/partner.service';
 import { Media } from '../../shared/media';
 
@@ -24,8 +25,10 @@ export class MediaListComponent implements OnInit, OnDestroy, AfterViewInit {
     constructor(
         private	router:	Router,
         private authService:AuthService,
-        private partnerService:PartnerService
+        private partnerService:PartnerService,
+        private alertService: AlertService
     ) { 
+        
       /*
       if (!partnerService.xSessionId) {
         this.router.navigate(['login']);
@@ -51,7 +54,8 @@ export class MediaListComponent implements OnInit, OnDestroy, AfterViewInit {
 
     getTotalMediaCount() {
         let channelId = 32703;
-        this.partnerService.getMediasCount(this.authService.sessionId, channelId).subscribe( data => {  
+        this.partnerService.getMediasCount(this.authService.sessionId, channelId).subscribe( res => {  
+            let data = this.respondHandler(res);
             if (data.Data !== undefined) {
                 this.totalItems = data.Data;
                 //console.log('total items'+this.totalItems);
@@ -100,7 +104,7 @@ export class MediaListComponent implements OnInit, OnDestroy, AfterViewInit {
     private respondHandler(data: any) {
         if (!data.Success) {
             this.error = data.Message.Text;
-            console.error(this.error);
+            this.alertService.error(this.error);
             return false;
         }        
         return data;        
@@ -108,7 +112,7 @@ export class MediaListComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private errorHandler(error: any) {
         this.error = error; 
-        console.error(error);
+        this.alertService.error(this.error);
     }
 
 }
