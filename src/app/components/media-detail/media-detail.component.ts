@@ -69,6 +69,26 @@ export class MediaDetailComponent implements OnInit {
         ); 
     }
 
+    changeMediaBlock(e: any) {
+        let blockFunction;
+
+        if(e.target.checked){
+            blockFunction = this.partnerService.blockMedia(this.authService.sessionId, this.mediaId, 1);
+        }
+        else {
+            blockFunction = this.partnerService.unblockMedia(this.authService.sessionId, this.mediaId, 1);
+        }
+
+        blockFunction.subscribe( res => {  
+            let data = this.respondHandler(res);
+        }, 
+            error => this.errorHandler(error)
+        );
+
+        
+        
+    }
+
     formUpdated(params: any) {
 
         this.media.Title = params.title;
@@ -76,7 +96,7 @@ export class MediaDetailComponent implements OnInit {
         this.media.ChannelId = params.channelId;
         this.media.ShootDate = params.shootDate;
         this.media.State = params.state ? 1 : 0;
-        
+
         console.log(this.media);
         //this.updateMedia();
     }
@@ -84,7 +104,7 @@ export class MediaDetailComponent implements OnInit {
     private respondHandler(data: any) {
         if (!data.Success) {
             this.alertService.error(data.Message.Text);
-            return false;
+            //return false;
         }        
         return data;        
     }

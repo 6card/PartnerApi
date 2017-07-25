@@ -1,4 +1,4 @@
-<div class="ui stackable grid">
+<div class="ui stackable grid" *ngIf="medias && medias.length > 0">
   <div class="row">
     <div class="sixteen wide column">
       <label>
@@ -36,7 +36,7 @@
                 <a href=""><i class="edit icon"></i></a>
                 <a href=""><i class="check circle icon"></i></a>
                 <a href=""><i class="remove circle icon"></i></a>
-                <a href=""><i class="external icon"></i></a>
+                <a href="https://www.newstube.ru/embed/011476cd-98ec-46bb-864a-b99113e578f1" target="_blank" (click)="openViewWindow($event)"><i class="external icon"></i></a>
                 <a href=""><i class="play icon"></i></a>
               </td>
           </tr>
@@ -64,8 +64,11 @@
               </td>
               <td>{{media.ShootDate | date:'medium'}} / {{media.PubDate | date:'medium'}}</td>
               <td><img class="ui tiny image" [src]="media.ThumbnailUrl"></td>
-              <td><div [ngClass]="media.State ? 'green' : 'red'"class="ui label">State {{media.State}}</div></td>
-              <td>None</td>
+              <td><div [ngClass]="media.StateColor"class="ui label">{{media.StateName}}</div></td>
+              <td>
+                <a  [routerLink]="['/media', media.MediaId]"><i class="edit icon"></i></a>
+                <a href="https://www.newstube.ru/embed/{{media.MediaGuid}}" target="_blank" (click)="openViewWindow($event)"><i class="external icon"></i></a>
+              </td>
           </tr>  
         </tbody>
       </table>

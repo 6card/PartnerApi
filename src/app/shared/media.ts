@@ -80,7 +80,25 @@ export class Media {
     this.Data = obj['Data'];
 
     this.EmbedUrl = '//www.newstube.ru/embed/'+ obj['MediaGuid'];
-  }  
+  }
+
+  get StateName(): string {  
+    let statuses = {
+        0: "UNBLOCKED",
+        7: "BLOCKED"
+    };
+    return statuses[this.State];
+  }
+
+  get StateColor(): string {  
+    let colors = {
+        0: "green",
+        7: "red"
+    };
+    return colors[this.State];
+  }
+
+
 }
 
 export class Video {
@@ -105,6 +123,7 @@ export class Video {
     this.UpdateTime = obj['UpdateTime'];
     this.Downloads = obj['Downloads'] ? obj['Downloads'].map((item: any) => new Download(item)) : undefined;
   }
+
 }
 
 export class User {

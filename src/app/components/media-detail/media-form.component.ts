@@ -56,7 +56,7 @@ import { Channel } from '../../shared/media';
 
             <div class="field">
                 <div class="ui toggle checkbox">
-                    <input type="checkbox" [formControlName]="'state'">
+                    <input type="checkbox" [formControlName]="'state'" (change)="onBlockMedia($event)">
                     <label>Block</label>
                 </div>
             </div>
@@ -71,6 +71,7 @@ import { Channel } from '../../shared/media';
 
 export class MediaFormComponent implements AfterViewInit {
     @Output() formResults: EventEmitter<any> = new EventEmitter();
+    @Output() changeBlock: EventEmitter<any> = new EventEmitter();
 
     @Input() title: string;
     @Input() description: string;
@@ -120,6 +121,10 @@ export class MediaFormComponent implements AfterViewInit {
     }
     onDateChange(date: any): void {
         console.log(date);
+    }
+
+    onBlockMedia(event: any): void {
+        this.changeBlock.emit(event);
     }
 
     changeListener($event: any): void {

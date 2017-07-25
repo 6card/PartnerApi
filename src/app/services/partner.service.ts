@@ -100,9 +100,35 @@ export class PartnerService {
     }).catch(this.handleError);
   }
 
+  blockMedia(sessionId: any, mediaId: any, externalId: any): Observable<any> {
+    let apiURL = this.apiRoot+'/Media/MediaBlock';
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+    let options = new RequestOptions({ headers: headers });
+
+
+    return this.http.post(apiURL, JSON.stringify({ SessionId: sessionId, MediaId: mediaId, ExternalId: externalId }), options )
+      .map((res:Response) => {
+        return res.json();
+    }).catch(this.handleError);
+  }
+
+  unblockMedia(sessionId: any, mediaId: any, externalId: any): Observable<any> {
+    let apiURL = this.apiRoot+'/Media/MediaUnblock';
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+    let options = new RequestOptions({ headers: headers });
+
+
+    return this.http.post(apiURL, JSON.stringify({ SessionId: sessionId, MediaId: mediaId, ExternalId: externalId }), options )
+      .map((res:Response) => {
+        return res.json();
+    }).catch(this.handleError);
+  }
+
   private handleError(error: Response) {
-      // in a real world app, we may send the server to some remote logging infrastructure
-      // instead of just logging it to the console
       //console.error(error);
       return Observable.throw(error.json().Message || 'Server error');
   }

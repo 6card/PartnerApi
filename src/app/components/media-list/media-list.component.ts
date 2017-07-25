@@ -46,7 +46,7 @@ export class MediaListComponent implements OnInit, OnDestroy, AfterViewInit {
             let medias = this.respondHandler(data);
             if (medias && medias.Data !== undefined) {
                 medias.Data.map((item:any) =>  this.medias.push(new Media(item)));  
-            }        
+            }       
         }, 
             error => this.errorHandler(error)
         );  
@@ -85,6 +85,11 @@ export class MediaListComponent implements OnInit, OnDestroy, AfterViewInit {
                 allowAdditions: true
             });
         */
+    }
+
+    openViewWindow(event: any) {
+        //console.log(event.target.parentElement.attr.href);
+        //return false;        
     }
 
     onItemsPerPageChange(newValue: number) {

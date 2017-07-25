@@ -12,8 +12,8 @@ import {Observable} from 'rxjs/Rx';
             <a class="item header" [routerLinkActive]="['active']" [routerLink]="['/media']">Medias</a>
             <a class="green color item" [routerLinkActive]="['active']" [routerLink]="['/media/add']"><i class="plus icon"></i>Add media</a>
             <div class="right menu">
-              <a *ngIf="!(isLoggedIn | async)" class="item" [routerLinkActive]="['active']" [routerLink]="['/login']">Login</a>  
-              <a *ngIf="(isLoggedIn | async)" class="item" [routerLinkActive]="['active']" [routerLink]="['/login']">{{ authService.username }} Logout</a>  
+              <a *ngIf="!authService.isAuthenticated()" class="item" [routerLinkActive]="['active']" [routerLink]="['/login']">Login</a>  
+              <a *ngIf="authService.isAuthenticated()" class="item" [routerLinkActive]="['active']" [routerLink]="['/login']">{{ authService.username }} Logout</a>  
             </div>
           </div>
         </div>
