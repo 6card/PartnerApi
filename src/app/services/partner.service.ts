@@ -68,7 +68,7 @@ export class PartnerService {
 
     return this.http.get(apiURL, {search: params} )
       .map((res:Response) => {
-        return res.json().Data;
+        return res.json();
     }).catch(this.handleError);
   }
 

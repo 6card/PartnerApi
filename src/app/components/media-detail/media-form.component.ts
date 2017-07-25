@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Channel } from '../../shared/media';
 
@@ -9,6 +9,28 @@ import { Channel } from '../../shared/media';
     template: `
         <form class="ui form segment" (ngSubmit)="onSubmit()" [formGroup]="mediaForm">
             <h4 class="ui dividing header">Video description</h4>
+
+            <div class="field">
+                <label>Video:</label>
+
+                <div class="ui action input" *ngIf="this.videoFile && !isSending">
+                    <input type="text" [value]="this.videoFile ? this.videoFile.name : ''" [disabled]="true">
+                    <button type="button" (click)="UploadVideoFile()" class="ui red button">Send</button>
+                    <button type="button" (click)="ClearVideoFile()" class="ui button">Cancel</button>
+                </div>
+                <label class="fluid ui big button" *ngIf="!this.videoFile && !isSending" for="videoFile"> 
+                    Upload Video &nbsp;
+                    <i class="upload icon"></i>
+                    <input #videoFileInput type="file" id="videoFile" name="videoFile" (change)="changeListener($event)" style="display: none">
+                </label>
+
+                <div *ngIf="isSending" class="ui indicating progress" [attr.data-percent]="videoFileProgress">
+                    <div class="bar" [ngStyle]="{'transition-duration': '300ms', 'width': videoFileProgress+'%'}">
+                        <div class="progress">{{videoFileProgress}}%</div>
+                    </div>
+                    <div class="label">Uploading Video...</div>
+                </div>
+            </div>
 
             <div class="field" [ngClass]="{'error' : !mediaForm.controls['title'].valid && mediaForm.controls['title'].touched}">
                 <label>Title:</label>
@@ -31,17 +53,14 @@ import { Channel } from '../../shared/media';
                 <label>Shoot date:</label>
                 <calendar (changeDate)="onDateChange($event)" [fGroup]="mediaForm" [fControlName]="'shootDate'"></calendar>                
             </div>
+
             <div class="field">
-                <label>Video:</label>
-                <input type="file" (change)="changeListener($event)">
-                <button type="button" *ngIf="videoFile" (click)="UploadVideoFile()" class="ui red button">Send</button>
-                <div class="ui indicating progress" [attr.data-percent]="videoFileProgress">
-                    <div class="bar" [ngStyle]="{'transition-duration': '300ms', 'width': videoFileProgress+'%'}">
-                        <div class="progress">{{videoFileProgress}}%</div>
-                    </div>
-                    <div class="label">Uploading Video</div>
+                <div class="ui toggle checkbox">
+                    <input type="checkbox" [formControlName]="'state'">
+                    <label>Block</label>
                 </div>
             </div>
+
             <button type="submit" class="ui green submit button" [disabled]="!mediaForm.valid">Submit</button>
             <div class="ui error message">
                 <ul>If you are looking for validation you should check out.</ul>
@@ -58,27 +77,36 @@ export class MediaFormComponent implements AfterViewInit {
     @Input() channels: Array<Channel>;
     @Input() channelId: string;
     @Input() shootDate: string;
+    @Input() state: string;
+
+    @ViewChild('videoFileInput') inputVariable: any;
 
     public mediaForm: FormGroup;
     public videoFile: File = null;
     public videoFileProgress: number = 0;
+    public isSending: boolean = false;
 
     constructor(
         public fb: FormBuilder
     ) {
-        this.mediaForm = this.fb.group({  
-            'title': [null, Validators.required],
-            'description': [null, Validators.required],
-            'channelId': [null],
-            'shootDate': [null, Validators.required]
-        });
+        
     }
 
     ngOnInit(){
+        this.mediaForm = this.fb.group({  
+            'title': [this.title, Validators.required],
+            'description': [this.description, Validators.required],
+            'channelId': [this.channelId],
+            'state': [this.state],
+            'shootDate': [this.shootDate ? this.shootDate : new Date(), Validators.required]
+        });
+        /*
         this.mediaForm.controls['title'].setValue(this.title);
         this.mediaForm.controls['description'].setValue(this.description);
         this.mediaForm.controls['channelId'].setValue(this.channelId); 
         this.mediaForm.controls['shootDate'].setValue(this.shootDate); 
+        this.mediaForm.controls['state'].setValue(this.state); 
+        */
     }
 
     pushValues(): void {
@@ -96,10 +124,17 @@ export class MediaFormComponent implements AfterViewInit {
 
     changeListener($event: any): void {
         this.videoFile = $event.target.files[0];
-        
+        //this.videoFile.name
     }
 
-    UploadVideoFile(){        
+    ClearVideoFile() {
+        //this.inputVariable.value = '';
+        //console.log(this.inputVariable);
+        this.videoFile = null;
+    }
+
+    UploadVideoFile(){
+        // сначала сохраняем форму и получаем guid        
         this.readThis(this.videoFile);
     }
 
@@ -113,26 +148,30 @@ export class MediaFormComponent implements AfterViewInit {
         if (that.videoFile.slice) 
             blob = that.videoFile.slice(position, position + portion);
 
-        myReader.onloadend = function(e){            
-            //myReader.readAsBinaryString(blob);
-            console.log('SIZE = ' + blob.size);
+        myReader.onloadend = function(e){
+             if (this.readyState == 2) { // Загрузка DONE
 
-            that.videoFileProgress = Math.round((position + blob.size) * 100 / that.videoFile.size);
-            
-            console.log('PERCENT = ' + that.videoFileProgress);
+                //загружаем кусок и после удачной загрузки рисуем прогресс и запускаем следующую порцию
+                that.videoFileProgress = Math.round((position + blob.size) * 100 / that.videoFile.size);
 
-            position += portion;
-            if (that.videoFile.size > position) {
+                if ( that.videoFileProgress == 100) 
+                    that.isSending = false;
 
-                setTimeout(function(){
-                    that.UploadPortion(that.videoFile, position, portion);
-                },  Math.floor(Math.random() * 1000) );
-                
-            }
-            //console.log(myReader.result);
+                //console.log('PERCENT = ' + that.videoFileProgress);
+
+                position += portion;
+                if (that.videoFile.size > position) {
+
+                    setTimeout(function(){
+                        that.UploadPortion(that.videoFile, position, portion);
+                    },  Math.floor(Math.random() * 1000) );
+                    
+                }
+             }
         }
  
         myReader.readAsBinaryString(blob);
+        
     }
 
     readThis(videoFile: File){        
@@ -141,7 +180,7 @@ export class MediaFormComponent implements AfterViewInit {
         if (!videoFile) {            
             return;
         }
-   
+        this.isSending = true;
         if (videoFile.size > 100000) 
             this.UploadPortion(videoFile, 0, 100000);
         else
@@ -158,86 +197,6 @@ export class MediaFormComponent implements AfterViewInit {
     }
     
     ngAfterViewInit() {
-        jQuery('.ui.progress').progress();
-        /*
-        this.settings.onChange = (date: Date) => {
-            let year = date.getFullYear();
-            let month = date.getMonth() + 1;
-            let day = date.getDate();
-            let hour = date.getHours();
-            let minute = date.getMinutes();
-
-            // everything combined
-            let total = (year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day) + 'T' + (hour < 10 ? '0' + hour : hour) + ':' + (minute < 10 ? '0' + minute : minute) + ':00+0300');
-           
-            this.mediaForm.controls['shootDate'].setValue(total);
-        };
-        this.settings.formatter = {
-            datetime: (date: Date) => {
-                //2017-07-15T19:06:00+03:00
-                let year = date.getFullYear();
-                let month = date.getMonth() + 1;
-                let day = date.getDate();
-                let hour = date.getHours();
-                let minute = date.getMinutes();
-
-                // everything combined
-                return (year + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':00+0300');
-            }
-        };
-
-        let calendarElement: HTMLElement = this._elementRef.nativeElement.querySelector('#calendar');
-
-        $(calendarElement).calendar(this.settings);
         
-        $('#calendar').calendar({
-            type: 'datetime', 
-            ampm: false,
-            firstDayOfWeek: 1,
-            text: {
-                days: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
-                months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-                monthsShort: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
-                today: 'Сегодня',
-                now: 'Сейчас',
-                am: 'AM',
-                pm: 'PM'
-            },
-            formatter: {
-                datetime: function (date) {
-                    //2017-07-15T19:06:00+03:00
-                    var year = date.getFullYear();
-                    var month = date.getMonth() + 1;
-                    var day = date.getDate();
-                    var hour = date.getHours();
-                    var minute = date.getMinutes();
-                
-                    if (month < 10) {
-                        month = '0' + month;
-                    }
-                    if (day < 10) {
-                        day = '0' + day;
-                    }
-
-                    // everything combined
-                    return (year + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':00+0300');
-                }
-            },
-            onChange: function (date, text, mode) {
-                var year = date.getFullYear();
-                var month = date.getMonth() + 1;
-                var day = date.getDate();
-                if (month < 10) {
-                    month = '0' + month;
-                }
-                if (day < 10) {
-                    day = '0' + day;
-                }
-
-                // everything combined
-                console.log(year + '-' + month + '-' + day);
-            },
-        });
-        */
     }
 }

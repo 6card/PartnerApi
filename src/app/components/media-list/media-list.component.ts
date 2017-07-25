@@ -103,16 +103,14 @@ export class MediaListComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private respondHandler(data: any) {
         if (!data.Success) {
-            this.error = data.Message.Text;
-            this.alertService.error(this.error);
+            this.alertService.error(data.Message.Text);
             return false;
         }        
         return data;        
     }
 
     private errorHandler(error: any) {
-        this.error = error; 
-        this.alertService.error(this.error);
+        this.alertService.error(error);
     }
 
 }

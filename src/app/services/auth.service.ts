@@ -37,7 +37,7 @@ export class AuthService {
                 let token = response.json()&& response.json().Data.SessionId;
                 if (token) {
                     // set token property
-                    this.sessionId = 'token';
+                    this.sessionId = token;
                     this.username = username;
                     this.authenticated.next(true);
                     console.log(this.sessionId);
