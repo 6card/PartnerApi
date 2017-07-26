@@ -128,6 +128,48 @@ export class PartnerService {
     }).catch(this.handleError);
   }
 
+  startUpload(sessionId: any): Observable<any> {
+    let apiURL = this.apiRoot+'/VideoUpload/Start';
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(apiURL, JSON.stringify({ SessionId: sessionId }), options )
+      .map((res:Response) => {
+        return res.json();
+    }).catch(this.handleError);
+  }
+
+  videoUpload(sessionId: any): Observable<any> {
+    let apiURL = this.apiRoot+'/VideoUpload/Upload';
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/octet-stream');
+    //headers.append('Content-Disposition');
+    //headers.append('Content-Range');
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(apiURL, JSON.stringify({ SessionId: sessionId }), options )
+      .map((res:Response) => {
+        return res.json();
+    }).catch(this.handleError);
+  }
+
+  stopUpload(sessionId: any): Observable<any> {
+    let apiURL = this.apiRoot+'/VideoUpload/Complete';
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(apiURL, JSON.stringify({ SessionId: sessionId }), options )
+      .map((res:Response) => {
+        return res.json();
+    }).catch(this.handleError);
+  }
+
+
+
   private handleError(error: Response) {
       //console.error(error);
       return Observable.throw(error.json().Message || 'Server error');

@@ -2,8 +2,6 @@ import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit, ViewChil
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Channel } from '../../shared/media';
 
-
-
 @Component({
     selector: 'media-form',
     template: `
@@ -139,8 +137,22 @@ export class MediaFormComponent implements AfterViewInit {
     }
 
     UploadVideoFile(){
+        /*
+        this.partnerService.startUpload(this.authService.sessionId).subscribe( res => {  
+            console.log(res);
+        }, 
+            error => console.log(error)
+        ); 
+        */
         // сначала сохраняем форму и получаем guid        
         this.readThis(this.videoFile);
+        /*
+        this.partnerService.stopUpload(this.authService.sessionId).subscribe( res => {  
+            console.log(res);
+        }, 
+            error => console.log(error)
+        );
+        */
     }
 
     UploadPortion = (file: File, start: number, length: number) => {
@@ -181,6 +193,10 @@ export class MediaFormComponent implements AfterViewInit {
 
     readThis(videoFile: File){        
         //this.videoFile = inputValue.files[0];
+
+
+        
+    
         
         if (!videoFile) {            
             return;
@@ -198,6 +214,9 @@ export class MediaFormComponent implements AfterViewInit {
             EMPTY   : 0 : Данные еще не были загружены.
             LOADING : 1 : Данные в данный момент загружаются.
             DONE    : 2 : Операция чтения была завершена.
+        */
+        /*
+        
         */
     }
     
