@@ -10,16 +10,15 @@ import { Media, Channel } from '../shared/media';
 
 @Injectable()
 export class PartnerService {
-  xSessionId:string = 'YkS0pJJb7UOAhnQQtmnO3Ug1BGBNKPWnyCgOETd27UKDlwKlMrxMUpLFjnU63mga0';
-  loginName:string = 'NameTest';
-  apiRoot:string = API_URLS.ROOT;
+
+  apiRoot: string = API_URLS.ROOT;
 
   constructor(private http: Http) { 
  
   }
 
   getMediasCount(sessionId: string, channelId: any) {
-    let apiURL = this.apiRoot+'/Media/ImportMediasPageCount';
+    let apiURL = this.apiRoot + API_URLS.MEDIA_IMPORT_MEDIAS_PAGE_COUNT;
     let params: URLSearchParams = new URLSearchParams();
 
     params.set('sessionId', sessionId);
@@ -32,7 +31,7 @@ export class PartnerService {
   }
 
   getMedias(sessionId: string, channelId: any, startItem: any, countItems: any) {
-    let apiURL = this.apiRoot+'/Media/ImportMediasPage';
+    let apiURL = this.apiRoot + API_URLS.MEDIA_IMPORT_MEDIAS_PAGE_COUNT;
     let params: URLSearchParams = new URLSearchParams();
 
     params.set('sessionId', sessionId);
@@ -74,7 +73,7 @@ export class PartnerService {
   }
 
   addMedia(sessionId: any, media: Media): Observable<any> {
-    let apiURL = this.apiRoot+'/Media/MediaAdd';
+    let apiURL = this.apiRoot + API_URLS.MEDIA_MEDIA_ADD;
     let headers = new Headers(); // ... Set content type to JSON
     headers.append('Content-Type', 'application/json'); // also tried other types to test if its working with other types, but no luck
     headers.append('Accept', 'application/json');
@@ -88,7 +87,7 @@ export class PartnerService {
   }
 //mediaId сделать обязательным!!!
   updateMedia(sessionId: any, media: Media): Observable<any> {
-    let apiURL = this.apiRoot+'/Media/MediaUpdate';
+    let apiURL = this.apiRoot + API_URLS.MEDIA_MEDIA_UPDATE;
     let headers = new Headers(); // ... Set content type to JSON
     headers.append('Content-Type', 'application/json'); // also tried other types to test if its working with other types, but no luck
     headers.append('Accept', 'application/json');
@@ -102,7 +101,7 @@ export class PartnerService {
   }
 
   blockMedia(sessionId: any, mediaId: any, externalId: any): Observable<any> {
-    let apiURL = this.apiRoot+'/Media/MediaBlock';
+    let apiURL = this.apiRoot + API_URLS.MEDIA_MEDIA_BLOCK;
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
@@ -116,7 +115,7 @@ export class PartnerService {
   }
 
   unblockMedia(sessionId: any, mediaId: any, externalId: any): Observable<any> {
-    let apiURL = this.apiRoot+'/Media/MediaUnblock';
+    let apiURL = this.apiRoot + API_URLS.MEDIA_MEDIA_UNBLOCK;
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
@@ -130,7 +129,7 @@ export class PartnerService {
   }
 
   startUpload(sessionId: any): Observable<any> {
-    let apiURL = this.apiRoot+'/VideoUpload/Start';
+    let apiURL = this.apiRoot + API_URLS.VIDEO_UPLOAD_START;
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
@@ -143,7 +142,7 @@ export class PartnerService {
   }
 
   videoUpload(sessionId: any): Observable<any> {
-    let apiURL = this.apiRoot+'/VideoUpload/Upload';
+    let apiURL = this.apiRoot + API_URLS.VIDEO_UPLOAD_UPLOAD;
     let headers = new Headers();
     headers.append('Content-Type', 'application/octet-stream');
     //headers.append('Content-Disposition');
@@ -157,7 +156,7 @@ export class PartnerService {
   }
 
   stopUpload(sessionId: any): Observable<any> {
-    let apiURL = this.apiRoot+'/VideoUpload/Complete';
+    let apiURL = this.apiRoot + API_URLS.VIDEO_UPLOAD_COMPLETE;
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
