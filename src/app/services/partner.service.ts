@@ -5,13 +5,14 @@ import 'rxjs/Rx';
 import 'rxjs/add/observable/throw';
 import {Observable} from 'rxjs';
 
+import { API_URLS } from '../config/api.config';
 import { Media, Channel } from '../shared/media';
 
 @Injectable()
 export class PartnerService {
   xSessionId:string = 'YkS0pJJb7UOAhnQQtmnO3Ug1BGBNKPWnyCgOETd27UKDlwKlMrxMUpLFjnU63mga0';
   loginName:string = 'NameTest';
-  apiRoot:string = 'https://api.newstube.ru/dev';
+  apiRoot:string = API_URLS.ROOT;
 
   constructor(private http: Http) { 
  
@@ -47,7 +48,7 @@ export class PartnerService {
 
 
   getChannels(sessionId: any) {
-    let apiURL = this.apiRoot+'/Media/Channels';
+    let apiURL = this.apiRoot + API_URLS.MEDIA_CHANNELS;
     let params: URLSearchParams = new URLSearchParams();
 
     params.set('sessionId', sessionId);
@@ -59,7 +60,7 @@ export class PartnerService {
   }
 
   getMedia(sessionId: any, mediaId: any, externalId: any): Observable<Media> {
-    let apiURL = this.apiRoot+'/Media/GetMedia';
+    let apiURL = this.apiRoot + API_URLS.MEDIA_GET_MEDIA;
     let params: URLSearchParams = new URLSearchParams();
 
     params.set('sessionId', sessionId);
