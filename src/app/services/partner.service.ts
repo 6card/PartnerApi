@@ -31,7 +31,7 @@ export class PartnerService {
   }
 
   getMedias(sessionId: string, channelId: any, startItem: any, countItems: any) {
-    let apiURL = this.apiRoot + API_URLS.MEDIA_IMPORT_MEDIAS_PAGE_COUNT;
+    let apiURL = this.apiRoot + API_URLS.MEDIA_IMPORT_MEDIAS_PAGE;
     let params: URLSearchParams = new URLSearchParams();
 
     params.set('sessionId', sessionId);

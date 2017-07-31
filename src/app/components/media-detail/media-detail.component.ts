@@ -1,26 +1,32 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import { AuthService } from '../../services/auth.service';
+import { CommonComponent }  from '../../shared/common.component';
+
 import { AlertService } from '../../services/alert.service';
+import { AuthService } from '../../services/auth.service';
 import { PartnerService } from '../../services/partner.service';
+
 import { Media, Channel } from '../../shared/media';
 @Component({
   selector: 'media-detail',
   templateUrl: './media-detail.component.html'
 })
 
-export class MediaDetailComponent implements OnInit {
+export class MediaDetailComponent extends CommonComponent {
     public media: Media;
     public mediaId: number;
     public channels: Array<Channel> = [];
+
     constructor(
+        private authService: AuthService,
+        private partnerService: PartnerService,
         private	router:	Router,
-        private route: ActivatedRoute, 
-        private authService:AuthService,
-        private partnerService:PartnerService,
-        private alertService: AlertService
+        private route: ActivatedRoute,
+
+        alertService: AlertService,
     ) { 
+        super(alertService);
       /*
       if (!partnerService.xSessionId) {
         this.router.navigate(['login']);
@@ -101,15 +107,4 @@ export class MediaDetailComponent implements OnInit {
         //this.updateMedia();
     }
 
-    private respondHandler(data: any) {
-        if (!data.Success) {
-            this.alertService.error(data.Message.Text);
-            //return false;
-        }        
-        return data;        
-    }
-
-    private errorHandler(error: any) {
-        this.alertService.error(error);
-    }
 }

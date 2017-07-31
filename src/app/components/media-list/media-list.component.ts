@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from "@angular/router";
 
+import { CommonComponent }  from '../../shared/common.component';
 import { PaginationComponent } from "../pagination.component"
 
 import { AuthService } from '../../services/auth.service';
@@ -15,7 +16,7 @@ const ITEMS_PER_PAGE = 2;
   templateUrl: './media-list.component.html'
 })
 
-export class MediaListComponent implements OnInit, OnDestroy, AfterViewInit {
+export class MediaListComponent extends CommonComponent {
     public medias: Array<Media> = [];
     public currentPage: number = 1;
     public itemsPerPage: number = 2;
@@ -26,9 +27,9 @@ export class MediaListComponent implements OnInit, OnDestroy, AfterViewInit {
         private	router:	Router,
         private authService:AuthService,
         private partnerService:PartnerService,
-        private alertService: AlertService
+        alertService: AlertService
     ) { 
-        
+        super(alertService);
       /*
       if (!partnerService.xSessionId) {
         this.router.navigate(['login']);
@@ -69,13 +70,10 @@ export class MediaListComponent implements OnInit, OnDestroy, AfterViewInit {
         //console.log('media-list ngOnInit');
          
         this.getTotalMediaCount();
-        this.itemsPerPage = +localStorage.getItem('itemsPerPage') || ITEMS_PER_PAGE;
+        this.itemsPerPage = + localStorage.getItem('itemsPerPage') || ITEMS_PER_PAGE;
         this.loadMedia();            
     }
 
-    ngOnDestroy(){
-        //console.log('media-list ngOnDestroy');
-    }
 
     ngAfterViewInit() { 
         //console.log('media-list ngAfterViewInit');
@@ -104,18 +102,6 @@ export class MediaListComponent implements OnInit, OnDestroy, AfterViewInit {
         //console.log('PAGE UPDATED 2');
         this.currentPage = page;
         this.loadMedia();
-    }
-
-    private respondHandler(data: any) {
-        if (!data.Success) {
-            this.alertService.error(data.Message.Text);
-            return false;
-        }        
-        return data;        
-    }
-
-    private errorHandler(error: any) {
-        this.alertService.error(error);
     }
 
 }

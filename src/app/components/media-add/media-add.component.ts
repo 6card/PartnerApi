@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+
+import { CommonComponent }  from '../../shared/common.component';
 
 import { AuthService } from '../../services/auth.service';
 import { AlertService } from '../../services/alert.service';
@@ -9,14 +11,15 @@ import { Media, Channel } from '../../shared/media';
   templateUrl: './media-add.component.html'
 })
 
-export class MediaAddComponent implements OnInit {
+export class MediaAddComponent extends CommonComponent {
     public media: Media;
     public channels: Array<Channel> = [];
     constructor(
         private authService:AuthService,
         private partnerService:PartnerService,
-        private alertService: AlertService
+        alertService: AlertService
     ) { 
+        super(alertService);
       /*
       if (!partnerService.xSessionId) {
         this.router.navigate(['login']);
@@ -65,15 +68,4 @@ export class MediaAddComponent implements OnInit {
         //this.addMedia();
     }
 
-    private respondHandler(data: any) {
-        if (!data.Success) {
-            this.alertService.error(data.Message.Text);
-            return false;
-        }        
-        return data;        
-    }
-
-    private errorHandler(error: any) {
-        this.alertService.error(error);
-    }
 }
