@@ -15,11 +15,11 @@ export class MediaAddComponent extends CommonComponent {
     public media: Media;
     public channels: Array<Channel> = [];
     constructor(
-        private authService:AuthService,
-        private partnerService:PartnerService,
-        alertService: AlertService
+        protected authService: AuthService,
+        protected partnerService: PartnerService,
+        protected alertService: AlertService
     ) { 
-        super(alertService);
+        super(authService, partnerService, alertService);
       /*
       if (!partnerService.xSessionId) {
         this.router.navigate(['login']);

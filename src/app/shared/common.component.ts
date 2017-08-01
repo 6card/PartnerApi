@@ -1,11 +1,15 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 
+import { AuthService } from '../services/auth.service';
 import { AlertService } from '../services/alert.service';
+import { PartnerService } from '../services/partner.service';
 
 export class CommonComponent implements OnInit, AfterViewInit {
 
-    constructor(
-        private alertService: AlertService
+    constructor(        
+        protected authService: AuthService,
+        protected partnerService: PartnerService,
+        protected alertService: AlertService
     ) { }
 
     /*

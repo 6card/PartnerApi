@@ -19,14 +19,14 @@ export class MediaDetailComponent extends CommonComponent {
     public channels: Array<Channel> = [];
 
     constructor(
-        private authService: AuthService,
-        private partnerService: PartnerService,
+        protected authService: AuthService,
+        protected partnerService: PartnerService,
+        protected alertService: AlertService,
+        
         private	router:	Router,
-        private route: ActivatedRoute,
-
-        alertService: AlertService,
+        private route: ActivatedRoute
     ) { 
-        super(alertService);
+        super(authService, partnerService, alertService);
       /*
       if (!partnerService.xSessionId) {
         this.router.navigate(['login']);

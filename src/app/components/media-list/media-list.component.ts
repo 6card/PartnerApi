@@ -24,12 +24,12 @@ export class MediaListComponent extends CommonComponent {
     public error: any;
 
     constructor(
-        private	router:	Router,
-        private authService:AuthService,
-        private partnerService:PartnerService,
-        alertService: AlertService
+        protected router: Router,
+        protected authService: AuthService,
+        protected partnerService: PartnerService,
+        protected alertService: AlertService
     ) { 
-        super(alertService);
+        super(authService, partnerService, alertService);
       /*
       if (!partnerService.xSessionId) {
         this.router.navigate(['login']);
