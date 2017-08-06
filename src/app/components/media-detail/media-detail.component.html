@@ -10,8 +10,10 @@
           [channelId]="media.ChannelId"
           [shootDate]="media.ShootDate"
           [state]="media.State"
+          [videoFileProgress]="videoFileProgress"
           (formResults)="formUpdated($event)"
           (changeBlock)="changeMediaBlock($event)"
+          (sendVideo)="UploadVideoFile($event)"
         ></media-form>
       </div>
     </div>

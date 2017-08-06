@@ -128,41 +128,43 @@ export class PartnerService {
     }).catch(this.handleError);
   }
 
-  startUpload(sessionId: any): Observable<any> {
+  startUpload(sessionId: any, mediaId: number): Observable<any> {
     let apiURL = this.apiRoot + API_URLS.VIDEO_UPLOAD_START;
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(apiURL, JSON.stringify({ SessionId: sessionId }), options )
+    return this.http.post(apiURL, JSON.stringify({ SessionId: sessionId, Data: mediaId }), options )
       .map((res:Response) => {
         return res.json();
     }).catch(this.handleError);
   }
 
-  videoUpload(sessionId: any): Observable<any> {
-    let apiURL = this.apiRoot + API_URLS.VIDEO_UPLOAD_UPLOAD;
+  videoUpload(uploadSessionId: any, position: any, blob: Blob): Observable<any> {
+    let apiURL = this.apiRoot + API_URLS.VIDEO_UPLOAD_UPLOAD + "?uploadSessionId=" + uploadSessionId + "&position=" + position;
     let headers = new Headers();
     headers.append('Content-Type', 'application/octet-stream');
     //headers.append('Content-Disposition');
     //headers.append('Content-Range');
+    //headers.append('Content-Type', 'application/json');
+    //headers.append('Accept', 'application/json');
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(apiURL, JSON.stringify({ SessionId: sessionId }), options )
+    return this.http.post(apiURL, blob, options )
       .map((res:Response) => {
         return res.json();
     }).catch(this.handleError);
   }
 
-  stopUpload(sessionId: any): Observable<any> {
+  completeUpload(uploadSessionId: any): Observable<any> {
     let apiURL = this.apiRoot + API_URLS.VIDEO_UPLOAD_COMPLETE;
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(apiURL, JSON.stringify({ SessionId: sessionId }), options )
+    return this.http.post(apiURL, JSON.stringify({ SessionId: uploadSessionId }), options )
       .map((res:Response) => {
         return res.json();
     }).catch(this.handleError);

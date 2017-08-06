@@ -11,18 +11,18 @@ import { Channel } from '../../shared/media';
             <div class="field">
                 <label>Video:</label>
 
-                <div class="ui action input" *ngIf="this.videoFile && !isSending">
+                <div class="ui action input" *ngIf="this.videoFile">
                     <input type="text" [value]="this.videoFile ? this.videoFile.name : ''" [disabled]="true">
-                    <button type="button" (click)="UploadVideoFile()" class="ui red button">Send</button>
+                    <button type="button" (click)="onSendVideo($event)" class="ui red button">Send</button>
                     <button type="button" (click)="ClearVideoFile()" class="ui button">Cancel</button>
                 </div>
-                <label class="fluid ui big button" *ngIf="!this.videoFile && !isSending" for="videoFile"> 
+                <label class="fluid ui big button" *ngIf="!this.videoFile" for="videoFile"> 
                     Upload Video &nbsp;
                     <i class="upload icon"></i>
                     <input #videoFileInput type="file" id="videoFile" name="videoFile" (change)="changeListener($event)" style="display: none">
                 </label>
 
-                <div *ngIf="isSending" class="ui indicating progress" [attr.data-percent]="videoFileProgress">
+                <div *ngIf="videoFileProgress > 0" class="ui indicating progress" [attr.data-percent]="videoFileProgress">
                     <div class="bar" [ngStyle]="{'transition-duration': '300ms', 'width': videoFileProgress+'%'}">
                         <div class="progress">{{videoFileProgress}}%</div>
                     </div>
@@ -70,6 +70,7 @@ import { Channel } from '../../shared/media';
 export class MediaFormComponent implements AfterViewInit {
     @Output() formResults: EventEmitter<any> = new EventEmitter();
     @Output() changeBlock: EventEmitter<any> = new EventEmitter();
+    @Output() sendVideo: EventEmitter<any> = new EventEmitter();
 
     @Input() title: string;
     @Input() description: string;
@@ -77,12 +78,13 @@ export class MediaFormComponent implements AfterViewInit {
     @Input() channelId: string;
     @Input() shootDate: string;
     @Input() state: string;
+    @Input() videoFileProgress: number;
 
     @ViewChild('videoFileInput') inputVariable: any;
 
     public mediaForm: FormGroup;
     public videoFile: File = null;
-    public videoFileProgress: number = 0;
+    
     public isSending: boolean = false;
 
     constructor(
@@ -124,6 +126,9 @@ export class MediaFormComponent implements AfterViewInit {
     onBlockMedia(event: any): void {
         this.changeBlock.emit(event);
     }
+    onSendVideo(event: any): void {
+        this.sendVideo.emit(this.videoFile);
+    }
 
     changeListener($event: any): void {
         this.videoFile = $event.target.files[0];
@@ -136,89 +141,9 @@ export class MediaFormComponent implements AfterViewInit {
         this.videoFile = null;
     }
 
-    UploadVideoFile(){
-        /*
-        this.partnerService.startUpload(this.authService.sessionId).subscribe( res => {  
-            console.log(res);
-        }, 
-            error => console.log(error)
-        ); 
-        */
-        // сначала сохраняем форму и получаем guid        
-        this.readThis(this.videoFile);
-        /*
-        this.partnerService.stopUpload(this.authService.sessionId).subscribe( res => {  
-            console.log(res);
-        }, 
-            error => console.log(error)
-        );
-        */
-    }
-
-    UploadPortion = (file: File, start: number, length: number) => {
-        var myReader:FileReader = new FileReader();
-        var blob: Blob;
-        var position: number = start;
-        var portion: number = length; 
-        var that = this;
-
-        if (that.videoFile.slice) 
-            blob = that.videoFile.slice(position, position + portion);
-
-        myReader.onloadend = function(e){
-             if (this.readyState == 2) { // Загрузка DONE
-
-                //загружаем кусок и после удачной загрузки рисуем прогресс и запускаем следующую порцию
-                that.videoFileProgress = Math.round((position + blob.size) * 100 / that.videoFile.size);
-
-                if ( that.videoFileProgress == 100) 
-                    that.isSending = false;
-
-                //console.log('PERCENT = ' + that.videoFileProgress);
-
-                position += portion;
-                if (that.videoFile.size > position) {
-
-                    setTimeout(function(){
-                        that.UploadPortion(that.videoFile, position, portion);
-                    },  Math.floor(Math.random() * 1000) );
-                    
-                }
-             }
-        }
- 
-        myReader.readAsBinaryString(blob);
-        
-    }
-
-    readThis(videoFile: File){        
-        //this.videoFile = inputValue.files[0];
-
-
-        
     
-        
-        if (!videoFile) {            
-            return;
-        }
-        this.isSending = true;
-        if (videoFile.size > 100000) 
-            this.UploadPortion(videoFile, 0, 100000);
-        else
-            this.UploadPortion(videoFile, 0, videoFile.size);
-   
-        // Загрузка по частям http://www.codenet.ru/webmast/js/html5-ajax-partial-upload/
-        /*
-            FileReader.readyState
-            
-            EMPTY   : 0 : Данные еще не были загружены.
-            LOADING : 1 : Данные в данный момент загружаются.
-            DONE    : 2 : Операция чтения была завершена.
-        */
-        /*
-        
-        */
-    }
+
+    
     
     ngAfterViewInit() {
         

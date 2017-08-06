@@ -11,6 +11,6 @@ export const API_URLS: ApiUrls = {
   MEDIA_MEDIA_BLOCK: '/Media/MediaBlock',
   MEDIA_MEDIA_UNBLOCK: '/Media/MediaUnblock',
   VIDEO_UPLOAD_START: '/VideoUpload/Start',
-  VIDEO_UPLOAD_UPLOAD:'/VideoUpload/Upload',
+  VIDEO_UPLOAD_UPLOAD:'/VideoUpload/UploadData',
   VIDEO_UPLOAD_COMPLETE: '/VideoUpload/Complete'
 };

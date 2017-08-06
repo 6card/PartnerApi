@@ -17,6 +17,7 @@ export class MediaDetailComponent extends CommonComponent {
     public media: Media;
     public mediaId: number;
     public channels: Array<Channel> = [];
+    videoFileProgress: number = 0;
 
     constructor(
         protected authService: AuthService,
@@ -90,9 +91,6 @@ export class MediaDetailComponent extends CommonComponent {
         }, 
             error => this.errorHandler(error)
         );
-
-        
-        
     }
 
     formUpdated(params: any) {
@@ -105,6 +103,94 @@ export class MediaDetailComponent extends CommonComponent {
 
         console.log(this.media);
         //this.updateMedia();
+    }
+
+    UploadVideoFile(videoFile: File){
+        
+        this.partnerService.startUpload(this.authService.sessionId, this.mediaId).subscribe( res => {  
+            //console.log();
+            this.readThis(videoFile, res.Data);
+
+        }, 
+            error => console.log(error)
+        ); 
+        
+        // сначала сохраняем форму и получаем guid        
+        
+        //console.log(videoFile);
+        /*
+        this.partnerService.stopUpload(this.authService.sessionId).subscribe( res => {  
+            console.log(res);
+        }, 
+            error => console.log(error)
+        );
+        */
+    }
+
+    readThis(videoFile: File, uploadSessionId: any){        
+        if (!videoFile) {            
+            return;
+        }
+        //this.isSending = true;
+        if (videoFile.size > 1000000) 
+            this.UploadPortion(videoFile, uploadSessionId, 0, 1000000);
+        else
+            this.UploadPortion(videoFile, uploadSessionId, 0, videoFile.size);
+   
+        // Загрузка по частям http://www.codenet.ru/webmast/js/html5-ajax-partial-upload/
+        /*
+            FileReader.readyState
+            
+            EMPTY   : 0 : Данные еще не были загружены.
+            LOADING : 1 : Данные в данный момент загружаются.
+            DONE    : 2 : Операция чтения была завершена.
+        */
+    }
+
+    UploadPortion = (file: File, uploadSessionId: any, start: number, length: number, last?: boolean) => {
+        var myReader:FileReader = new FileReader();
+        var blob: Blob;
+        var position: number = start;
+        var portion: number = length; 
+        var that = this;
+
+        if (file.slice) 
+            blob = file.slice(position, position + portion);
+
+        myReader.onloadend = function(e){
+             if (this.readyState == 2) { // Загрузка DONE
+
+                //загружаем кусок и после удачной загрузки рисуем прогресс и запускаем следующую порцию
+
+                that.partnerService.videoUpload(uploadSessionId, (position + portion), blob).subscribe( res => {  
+                    //console.log();
+                    that.videoFileProgress = Math.round((position + blob.size) * 100 / file.size);
+                
+                    position += portion;
+                    
+                    if (position >= file.size) {
+                        that.partnerService.completeUpload(uploadSessionId).subscribe( res => {  
+                            console.log(res);
+                        }, 
+                            error => console.log(error)
+                        ); ;
+                    }
+                    else {
+                        that.UploadPortion(file, uploadSessionId, position, portion);
+                    }
+  
+                }, 
+                    error => console.log(error)
+                ); 
+
+                //console.log('PERCENT = ' + that.videoFileProgress);
+
+                
+             }
+        }
+ 
+        myReader.readAsDataURL(blob);
+        
     }
 
 }
