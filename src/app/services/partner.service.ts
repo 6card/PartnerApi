@@ -128,14 +128,14 @@ export class PartnerService {
     }).catch(this.handleError);
   }
 
-  startUpload(sessionId: any, mediaId: number): Observable<any> {
+  startUpload(sessionId: any, mediaId: number, externalId: any): Observable<any> {
     let apiURL = this.apiRoot + API_URLS.VIDEO_UPLOAD_START;
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(apiURL, JSON.stringify({ SessionId: sessionId, Data: mediaId }), options )
+    return this.http.post(apiURL, JSON.stringify({ SessionId: sessionId, MediaId: mediaId, ExternalId: externalId }), options )
       .map((res:Response) => {
         return res.json();
     }).catch(this.handleError);
@@ -164,7 +164,7 @@ export class PartnerService {
     headers.append('Accept', 'application/json');
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(apiURL, JSON.stringify({ SessionId: uploadSessionId }), options )
+    return this.http.post(apiURL, JSON.stringify({ UploadSessionId: uploadSessionId }), options )
       .map((res:Response) => {
         return res.json();
     }).catch(this.handleError);

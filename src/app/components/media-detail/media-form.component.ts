@@ -97,7 +97,7 @@ export class MediaFormComponent implements AfterViewInit {
         this.mediaForm = this.fb.group({  
             'title': [this.title, Validators.required],
             'description': [this.description, Validators.required],
-            'channelId': [this.channelId],
+            'channelId': [this.channelId, Validators.required],
             'state': [this.state],
             'shootDate': [this.shootDate ? this.shootDate : new Date(), Validators.required]
         });

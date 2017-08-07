@@ -98,16 +98,17 @@ export class MediaDetailComponent extends CommonComponent {
         this.media.Title = params.title;
         this.media.Description = params.description;
         this.media.ChannelId = params.channelId;
-        this.media.ShootDate = params.shootDate;
+        this.media.ShootDateUtc = params.shootDate;
+        
         this.media.State = params.state ? 1 : 0;
 
-        console.log(this.media);
-        //this.updateMedia();
+        //console.log(this.media);
+        this.updateMedia();
     }
 
     UploadVideoFile(videoFile: File){
         
-        this.partnerService.startUpload(this.authService.sessionId, this.mediaId).subscribe( res => {  
+        this.partnerService.startUpload(this.authService.sessionId, this.mediaId, 0).subscribe( res => {  
             //console.log();
             this.readThis(videoFile, res.Data);
 
@@ -150,25 +151,27 @@ export class MediaDetailComponent extends CommonComponent {
     UploadPortion = (file: File, uploadSessionId: any, start: number, length: number, last?: boolean) => {
         var myReader:FileReader = new FileReader();
         var blob: Blob;
-        var position: number = start;
-        var portion: number = length; 
         var that = this;
 
-        if (file.slice) 
-            blob = file.slice(position, position + portion);
+        var end = start + length;
+        if (end > file.size)
+            end = file.size;
+
+        blob = file.slice(start, end);
 
         myReader.onloadend = function(e){
              if (this.readyState == 2) { // Загрузка DONE
 
+                console.log('uploading ' + start + '-' + end + '/' + file.size)
+
                 //загружаем кусок и после удачной загрузки рисуем прогресс и запускаем следующую порцию
 
-                that.partnerService.videoUpload(uploadSessionId, (position + portion), blob).subscribe( res => {  
+                that.partnerService.videoUpload(uploadSessionId, end, blob).subscribe( res => {  
                     //console.log();
-                    that.videoFileProgress = Math.round((position + blob.size) * 100 / file.size);
-                
-                    position += portion;
-                    
-                    if (position >= file.size) {
+                    that.videoFileProgress = Math.round((start + blob.size) * 100 / file.size);
+                    console.log('loaded');
+                    if (end >= file.size) {
+                        console.log('end');
                         that.partnerService.completeUpload(uploadSessionId).subscribe( res => {  
                             console.log(res);
                         }, 
@@ -176,7 +179,8 @@ export class MediaDetailComponent extends CommonComponent {
                         ); ;
                     }
                     else {
-                        that.UploadPortion(file, uploadSessionId, position, portion);
+                        console.log('continue...');
+                        that.UploadPortion(file, uploadSessionId, end, length);
                     }
   
                 }, 

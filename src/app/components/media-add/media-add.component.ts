@@ -64,8 +64,8 @@ export class MediaAddComponent extends CommonComponent {
         
         this.media = new Media(obj);
  
-        console.log(this.media);
-        //this.addMedia();
+        //console.log(this.media);
+        this.addMedia();
     }
 
 }
