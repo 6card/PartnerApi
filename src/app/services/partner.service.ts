@@ -141,11 +141,11 @@ export class PartnerService {
     }).catch(this.handleError);
   }
 
-  videoUpload(uploadSessionId: any, position: any, blob: Blob): Observable<any> {
+  videoUpload(uploadSessionId: any, position: any, blob: Blob, fileName: string): Observable<any> {
     let apiURL = this.apiRoot + API_URLS.VIDEO_UPLOAD_UPLOAD + "?uploadSessionId=" + uploadSessionId + "&position=" + position;
     let headers = new Headers();
-    headers.append('Content-Type', 'application/octet-stream');
-    //headers.append('Content-Disposition');
+    //headers.append('Content-Type', 'application/octet-stream');
+    //headers.append('Content-Disposition', 'attachment; filename="' + encodeURI(fileName) + '"');
     //headers.append('Content-Range');
     //headers.append('Content-Type', 'application/json');
     //headers.append('Accept', 'application/json');

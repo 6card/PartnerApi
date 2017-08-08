@@ -166,7 +166,7 @@ export class MediaDetailComponent extends CommonComponent {
 
                 //загружаем кусок и после удачной загрузки рисуем прогресс и запускаем следующую порцию
 
-                that.partnerService.videoUpload(uploadSessionId, end, blob).subscribe( res => {  
+                that.partnerService.videoUpload(uploadSessionId, start, blob, file.name).subscribe( res => {  
                     //console.log();
                     that.videoFileProgress = Math.round((start + blob.size) * 100 / file.size);
                     console.log('loaded');
