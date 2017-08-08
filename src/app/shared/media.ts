@@ -84,8 +84,15 @@ export class Media {
 
   get StateName(): string {  
     let statuses = {
-        0: "UNBLOCKED",
-        7: "BLOCKED"
+        0: "зарегистрирован",
+        1: "загружен",
+        5: "модерируется",
+        7: "опубликован",
+        8: "ошибка транскодирования",
+        10: "транскодируется",
+        16: "заблокировано редакцией",
+        20: "дубль",
+        21: "заблокировано правообладателем"
     };
     return statuses[this.State];
   }
@@ -122,6 +129,19 @@ export class Video {
     this.CreateTime = obj['CreateTime'];
     this.UpdateTime = obj['UpdateTime'];
     this.Downloads = obj['Downloads'] ? obj['Downloads'].map((item: any) => new Download(item)) : undefined;
+  }
+
+  get StateName(): string {  
+    let statuses = {
+        0: "зарегистрирован",
+        2: "загружен",
+        3: "транскодируется",
+        6: "готов",
+        4: "готов, исходный файл удален",
+        34: "файл не удалось транскодировать",
+        32: "файл не удалось транскодировать, исходный файл удален",
+    };
+    return statuses[this.State];
   }
 
 }

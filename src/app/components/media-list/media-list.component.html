@@ -4,9 +4,9 @@
       <label>
         Show 
         <select [ngModel]="itemsPerPage" (ngModelChange)="onItemsPerPageChange($event)" >
-            <option value="1">1</option>
-            <option value="2">2</option>
             <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
         </select>
          entries
       </label>
@@ -25,39 +25,6 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-              <td>
-                <a  [routerLink]="['/media', 1234]">Катар ответил на ультиматум 4 арабских государств</a>
-              </td>
-              <td>5 июля 2017 г. 8:08</td>
-              <td><img class="ui tiny image" src="https://i0.newstube.ru/509778"></td>
-              <td><div class="ui label green">Status</div></td>
-              <td>
-                <a href=""><i class="edit icon"></i></a>
-                <a href=""><i class="check circle icon"></i></a>
-                <a href=""><i class="remove circle icon"></i></a>
-                <a href="https://www.newstube.ru/embed/011476cd-98ec-46bb-864a-b99113e578f1" target="_blank" (click)="openViewWindow($event)"><i class="external icon"></i></a>
-                <a href=""><i class="play icon"></i></a>
-              </td>
-          </tr>
-          <tr>
-              <td>
-                <a  [routerLink]="['/media', 456456]">Катар ответил на ультиматум 4 арабских государств</a>
-              </td>
-              <td>No Name Specified</td>
-              <td><img class="ui tiny image" src="https://i0.newstube.ru/4771625"></td>
-              <td>None</td>
-              <td>No Name Specified</td>
-          </tr>
-          <tr>
-              <td>
-                <a  [routerLink]="['/media', 96313]">Катар ответил на ультиматум 4 арабских государств</a>
-              </td>
-              <td>No Name Specified</td>
-              <td><img class="ui tiny image" src="https://i0.newstube.ru/2843162"></td>
-              <td>None</td>
-              <td>No Name Specified</td>
-          </tr>
           <tr *ngFor="let media of medias">
               <td>
                 <a  [routerLink]="['/media', media.MediaId]">{{media.Title}}</a>

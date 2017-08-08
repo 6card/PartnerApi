@@ -24,7 +24,8 @@ import { PartnerService } from './services/partner.service';
 import { AuthGuard } from './shared/auth.guard';
 
 import { SafePipe } from './pipes/safe.pipe';
-//import { DatePipe } from '@angular/common';
+import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe';
+import { OrderByPipe } from './pipes/order-by.pipe';
 
 const	routes:	Routes	=	[
 		{path:	'',	redirectTo:	'media',	pathMatch:	'full'},
@@ -53,7 +54,9 @@ const	routes:	Routes	=	[
     CalendarComponent,
 
     //DatePipe,
-    SafePipe
+    SafePipe,
+    SecondsToTimePipe,
+    OrderByPipe
   ],
   imports: [
     BrowserModule,
