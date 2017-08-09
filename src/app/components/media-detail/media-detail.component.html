@@ -2,39 +2,51 @@
   <div class="row"> 
     <div class="sixteen wide column"> 
       <div *ngIf="media">
-        <iframe *ngIf="media.Video" width="{{media.Video.Width}}" height="{{media.Video.Height}}" [src]="media.EmbedUrl | safe" frameborder="0" allowfullscreen></iframe>
-        Videos:
-        <table *ngIf="media.Videos" class="ui celled striped table">
-          <thead>
-            <tr>
-              <th>Время создания</th>
-              <th>Пропорции</th>
-              <th>Продолжительность</th>
-              <th>Статус</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let Video of media.Videos | orderBy: ['-CreateTime']">
-              <td>{{Video.CreateTime}}</td>
-              <td>{{Video.Width}}x{{Video.Height}}</td>
-              <td>{{Video.Duration | secondsToTime}}</td>
-              <td>{{Video.StateName}}</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <media-form 
-          [title]="media.Title" 
-          [description]="media.Description" 
-          [channels]="channels"
-          [channelId]="media.ChannelId"
-          [shootDate]="media.ShootDate"
-          [state]="media.State"
-          [videoFileProgress]="videoFileProgress"
-          (formResults)="formUpdated($event)"
-          (changeBlock)="changeMediaBlock($event)"
-          (sendVideo)="UploadVideoFile($event)"
-        ></media-form>
+        <div class="videoWrapper">
+          <iframe *ngIf="media.Video" width="{{media.Video.Width}}" height="{{media.Video.Height}}" [src]="media.EmbedUrl | safe" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div *ngIf="media.Videos && media.Videos.length > 0" class="ui segment">
+          <h4 class="ui header">Videos:</h4>
+          <table class="ui celled striped table">
+            <thead>
+              <tr>
+                <th>Время создания</th>
+                <th>Пропорции</th>
+                <th>Продолжительность</th>
+                <th>Статус</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let Video of media.Videos | orderBy: ['-CreateTime']">
+                <td>{{Video.CreateTime | date:'dd-MM-yyyy HH:mm'}}</td>
+                <td>{{Video.Width}}x{{Video.Height}}</td>
+                <td>{{Video.Duration | secondsToTime}}</td>
+                <td>{{Video.StateName}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ui segment">
+          <h4 class="ui header">Actions:</h4>          
+          <button class="ui button" *ngIf="media.isPossibleToBlock" (click)="mediaBlock()">Block</button>
+          <button class="ui button" *ngIf="media.isPossibleToUnblock" (click)="mediaUnblock()">Unblock</button>
+          <button class="ui button" *ngIf="media.isPossibleToView" (click)="viewVideo()">View</button>
+          <button class="ui button" *ngIf="media.isAvailableOnSite">View on site</button>          
+        </div>
+        <div class="ui segment">
+          <media-form 
+            [title]="media.Title" 
+            [description]="media.Description" 
+            [channels]="channels"
+            [channelId]="media.ChannelId"
+            [shootDate]="media.ShootDate"
+            [state]="media.State"
+            [videoFileProgress]="videoFileProgress"
+            (formResults)="formUpdated($event)"
+            (changeBlock)="changeMediaBlock($event)"
+            (sendVideo)="UploadVideoFile($event)"
+          ></media-form>
+        </div>
       </div>
     </div>
   </div>

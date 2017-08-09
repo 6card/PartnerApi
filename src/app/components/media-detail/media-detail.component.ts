@@ -77,20 +77,41 @@ export class MediaDetailComponent extends CommonComponent {
     }
 
     changeMediaBlock(e: any) {
-        let blockFunction;
-
         if(e.target.checked){
-            blockFunction = this.partnerService.blockMedia(this.authService.sessionId, this.mediaId, 1);
+            this.mediaBlock();
         }
         else {
-            blockFunction = this.partnerService.unblockMedia(this.authService.sessionId, this.mediaId, 1);
+            this.mediaUnblock();
         }
+    }
 
-        blockFunction.subscribe( res => {  
+    mediaBlock() {
+        this.partnerService.blockMedia(this.authService.sessionId, this.mediaId, 1).subscribe( res => {  
             let data = this.respondHandler(res);
         }, 
             error => this.errorHandler(error)
         );
+    }
+
+    mediaUnblock() {
+        this.partnerService.unblockMedia(this.authService.sessionId, this.mediaId, 1).subscribe( res => {  
+            let data = this.respondHandler(res);
+        }, 
+            error => this.errorHandler(error)
+        );
+    }
+
+    viewVideo() {
+        let url: string;
+        this.partnerService.getTempEmbedUrl(this.authService.sessionId, this.mediaId, 1).subscribe( res => {  
+            // исправить когда будет Success true
+            //let data = this.respondHandler(res);
+            url = res.Data; 
+            window.open(url, "_blank");
+        }, 
+            error => this.errorHandler(error)
+        );
+        return url;
     }
 
     formUpdated(params: any) {
@@ -98,9 +119,10 @@ export class MediaDetailComponent extends CommonComponent {
         this.media.Title = params.title;
         this.media.Description = params.description;
         this.media.ChannelId = params.channelId;
-        this.media.ShootDateUtc = params.shootDate;
+        this.media.ShootDate = params.shootDate;
+        delete this.media.ShootDateUtc;
         
-        this.media.State = params.state ? 1 : 0;
+        //this.media.State = params.state ? 1 : 0;
 
         //console.log(this.media);
         this.updateMedia();
@@ -120,6 +142,17 @@ export class MediaDetailComponent extends CommonComponent {
         
         //console.log(videoFile);
         /*
+
+        Data	786884
+        Success	false
+        Message	Object
+            Id	17
+            Text	"Видео уже принадлежит другому ролику(ам)"
+            Data	Object
+                MediaIds	[1]
+                0	1066142
+                SourceId	786884
+
         this.partnerService.stopUpload(this.authService.sessionId).subscribe( res => {  
             console.log(res);
         }, 

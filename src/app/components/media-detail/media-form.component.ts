@@ -5,7 +5,7 @@ import { Channel } from '../../shared/media';
 @Component({
     selector: 'media-form',
     template: `
-        <form class="ui form segment" (ngSubmit)="onSubmit()" [formGroup]="mediaForm">
+        <form class="ui form" (ngSubmit)="onSubmit()" [formGroup]="mediaForm">
             <h4 class="ui dividing header">Video description</h4>
 
             <div class="field">
@@ -43,7 +43,6 @@ import { Channel } from '../../shared/media';
                 <label>Channel:</label>
                 <select placeholder="Channel" type="text" [formControlName]="'channelId'">
                     <option *ngFor="let c of channels" [ngValue]="c.Id">{{c.Title}}</option>
-                    <option value="5">5</option>
                 </select>
             </div>
 
@@ -120,7 +119,7 @@ export class MediaFormComponent implements AfterViewInit {
         this.pushValues();
     }
     onDateChange(date: any): void {
-        console.log(date);
+        //console.log(date);
     }
 
     onBlockMedia(event: any): void {

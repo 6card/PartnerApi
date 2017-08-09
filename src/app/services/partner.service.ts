@@ -170,6 +170,21 @@ export class PartnerService {
     }).catch(this.handleError);
   }
 
+  getTempEmbedUrl(sessionId: any, mediaId: any, externalId: any): Observable<Media> {
+    let apiURL = this.apiRoot + API_URLS.MEDIA_GET_TEMP_EMBED_URL;
+    let params: URLSearchParams = new URLSearchParams();
+
+    params.set('sessionId', sessionId);
+    params.set('mediaId', mediaId);
+    params.set('externalId', externalId);
+
+    return this.http.get(apiURL, {search: params} )
+      .map((res:Response) => {
+        return res.json();
+    }).catch(this.handleError);
+  }
+
+
 
 
   private handleError(error: Response) {

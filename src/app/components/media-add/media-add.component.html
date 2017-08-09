@@ -2,10 +2,12 @@
   <div class="row"> 
     <div class="sixteen wide column"> 
       <div>
-        <media-form 
-          [channels]="channels"
-          (formResults)="formUpdated($event)"
-        ></media-form>
+        <div class="ui segment">
+          <media-form 
+            [channels]="channels"
+            (formResults)="formUpdated($event)"
+          ></media-form>
+        </div>
       </div>
     </div>
   </div>

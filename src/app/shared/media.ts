@@ -42,6 +42,7 @@ export class Media {
   Video: Video; //, optional): readonly. Текущее видео ,
   Videos: Array<Video>; //, optional): readonly. Список видео ролика ,
   Downloads: Array<Download>; //, optional): readonly. Файлы отправленные на загрузку ,
+  Actions: number; //, optional):readonly. Флаги дотсупных действий для ролика ,
   CreateTime: string; //, optional): readonly. Время создания ролика UTC ,
   State: number; //, optional): readonly. Состояние ролика UTC = ['0', '1', '5', '7', '8', '10', '16', '20']integerEnum:0, 1, 5, 7, 8, 10, 16, 20,
   User: User; //, optional): Пользователь добавивший ролик ,
@@ -73,6 +74,7 @@ export class Media {
     this.Video = obj['Video'] ? new Video(obj['Video']) : undefined;
     this.Videos = obj['Videos'] ? obj['Videos'].map((item: any) => new Video(item)) : undefined;
     this.Downloads = obj['Downloads'] ? obj['Downloads'].map((item: any) => new Download(item)) : undefined;
+    this.Actions = obj['Actions'];
     this.CreateTime = obj['CreateTime'];
     this.State = obj['State'];
     this.User = obj['User'];
@@ -103,6 +105,33 @@ export class Media {
         7: "red"
     };
     return colors[this.State];
+  }
+
+  get isPossibleToUnblock(): boolean {
+    let mask = 1; // 0 возможно действие разблокировать ролик
+    return this.checkMask(this.Actions, mask);
+  }
+
+  get isPossibleToBlock(): boolean {
+    let mask = 2; // 1 возможно действие заблокировать ролик
+    return this.checkMask(this.Actions, mask);
+  }
+
+  get isPossibleToView(): boolean {
+    let mask = 4; // 2 возможен просмотр видео
+    return this.checkMask(this.Actions, mask);
+  }
+
+  get isAvailableOnSite(): boolean {
+    let mask = 8; // 3 ролик доступен на сайте
+    return this.checkMask(this.Actions, mask);
+  }
+
+  checkMask(value: number, mask: number): boolean {
+    if (value & mask)
+      return true;
+    else
+      return false;
   }
 
 
