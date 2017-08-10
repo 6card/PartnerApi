@@ -2,8 +2,8 @@
   <div class="row"> 
     <div class="sixteen wide column"> 
       <div *ngIf="media">
-        <div class="videoWrapper">
-          <iframe *ngIf="media.Video" width="{{media.Video.Width}}" height="{{media.Video.Height}}" [src]="media.EmbedUrl | safe" frameborder="0" allowfullscreen></iframe>
+        <div *ngIf="media.Video" class="videoWrapper">
+          <iframe width="{{media.Video.Width}}" height="{{media.Video.Height}}" [src]="media.EmbedUrl | safe" frameborder="0" allowfullscreen></iframe>
         </div>
         <div *ngIf="media.Videos && media.Videos.length > 0" class="ui segment">
           <h4 class="ui header">Videos:</h4>
@@ -33,7 +33,12 @@
           <button class="ui button" *ngIf="media.isPossibleToView" (click)="viewVideo()">View</button>
           <button class="ui button" *ngIf="media.isAvailableOnSite">View on site</button>          
         </div>
+          
         <div class="ui segment">
+          <video-upload
+            [mediaId]="mediaId"
+            (sendVideo)="UploadVideoFile($event)"
+          ></video-upload>
           <media-form 
             [title]="media.Title" 
             [description]="media.Description" 
@@ -41,10 +46,9 @@
             [channelId]="media.ChannelId"
             [shootDate]="media.ShootDate"
             [state]="media.State"
-            [videoFileProgress]="videoFileProgress"
+
             (formResults)="formUpdated($event)"
-            (changeBlock)="changeMediaBlock($event)"
-            (sendVideo)="UploadVideoFile($event)"
+            (changeBlock)="changeMediaBlock($event)"            
           ></media-form>
         </div>
       </div>

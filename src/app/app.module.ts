@@ -11,6 +11,7 @@ import { MediaListComponent } from './components/media-list/media-list.component
 import { MediaDetailComponent } from './components/media-detail/media-detail.component';
 import { MediaAddComponent } from './components/media-add/media-add.component';
 import { MediaFormComponent } from "./components/media-detail/media-form.component";
+import { VideoUploadComponent } from './components/video-upload.component';
 
 import { NavigationComponent } from "./components/navigation.component"
 import { AlertComponent } from "./components/alert/alert.component"
@@ -47,6 +48,7 @@ const	routes:	Routes	=	[
     MediaDetailComponent,
     MediaAddComponent,
     MediaFormComponent,
+    VideoUploadComponent,
 
     NavigationComponent,
     AlertComponent,

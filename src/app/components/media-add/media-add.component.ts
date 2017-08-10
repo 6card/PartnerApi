@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { CommonComponent }  from '../../shared/common.component';
 
@@ -15,6 +16,7 @@ export class MediaAddComponent extends CommonComponent {
     public media: Media;
     public channels: Array<Channel> = [];
     constructor(
+        private router: Router,
         protected authService: AuthService,
         protected partnerService: PartnerService,
         protected alertService: AlertService
@@ -38,7 +40,7 @@ export class MediaAddComponent extends CommonComponent {
             let data = this.respondHandler(res);
             if (data.Data !== undefined) {
                 data.Data.map((item:any) =>  this.channels.push(new Channel(item)));  
-                console.log(this.channels); 
+                //console.log(this.channels); 
             }   
         }, 
             error => this.errorHandler(error)
@@ -46,8 +48,9 @@ export class MediaAddComponent extends CommonComponent {
     }
 
     addMedia() { 
-        this.partnerService.addMedia(this.authService.sessionId, this.media).subscribe( data => {  
-            console.log(data);
+        this.partnerService.addMedia(this.authService.sessionId, this.media).subscribe( res => {  
+            let data = this.respondHandler(res);
+            this.router.navigate(['/media', data.Data]);
         }, 
         error => this.errorHandler(error)
         ); 

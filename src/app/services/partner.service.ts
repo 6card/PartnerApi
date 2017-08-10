@@ -184,6 +184,19 @@ export class PartnerService {
     }).catch(this.handleError);
   }
 
+  setVideo(sessionId: any, videoId: any, mediaId: any, externalId: any): Observable<any> {
+    let apiURL = this.apiRoot + API_URLS.MEDIA_SET_VIDEO;
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(apiURL, JSON.stringify({ SessionId: sessionId, VideoId: videoId, MediaId: mediaId, ExternalId: externalId, Force: true }), options )
+      .map((res:Response) => {
+        return res.json();
+    }).catch(this.handleError);
+  }
+
 
 
 

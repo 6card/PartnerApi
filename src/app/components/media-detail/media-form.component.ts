@@ -6,29 +6,7 @@ import { Channel } from '../../shared/media';
     selector: 'media-form',
     template: `
         <form class="ui form" (ngSubmit)="onSubmit()" [formGroup]="mediaForm">
-            <h4 class="ui dividing header">Video description</h4>
-
-            <div class="field">
-                <label>Video:</label>
-
-                <div class="ui action input" *ngIf="this.videoFile">
-                    <input type="text" [value]="this.videoFile ? this.videoFile.name : ''" [disabled]="true">
-                    <button type="button" (click)="onSendVideo($event)" class="ui red button">Send</button>
-                    <button type="button" (click)="ClearVideoFile()" class="ui button">Cancel</button>
-                </div>
-                <label class="fluid ui big button" *ngIf="!this.videoFile" for="videoFile"> 
-                    Upload Video &nbsp;
-                    <i class="upload icon"></i>
-                    <input #videoFileInput type="file" id="videoFile" name="videoFile" (change)="changeListener($event)" style="display: none">
-                </label>
-
-                <div *ngIf="videoFileProgress > 0" class="ui indicating progress" [attr.data-percent]="videoFileProgress">
-                    <div class="bar" [ngStyle]="{'transition-duration': '300ms', 'width': videoFileProgress+'%'}">
-                        <div class="progress">{{videoFileProgress}}%</div>
-                    </div>
-                    <div class="label">Uploading Video...</div>
-                </div>
-            </div>
+            <h4 class="ui dividing header">Media description</h4>
 
             <div class="field" [ngClass]="{'error' : !mediaForm.controls['title'].valid && mediaForm.controls['title'].touched}">
                 <label>Title:</label>
@@ -51,7 +29,7 @@ import { Channel } from '../../shared/media';
                 <calendar (changeDate)="onDateChange($event)" [fGroup]="mediaForm" [fControlName]="'shootDate'"></calendar>                
             </div>
 
-            <div class="field">
+            <div class="field" *ngIf="false">
                 <div class="ui toggle checkbox">
                     <input type="checkbox" [formControlName]="'state'" (change)="onBlockMedia($event)">
                     <label>Block</label>
@@ -69,7 +47,7 @@ import { Channel } from '../../shared/media';
 export class MediaFormComponent implements AfterViewInit {
     @Output() formResults: EventEmitter<any> = new EventEmitter();
     @Output() changeBlock: EventEmitter<any> = new EventEmitter();
-    @Output() sendVideo: EventEmitter<any> = new EventEmitter();
+
 
     @Input() title: string;
     @Input() description: string;
@@ -77,15 +55,8 @@ export class MediaFormComponent implements AfterViewInit {
     @Input() channelId: string;
     @Input() shootDate: string;
     @Input() state: string;
-    @Input() videoFileProgress: number;
-
-    @ViewChild('videoFileInput') inputVariable: any;
 
     public mediaForm: FormGroup;
-    public videoFile: File = null;
-    
-    public isSending: boolean = false;
-
     constructor(
         public fb: FormBuilder
     ) {
@@ -125,26 +96,6 @@ export class MediaFormComponent implements AfterViewInit {
     onBlockMedia(event: any): void {
         this.changeBlock.emit(event);
     }
-    onSendVideo(event: any): void {
-        this.sendVideo.emit(this.videoFile);
-    }
 
-    changeListener($event: any): void {
-        this.videoFile = $event.target.files[0];
-        //this.videoFile.name
-    }
-
-    ClearVideoFile() {
-        //this.inputVariable.value = '';
-        //console.log(this.inputVariable);
-        this.videoFile = null;
-    }
-
-    
-
-    
-    
-    ngAfterViewInit() {
-        
-    }
+    ngAfterViewInit() { }
 }
