@@ -31,9 +31,9 @@ const	routes:	Routes	=	[
 		{path:	'',	redirectTo:	'media',	pathMatch:	'full'},
     //{ path: '', component: MediaComponent, canActivate: [AuthGuard] },
 		//{path:	'channels',	component:	ChannelsComponent, canActivate: [AuthGuard] },
-    { path:	'media',	component:	MediaListComponent },
+    { path:	'media',	component:	MediaListComponent, canActivate: [AuthGuard] },
     { path:	'media/add',	component:	MediaAddComponent, canActivate: [AuthGuard] },
-    { path:	'media/:id',	component:	MediaDetailComponent },
+    { path:	'media/:id',	component:	MediaDetailComponent, canActivate: [AuthGuard] },
 		{ path:	'login',	component:	LoginComponent },
 		{ path:	'**',	redirectTo:	'media',	pathMatch:	'full'}
     //{path:	'**',	component:	AppComponent}

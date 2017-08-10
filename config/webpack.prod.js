@@ -28,11 +28,13 @@ module.exports = webpackMerge(commonConfig,{
         }),
 
         // Delete unused CSS styles
+        /*
         new PurifyCSSPlugin({
             // Give paths to parse for rules. These should be absolute!
             paths: glob.sync(helpers.root('src', '**', '*.html')),
         
         }),
+        */
         
         // for production
         new webpack.DefinePlugin({ 'process.env': {'ENV': JSON.stringify(ENV)} })

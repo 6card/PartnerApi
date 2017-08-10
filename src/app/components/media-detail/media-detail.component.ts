@@ -49,7 +49,7 @@ export class MediaDetailComponent extends CommonComponent {
             let data = this.respondHandler(res);
             if (data.Data !== undefined) {
                 data.Data.map((item:any) =>  this.channels.push(new Channel(item)));  
-                console.log(this.channels); 
+                //console.log(this.channels); 
             }   
         }, 
             error => this.errorHandler(error)

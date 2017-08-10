@@ -7,7 +7,7 @@ import { PaginationComponent } from "../pagination.component"
 import { AuthService } from '../../services/auth.service';
 import { AlertService } from '../../services/alert.service';
 import { PartnerService } from '../../services/partner.service';
-import { Media } from '../../shared/media';
+import { Media, Channel } from '../../shared/media';
 
 const ITEMS_PER_PAGE = 2;
 
@@ -22,6 +22,8 @@ export class MediaListComponent extends CommonComponent {
     public itemsPerPage: number = 2;
     public totalItems: number;
     public error: any;
+    public channelId: number;
+    public channels: Array<Channel> = [];
 
     constructor(
         protected router: Router,
@@ -37,43 +39,13 @@ export class MediaListComponent extends CommonComponent {
       */
     }
 
-    loadMedia() {        
-        let channelId = 32703;        
-        let countItems = this.itemsPerPage;
-        let startItem = (this.currentPage * countItems) - countItems + 1;
-
-        this.medias.length = 0;
-        this.partnerService.getMedias(this.authService.sessionId, channelId, startItem, countItems).subscribe( data => {  
-            let medias = this.respondHandler(data);
-            if (medias && medias.Data !== undefined) {
-                medias.Data.map((item:any) =>  this.medias.push(new Media(item)));  
-            }       
-        }, 
-            error => this.errorHandler(error)
-        );  
-    }
-
-    getTotalMediaCount() {
-        let channelId = 32703;
-        this.partnerService.getMediasCount(this.authService.sessionId, channelId).subscribe( res => {  
-            let data = this.respondHandler(res);
-            if (data.Data !== undefined) {
-                this.totalItems = data.Data;
-                //console.log('total items'+this.totalItems);
-            }        
-        },
-            error => this.errorHandler(error)
-        ); 
-    }
-
     ngOnInit(){
-        //console.log('media-list ngOnInit');
-         
-        this.getTotalMediaCount();
         this.itemsPerPage = + localStorage.getItem('itemsPerPage') || ITEMS_PER_PAGE;
-        this.loadMedia();            
-    }
+        this.channelId = + localStorage.getItem('channelId') || null;
 
+        this.loadChannels();      
+        this.loadMedia();
+    }
 
     ngAfterViewInit() { 
         //console.log('media-list ngAfterViewInit');
@@ -85,10 +57,60 @@ export class MediaListComponent extends CommonComponent {
         */
     }
 
+    loadMedia() {        
+        if (!this.channelId)
+            return;
+        this.getTotalMediaCount();      
+        let countItems = this.itemsPerPage;
+        let startItem = (this.currentPage * countItems) - countItems + 1;
+
+        this.medias.length = 0;
+        this.partnerService.getMedias(this.authService.sessionId, this.channelId, startItem, countItems).subscribe( data => {  
+            let medias = this.respondHandler(data);
+            if (medias && medias.Data !== undefined) {
+                medias.Data.map((item:any) =>  this.medias.push(new Media(item)));  
+            }       
+        }, 
+            error => this.errorHandler(error)
+        );  
+    }
+
+    getTotalMediaCount() {
+        this.partnerService.getMediasCount(this.authService.sessionId, this.channelId).subscribe( res => {  
+            let data = this.respondHandler(res);
+            if (data.Data !== undefined) {
+                this.totalItems = data.Data;
+                //console.log('total items'+this.totalItems);
+            }        
+        },
+            error => this.errorHandler(error)
+        ); 
+    }
+
+    
+
+    loadChannels() { 
+        this.partnerService.getChannels(this.authService.sessionId).subscribe( res => {  
+            let data = this.respondHandler(res);
+            if (data.Data !== undefined) {
+                data.Data.map((item:any) =>  this.channels.push(new Channel(item)));  
+            }   
+        }, 
+            error => this.errorHandler(error)
+        ); 
+    }
+
     openViewWindow(event: any) {
         //console.log(event.target.parentElement.attr.href);
         //return false;        
     }
+
+    onChannelChange(newValue: number) {
+        this.channelId = newValue;
+        localStorage.setItem('channelId', this.channelId.toString());
+        this.loadMedia();
+    }
+
 
     onItemsPerPageChange(newValue: number) {
         this.itemsPerPage = newValue;

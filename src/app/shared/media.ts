@@ -101,8 +101,10 @@ export class Media {
 
   get StateColor(): string {  
     let colors = {
-        0: "green",
-        7: "red"
+        5: "blue",
+        7: "green",
+        16: "red",
+        20: "yellow"
     };
     return colors[this.State];
   }

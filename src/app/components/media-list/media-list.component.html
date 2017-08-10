@@ -1,6 +1,6 @@
-<div class="ui stackable grid" *ngIf="medias && medias.length > 0">
+<div class="ui stackable grid">
   <div class="row">
-    <div class="sixteen wide column">
+    <div class="eight wide column">
       <label>
         Show 
         <select [ngModel]="itemsPerPage" (ngModelChange)="onItemsPerPageChange($event)" >
@@ -11,8 +11,16 @@
          entries
       </label>
     </div>
+    <div class="eight wide column">
+      <label>
+        Channel: 
+        <select [ngModel]="channelId" (ngModelChange)="onChannelChange($event)" >
+            <option *ngFor="let c of channels" [ngValue]="c.Id">{{c.Title}}</option>
+        </select>
+      </label>
+    </div>
   </div>
-  <div class="row no-padding">
+  <div class="row no-padding"  *ngIf="medias && medias.length > 0">
     <div class="sixteen wide column">
       <table class="ui celled striped table">
         <thead>
@@ -41,9 +49,9 @@
       </table>
     </div>
   </div>
-  <div class="row">
+  <div class="row"  *ngIf="medias && medias.length > 0">
     <div class="seven wide column">
-      <div class="table-info">Showing {{currentPage * itemsPerPage - itemsPerPage + 1}} to {{itemsPerPage * currentPage}} of {{totalItems}} entries</div>
+      <div class="table-info">Showing {{currentPage * itemsPerPage - itemsPerPage + 1}} to {{(itemsPerPage * currentPage > totalItems) ? totalItems : (itemsPerPage * currentPage)}} of {{totalItems}} entries</div>
     </div>
     <div class="right aligned nine wide column">
 
