@@ -127,6 +127,12 @@ export class MediaDetailComponent extends CommonComponent {
         this.updateMedia();
     }
 
+    get ChannelName(): string {
+        let channel: Channel = this.channels.filter( (item: Channel) => item.Id == this.media.ChannelId)[0];
+        if (!channel)
+            return '';
+        return channel.Title;
+    }
     
 
     

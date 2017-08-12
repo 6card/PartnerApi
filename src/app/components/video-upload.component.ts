@@ -12,14 +12,12 @@ import { PartnerService } from '../services/partner.service';
     template: `
         <div class="ui form">
             <div class="field video">
-                <label>Video:</label>
-
                 <div class="ui action input" *ngIf="this.videoFile">
                     <input type="text" [value]="this.videoFile ? this.videoFile.name : ''" [disabled]="true">
                     <button type="button" (click)="onSendVideo($event)" class="ui red button">Send</button>
                     <button type="button" (click)="ClearVideoFile()" class="ui button">Cancel</button>
                 </div>
-                <label class="fluid ui big button" *ngIf="!this.videoFile" for="videoFile"> 
+                <label class="fluid ui big green button" *ngIf="!this.videoFile" for="videoFile"> 
                     Upload Video &nbsp;
                     <i class="upload icon"></i>
                     <input #videoFileInput type="file" id="videoFile" name="videoFile" (change)="ChangeListener($event)" style="display: none">

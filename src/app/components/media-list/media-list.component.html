@@ -26,6 +26,7 @@
         <thead>
           <tr>
             <th>Название</th>
+            <th>Время съемки</th>
             <th>Время публикации</th>
             <th>Картинки</th>
             <th>Статус</th>
@@ -37,12 +38,18 @@
               <td>
                 <a  [routerLink]="['/media', media.MediaId]">{{media.Title}}</a>
               </td>
-              <td>{{media.ShootDate | date:'medium'}} / {{media.PubDate | date:'medium'}}</td>
+              <td>{{media.ShootDateUtc | date:'dd-MM-yyyy HH:mm'}}</td>
+              <td>{{media.PubDate | date:'dd-MM-yyyy HH:mm'}}</td>
               <td><img class="ui tiny image" [src]="media.ThumbnailUrl"></td>
               <td><div [ngClass]="media.StateColor"class="ui label">{{media.StateName}}</div></td>
               <td>
-                <a  [routerLink]="['/media', media.MediaId]"><i class="edit icon"></i></a>
-                <a href="https://www.newstube.ru/embed/{{media.MediaGuid}}" target="_blank" (click)="openViewWindow($event)"><i class="external icon"></i></a>
+                <div class="ui buttons">
+                  <button class="ui icon button" [routerLink]="['/media', media.MediaId]" title="edit"><i class="edit icon"></i></button>
+                  <button class="ui red icon button" *ngIf="media.isPossibleToBlock" title="block" (click)="mediaBlock(media.MediaId)"><i class="lock icon"></i></button>
+                  <button class="ui green icon button" *ngIf="media.isPossibleToUnblock" title="unblock" (click)="mediaUnblock(media.MediaId)"><i class="unlock icon"></i></button>
+                  <button class="ui blue icon button" *ngIf="media.isPossibleToView" title="view video" (click)="alert('view')"><i class="video play outline icon"></i></button>
+                  <a class="ui icon button" href="https://www.newstube.ru/embed/{{media.MediaGuid}}" target="_blank" title="view on site" (click)="openViewWindow($event)"><i class="external icon"></i></a>
+                </div>
               </td>
           </tr>  
         </tbody>

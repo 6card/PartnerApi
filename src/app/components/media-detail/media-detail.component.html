@@ -6,7 +6,7 @@
           <iframe width="{{media.Video.Width}}" height="{{media.Video.Height}}" [src]="media.EmbedUrl | safe" frameborder="0" allowfullscreen></iframe>
         </div>
         <div *ngIf="media.Videos && media.Videos.length > 0" class="ui segment">
-          <h4 class="ui header">Videos:</h4>
+          <h4 class="ui dividing header">Videos:</h4>
           <table class="ui celled striped table">
             <thead>
               <tr>
@@ -25,20 +25,13 @@
               </tr>
             </tbody>
           </table>
-        </div>
-        <div class="ui segment">
-          <h4 class="ui header">Actions:</h4>          
-          <button class="ui button" *ngIf="media.isPossibleToBlock" (click)="mediaBlock()">Block</button>
-          <button class="ui button" *ngIf="media.isPossibleToUnblock" (click)="mediaUnblock()">Unblock</button>
-          <button class="ui button" *ngIf="media.isPossibleToView" (click)="viewVideo()">View</button>
-          <button class="ui button" *ngIf="media.isAvailableOnSite">View on site</button>          
-        </div>
-          
-        <div class="ui segment">
           <video-upload
             [mediaId]="mediaId"
             (sendVideo)="UploadVideoFile($event)"
           ></video-upload>
+        </div>
+
+        <div class="ui segment">          
           <media-form 
             [title]="media.Title" 
             [description]="media.Description" 
@@ -51,6 +44,65 @@
             (changeBlock)="changeMediaBlock($event)"            
           ></media-form>
         </div>
+
+        <div class="ui segment">
+          <h4 class="ui dividing header">Actions:</h4>          
+          <button class="ui red button" *ngIf="media.isPossibleToBlock" (click)="mediaBlock()">Block</button>
+          <button class="ui green button" *ngIf="media.isPossibleToUnblock" (click)="mediaUnblock()">Unblock</button>
+          <button class="ui button" *ngIf="media.isPossibleToView" (click)="viewVideo()">View</button>
+          <button class="ui orange button" *ngIf="media.isAvailableOnSite">View on site</button>          
+        </div>
+
+        <div class="ui segment">
+          <h4 class="ui dividing header">Данные по ролику:</h4>
+          <table class="ui celled striped table">
+              <tbody>
+                <tr>
+                  <td class="collapsing">
+                      Время создания
+                  </td>
+                  <td>{{media.CreateTime | date:'dd-MM-yyyy HH:mm'}}</td>
+                </tr>
+                <tr>
+                  <td class="collapsing">
+                      Время изменения
+                  </td>
+                  <td>{{media.UpdateTime | date:'dd-MM-yyyy HH:mm'}}</td>
+                </tr>
+                <tr>
+                  <td class="collapsing">
+                      Статус
+                  </td>
+                  <td><div [ngClass]="media.StateColor"class="ui label">{{media.StateName}}</div></td>
+                </tr>
+                <tr>
+                  <td class="collapsing">
+                      Канал
+                  </td>
+                  <td>{{ChannelName}}</td>
+                </tr>
+                <tr>
+                  <td class="collapsing">
+                      Ссылка на сайт
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td class="collapsing">
+                      Кол-во просмотров
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td class="collapsing">
+                      Ссылка на страницу просмотра статистики
+                  </td>
+                  <td></td>
+                </tr>
+              </tbody>
+          </table>   
+        </div>
+        
       </div>
     </div>
   </div>

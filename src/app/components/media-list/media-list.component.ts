@@ -100,14 +100,31 @@ export class MediaListComponent extends CommonComponent {
         ); 
     }
 
+    mediaBlock(mediaId: number) {
+        this.partnerService.blockMedia(this.authService.sessionId, mediaId, 1).subscribe( res => {  
+            let data = this.respondHandler(res);
+        }, 
+            error => this.errorHandler(error)
+        );
+    }
+
+    mediaUnblock(mediaId: number) {
+        this.partnerService.unblockMedia(this.authService.sessionId, mediaId, 1).subscribe( res => {  
+            let data = this.respondHandler(res);
+        }, 
+            error => this.errorHandler(error)
+        );
+    }
+
     openViewWindow(event: any) {
         //console.log(event.target.parentElement.attr.href);
         //return false;        
     }
 
     onChannelChange(newValue: number) {
-        this.channelId = newValue;
+        this.channelId = newValue;        
         localStorage.setItem('channelId', this.channelId.toString());
+        this.currentPage = 1;
         this.loadMedia();
     }
 
@@ -117,7 +134,6 @@ export class MediaListComponent extends CommonComponent {
         localStorage.setItem('itemsPerPage', this.itemsPerPage.toString());
         this.currentPage = 1;
         this.loadMedia();
-        //console.log('itemsPerPage'+this.itemsPerPage);
     }
 
     pageUpdated(page: number) {
