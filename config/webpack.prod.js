@@ -20,11 +20,12 @@ module.exports = webpackMerge(commonConfig,{
     },
 
     plugins: [
-    
+        
         new webpack.LoaderOptionsPlugin({
-            minimize :true,
+            //minimize :true,
             debug: false
         }),
+        
         // Delete unused JS code
         new webpack.optimize.UglifyJsPlugin({ // https://github.com/angular/angular/issues/10618
             mangle: true,
