@@ -16,7 +16,7 @@ export class AppComponent implements OnInit, AfterViewInit  {
 
     }
     ngAfterViewInit() { 
-        console.log(jQuery.fn.jquery);
+        //console.log(jQuery.fn.jquery);
     }
     
 }

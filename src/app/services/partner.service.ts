@@ -3,7 +3,7 @@ import { Http, Response, URLSearchParams, Headers, RequestOptions } from '@angul
 
 import 'rxjs/Rx';
 import 'rxjs/add/observable/throw';
-import {Observable} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
 
 import { API_URLS } from '../config/api.config';
 import { Media, Channel } from '../shared/media';

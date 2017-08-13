@@ -4,8 +4,6 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 var helpers = require('./helpers');
 
-
-
 module.exports = {
   entry: {
     'polyfills': './src/polyfills.ts',

@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Http, Response, URLSearchParams, Headers, RequestOptions } from '@angular/http';
 
 import 'rxjs/Rx';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class AuthService {
