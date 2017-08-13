@@ -21,11 +21,22 @@ module.exports = webpackMerge(commonConfig,{
 
     plugins: [
     // Delete unused JS code
-        new webpack.optimize.UglifyJsPlugin({ // https://github.com/angular/angular/issues/10618
-            mangle: {
-                keep_fnames: true
-            }
+        new webpack.LoaderOptionsPlugin({
+            minimize :true,
+            debug: false
         }),
+
+        new webpack.optimize.UglifyJsPlugin({ // https://github.com/angular/angular/issues/10618
+            beautify: false,
+            mangle: {
+                screw_ie8: true,
+                keep_fnames: true
+            },
+
+            comments: false
+        }),
+
+        
 
         // Delete unused CSS styles
         /*
