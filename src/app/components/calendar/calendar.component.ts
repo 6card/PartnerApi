@@ -7,14 +7,7 @@ import { DatePipe } from '@angular/common';
 declare var $: any;
 @Component({
   selector: 'calendar',
-  template: `
-        <div class="ui calendar" [formGroup]="fGroup">
-          <div class="ui input left icon">
-            <i class="calendar icon"></i>
-            <input type="text" placeholder="Click to select Date/Time" [formControlName]="fControlName">
-          </div>
-        </div>
-  `,
+  templateUrl: './calendar.component.html',
   providers: [DatePipe]
 })
 export class CalendarComponent implements AfterViewInit {

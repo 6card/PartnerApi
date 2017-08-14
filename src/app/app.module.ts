@@ -10,13 +10,13 @@ import { LoginComponent } from './components/login/login.component';
 import { MediaListComponent } from './components/media-list/media-list.component';
 import { MediaDetailComponent } from './components/media-detail/media-detail.component';
 import { MediaAddComponent } from './components/media-add/media-add.component';
-import { MediaFormComponent } from "./components/media-detail/media-form.component";
-import { VideoUploadComponent } from './components/video-upload.component';
+import { MediaFormComponent } from "./components/media-form/media-form.component";
+import { VideoUploadComponent } from './components/video-upload/video-upload.component';
 
-import { NavigationComponent } from "./components/navigation.component"
+import { NavigationComponent } from "./components/navigation/navigation.component"
 import { AlertComponent } from "./components/alert/alert.component"
-import { PaginationComponent } from "./components/pagination.component"
-import { CalendarComponent } from "./components/calendar.component"
+import { PaginationComponent } from "./components/pagination/pagination.component"
+import { CalendarComponent } from "./components/calendar/calendar.component"
 
 import { AlertService } from './services/alert.service';
 import { AuthService } from './services/auth.service';

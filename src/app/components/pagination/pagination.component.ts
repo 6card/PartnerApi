@@ -1,40 +1,8 @@
 import { Component, Input, Output, OnInit, EventEmitter, OnChanges  } from '@angular/core';
 
-const PAGINATION_TEMPLATE = `
-<div class="ui pagination menu">
-    <li class="pagination-first page-item"
-        *ngIf="boundaryLinks"
-        [class.disabled]="noPrevious()||disabled">
-      <a class="page-link" href (click)="selectPage(1, $event)">first</a>
-    </li>
-	
-	<a class="icon item" *ngIf="directionLinks"  [class.disabled]="noPrevious()||disabled" href (click)="selectPage(page - 1, $event)">
-		<i class="left chevron icon"></i>
-	</a>
-	
-	<a class="item" *ngFor="let pg of pages"
-		[class.active]="pg.active"
-		[class.disabled]="disabled&&!pg.active"
-		href (click)="selectPage(pg.number, $event)"
-		[innerHTML]="pg.text"
-	 >
-	 </a>
-	 
-	 <a class="icon item" *ngIf="directionLinks" [class.disabled]="noNext()" href (click)="selectPage(page + 1, $event)">
-		<i class="right chevron icon"></i>
-	</a>
-
-
-    <li class="pagination-last page-item"
-        *ngIf="boundaryLinks"
-        [class.disabled]="noNext()">
-      <a class="page-link" href (click)="selectPage(totalPages, $event)">last</a></li>
-</div>
-  `;
-
 @Component({
     selector: 'pagination',
-    template: PAGINATION_TEMPLATE
+    templateUrl: './pagination.component.html'
 })
 
 export class PaginationComponent {
