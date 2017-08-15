@@ -5,9 +5,13 @@
         <div *ngIf="media.Video" class="videoWrapper">
           <iframe width="{{media.Video.Width}}" height="{{media.Video.Height}}" [src]="media.EmbedUrl | safe" frameborder="0" allowfullscreen></iframe>
         </div>
-        <div *ngIf="media.Videos && media.Videos.length > 0" class="ui segment">
+        <div class="ui segment">
+          <video-upload
+            [mediaId]="mediaId"
+            (sendVideo)="UploadVideoFile($event)"
+          ></video-upload>
           <h4 class="ui dividing header">Videos:</h4>
-          <table class="ui celled striped table">
+          <table *ngIf="media.Videos && media.Videos.length > 0" class="ui celled striped table">
             <thead>
               <tr>
                 <th>Время создания</th>
@@ -25,10 +29,6 @@
               </tr>
             </tbody>
           </table>
-          <video-upload
-            [mediaId]="mediaId"
-            (sendVideo)="UploadVideoFile($event)"
-          ></video-upload>
         </div>
 
         <div class="ui segment">          
