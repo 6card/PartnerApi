@@ -9,6 +9,7 @@ import { LoginComponent } from './components/login/login.component';
 
 import { MediaListComponent } from './components/media-list/media-list.component';
 import { MediaDetailComponent } from './components/media-detail/media-detail.component';
+import { MediaStatComponent } from "./components/media-stat/media-stat.component";
 import { MediaAddComponent } from './components/media-add/media-add.component';
 import { MediaFormComponent } from "./components/media-form/media-form.component";
 import { VideoUploadComponent } from './components/video-upload/video-upload.component';
@@ -35,6 +36,7 @@ const	routes:	Routes	=	[
     { path:	'media',	component:	MediaListComponent, canActivate: [AuthGuard] },
     { path:	'media/add',	component:	MediaAddComponent, canActivate: [AuthGuard] },
     { path:	'media/:id',	component:	MediaDetailComponent, canActivate: [AuthGuard] },
+    { path:	'media/stat/:id',	component:	MediaStatComponent, canActivate: [AuthGuard] },
 		{ path:	'login',	component:	LoginComponent },
 		{ path:	'**',	redirectTo:	'media',	pathMatch:	'full'}
     //{path:	'**',	component:	AppComponent}
@@ -46,6 +48,7 @@ const	routes:	Routes	=	[
     LoginComponent,
     MediaListComponent,
     MediaDetailComponent,
+    MediaStatComponent,
     MediaAddComponent,
     MediaFormComponent,
     VideoUploadComponent,

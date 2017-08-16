@@ -201,3 +201,15 @@ export class Download  {
     this.State = obj['State'];
   }
 }
+
+export class Counter  {
+  CreateDate: string; //, optional): Дата ,
+  Location: string; //, optional): Кодовое слово площадки просмотра ,
+  Counter: number; //, optional): Кол-во просмотров ролика 
+
+  constructor(obj: Object) {
+    this.CreateDate = obj['CreateDate'];
+    this.Location = obj['Location'];
+    this.Counter = obj['Counter'];
+  }
+}
