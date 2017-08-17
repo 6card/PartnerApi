@@ -12,6 +12,7 @@ export const API_URLS: ApiUrls = {
   MEDIA_MEDIA_UNBLOCK: '/Media/MediaUnblock',
   MEDIA_SET_VIDEO: '/Media/SetVideo',
   MEDIA_GET_TEMP_EMBED_URL: '/Media/GetTempEmbedUrl',
+  MEDIA_GET_STAT: '/Stat/MediaCounters',
   VIDEO_UPLOAD_START: '/VideoUpload/Start',
   VIDEO_UPLOAD_UPLOAD:'/VideoUpload/UploadData',
   VIDEO_UPLOAD_COMPLETE: '/VideoUpload/Complete'

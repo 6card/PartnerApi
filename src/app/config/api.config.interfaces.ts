@@ -10,6 +10,7 @@ export interface ApiUrls {
   MEDIA_MEDIA_UNBLOCK: string;
   MEDIA_SET_VIDEO: string;
   MEDIA_GET_TEMP_EMBED_URL: string;
+  MEDIA_GET_STAT: string;
   VIDEO_UPLOAD_START: string;
   VIDEO_UPLOAD_UPLOAD: string;
   VIDEO_UPLOAD_COMPLETE: string;

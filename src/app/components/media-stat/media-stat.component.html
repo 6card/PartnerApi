@@ -2,7 +2,23 @@
   <div class="row"> 
     <div class="sixteen wide column"> 
       <div class="ui segment">          
-        
+        <h4 class="ui dividing header">Статистика:</h4> 
+        <table *ngIf="counters && counters.length > 0" class="ui celled striped table">
+          <thead>
+            <tr>
+              <th>Место</th>
+              <th>Дата</th>
+              <th>К-во просмотров</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let counter of counters | orderBy: ['+CreateDate']">
+              <td>{{counter.Location}}</td>
+              <td>{{counter.CreateDate | date:'dd-MM-yyyy'}}</td>
+              <td>{{counter.Counter}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

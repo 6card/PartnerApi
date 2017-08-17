@@ -197,6 +197,21 @@ export class PartnerService {
     }).catch(this.handleError);
   }
 
+  getMediaStat(sessionId: any, mediaId: any, start: any, end: any): Observable<Media> {
+    let apiURL = this.apiRoot + API_URLS.MEDIA_GET_STAT;
+    let params: URLSearchParams = new URLSearchParams();
+
+    params.set('sessionId', sessionId);
+    params.set('mediaId', mediaId);
+    params.set('start', start);
+    params.set('end', end);
+
+    return this.http.get(apiURL, {search: params} )
+      .map((res:Response) => {
+        return res.json();
+    }).catch(this.handleError);
+  }
+
 
 
 
