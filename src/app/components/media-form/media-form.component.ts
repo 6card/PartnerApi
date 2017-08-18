@@ -1,16 +1,18 @@
 import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 import { Channel } from '../../shared/media';
+
 
 @Component({
     selector: 'media-form',
-    templateUrl: './media-form.component.html'
+    templateUrl: './media-form.component.html',
+    providers: [DatePipe]
 })
 
 export class MediaFormComponent implements AfterViewInit {
     @Output() formResults: EventEmitter<any> = new EventEmitter();
     @Output() changeBlock: EventEmitter<any> = new EventEmitter();
-
 
     @Input() title: string;
     @Input() description: string;
@@ -19,8 +21,11 @@ export class MediaFormComponent implements AfterViewInit {
     @Input() shootDate: string;
     @Input() state: string;
 
+    private tempDate: Date;
+
     public mediaForm: FormGroup;
     constructor(
+        public datepipe: DatePipe,
         public fb: FormBuilder
     ) {
         
@@ -45,6 +50,10 @@ export class MediaFormComponent implements AfterViewInit {
 
     pushValues(): void {
         let values = this.mediaForm.value;
+        //this.datepipe.transform(value, 'yyyy-MM-ddTHH:mm:ss+03:00');
+        if (this.tempDate)
+            values.shootDate = this.datepipe.transform(this.tempDate, 'yyyy-MM-ddTHH:mm:ss+03:00');
+        //console.log(values);
         this.formResults.emit(values);
     }
 
@@ -54,6 +63,7 @@ export class MediaFormComponent implements AfterViewInit {
     }
     onDateChange(date: any): void {
         //console.log(date);
+        this.tempDate = date;
     }
 
     onBlockMedia(event: any): void {

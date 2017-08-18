@@ -1,24 +1,24 @@
 <form class="ui form" (ngSubmit)="onSubmit()" [formGroup]="mediaForm">
-    <h4 class="ui dividing header">Media description</h4>
+    <h4 class="ui dividing header">Описание ролика</h4>
 
     <div class="field" [ngClass]="{'error' : !mediaForm.controls['title'].valid && mediaForm.controls['title'].touched}">
-        <label>Title:</label>
+        <label>Заголовок:</label>
         <input placeholder="Title" type="text" [formControlName]="'title'">
     </div>
     <div class="field" [ngClass]="{'error' : !mediaForm.controls['description'].valid && mediaForm.controls['description'].touched}">
-        <label>Description</label>
+        <label>Описание:</label>
         <textarea placeholder="Description" [formControlName]="'description'">{{description}}</textarea>
     </div>
 
     <div class="field">
-        <label>Channel:</label>
+        <label>Канал:</label>
         <select placeholder="Channel" type="text" [formControlName]="'channelId'">
             <option *ngFor="let c of channels" [ngValue]="c.Id">{{c.Title}}</option>
         </select>
     </div>
 
     <div class="field" [ngClass]="{'error' : !mediaForm.controls['shootDate'].valid && mediaForm.controls['shootDate'].touched}">
-        <label>Shoot date:</label>
+        <label>Время съемки:</label>
         <calendar (changeDate)="onDateChange($event)" [fGroup]="mediaForm" [fControlName]="'shootDate'"></calendar>                
     </div>
 
@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <button type="submit" class="ui green submit button" [disabled]="!mediaForm.valid">Submit</button>
+    <button type="submit" class="ui green submit button" [disabled]="!mediaForm.valid">Сохранить</button>
     <div class="ui error message">
         <ul>If you are looking for validation you should check out.</ul>
     </div>

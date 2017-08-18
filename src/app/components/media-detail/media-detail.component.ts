@@ -17,6 +17,7 @@ export class MediaDetailComponent extends CommonComponent {
     public media: Media;
     public mediaId: number;
     public channels: Array<Channel> = [];
+    public TempEmbedUrl: string;
 
     constructor(
         protected authService: AuthService,
@@ -38,9 +39,11 @@ export class MediaDetailComponent extends CommonComponent {
        this.route.params.forEach((params: Params) => {
             this.mediaId = params['id'];
             this.loadMedia(this.mediaId);
-        });
-        
+        });        
         this.loadChannels();
+
+        this.getTempEmbedUrl();
+        this.getMediaReportsUrl();
     }
 
     loadChannels() { 
@@ -95,6 +98,28 @@ export class MediaDetailComponent extends CommonComponent {
     mediaUnblock() {
         this.partnerService.unblockMedia(this.authService.sessionId, this.mediaId, 1).subscribe( res => {  
             let data = this.respondHandler(res);
+        }, 
+            error => this.errorHandler(error)
+        );
+    }
+
+    getTempEmbedUrl() {
+        let url: string;
+        this.partnerService.getTempEmbedUrl(this.authService.sessionId, this.mediaId, 1).subscribe( res => {  
+            let data = this.respondHandler(res);
+            url = data.Data;
+            this.TempEmbedUrl = url;
+        }, 
+            error => this.errorHandler(error)
+        );
+    }
+
+    getMediaReportsUrl() {
+        let url: string;
+        this.partnerService.getMediaReportsUrl(this.authService.sessionId, this.mediaId).subscribe( res => {  
+            let data = this.respondHandler(res);
+            url = data.Data;
+            console.log(url);
         }, 
             error => this.errorHandler(error)
         );

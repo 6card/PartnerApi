@@ -2,22 +2,32 @@
   <div class="row">
     <div class="eight wide column">
       <label>
-        Show 
+        Показывать по 
         <select [ngModel]="itemsPerPage" (ngModelChange)="onItemsPerPageChange($event)" >
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="25">25</option>
         </select>
-         entries
+         роликов
       </label>
     </div>
     <div class="eight wide column">
       <label>
-        Channel: 
+        Канал: 
         <select [ngModel]="channelId" (ngModelChange)="onChannelChange($event)" >
             <option *ngFor="let c of channels" [ngValue]="c.Id">{{c.Title}}</option>
         </select>
       </label>
+    </div>
+  </div>
+  <div class="row"  *ngIf="medias && medias.length > 0">
+    <div class="seven wide column">
+      <div class="table-info">Показаны с {{currentPage * itemsPerPage - itemsPerPage + 1}} по {{(itemsPerPage * currentPage > totalItems) ? totalItems : (itemsPerPage * currentPage)}} из {{totalItems}} роликов</div>
+    </div>
+    <div class="right aligned nine wide column">
+
+      <pagination *ngIf="currentPage" (goToPage)="pageUpdated($event)" [page]="currentPage" [totalItems]="totalItems" [itemsPerPage]="itemsPerPage"></pagination>
+
     </div>
   </div>
   <div class="row no-padding"  *ngIf="medias && medias.length > 0">
@@ -30,7 +40,7 @@
             <th>Время публикации</th>
             <th>Картинки</th>
             <th>Статус</th>
-            <th>Edit</th>
+            <th>Действия</th>
           </tr>
         </thead>
         <tbody>
@@ -58,7 +68,7 @@
   </div>
   <div class="row"  *ngIf="medias && medias.length > 0">
     <div class="seven wide column">
-      <div class="table-info">Showing {{currentPage * itemsPerPage - itemsPerPage + 1}} to {{(itemsPerPage * currentPage > totalItems) ? totalItems : (itemsPerPage * currentPage)}} of {{totalItems}} entries</div>
+      <div class="table-info">Показаны с {{currentPage * itemsPerPage - itemsPerPage + 1}} по {{(itemsPerPage * currentPage > totalItems) ? totalItems : (itemsPerPage * currentPage)}} из {{totalItems}} роликов</div>
     </div>
     <div class="right aligned nine wide column">
 

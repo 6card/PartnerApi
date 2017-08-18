@@ -129,6 +129,11 @@ export class Media {
     return this.checkMask(this.Actions, mask);
   }
 
+  get isAvailableMediaStat(): boolean {
+    let mask = 16; // отобразить кнопку «Отчеты по ролику»
+    return this.checkMask(this.Actions, mask);
+  }
+
   checkMask(value: number, mask: number): boolean {
     if (value & mask)
       return true;

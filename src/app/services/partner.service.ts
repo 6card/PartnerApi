@@ -198,13 +198,26 @@ export class PartnerService {
   }
 
   getMediaStat(sessionId: any, mediaId: any, start: any, end: any): Observable<Media> {
-    let apiURL = this.apiRoot + API_URLS.MEDIA_GET_STAT;
+    let apiURL = this.apiRoot + API_URLS.STAT_GET_MEDIA_COUNTERS;
     let params: URLSearchParams = new URLSearchParams();
 
     params.set('sessionId', sessionId);
     params.set('mediaId', mediaId);
     params.set('start', start);
     params.set('end', end);
+
+    return this.http.get(apiURL, {search: params} )
+      .map((res:Response) => {
+        return res.json();
+    }).catch(this.handleError);
+  }
+
+  getMediaReportsUrl(sessionId: any, mediaId: any): Observable<Media> {
+    let apiURL = this.apiRoot + API_URLS.STAT_GET_MEDIA_REPORTS_URL;
+    let params: URLSearchParams = new URLSearchParams();
+
+    params.set('sessionId', sessionId);
+    params.set('mediaId', mediaId);
 
     return this.http.get(apiURL, {search: params} )
       .map((res:Response) => {
