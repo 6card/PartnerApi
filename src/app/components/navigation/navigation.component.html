@@ -1,6 +1,7 @@
 <div class="ui inverted menu">
     <div class="ui container">    
-        <a class="item header" [routerLinkActive]="['active']" [routerLink]="['/media']">Ролики</a>
+        <a class="item header" [routerLinkActive]="['active']" [routerLink]="['/media']">Ролики</a>        
+        <a *ngIf="reportsUrl" class="item" [href]="reportsUrl" target="_blank">Отчеты</a>
         <a class="green color item" [routerLinkActive]="['active']" [routerLink]="['/media/add']"><i class="plus icon"></i>Добавить ролик</a>
         <div class="right menu">
         <a *ngIf="!authService.isAuthenticated()" class="item" [routerLinkActive]="['active']" [routerLink]="['/login']">Вход</a>  

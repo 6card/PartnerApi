@@ -3,16 +3,17 @@
 
     <div class="field" [ngClass]="{'error' : !mediaForm.controls['title'].valid && mediaForm.controls['title'].touched}">
         <label>Заголовок:</label>
-        <input placeholder="Title" type="text" [formControlName]="'title'">
+        <input placeholder="Заголовок" type="text" [formControlName]="'title'">
     </div>
     <div class="field" [ngClass]="{'error' : !mediaForm.controls['description'].valid && mediaForm.controls['description'].touched}">
         <label>Описание:</label>
-        <textarea placeholder="Description" [formControlName]="'description'">{{description}}</textarea>
+        <textarea placeholder="Описание" [formControlName]="'description'">{{description}}</textarea>
     </div>
 
     <div class="field">
         <label>Канал:</label>
-        <select placeholder="Channel" type="text" [formControlName]="'channelId'">
+        <input placeholder="Канал" type="text" [value]="ChannelName" [disabled]="true" *ngIf="editForm">
+        <select placeholder="Channel" type="text" [formControlName]="'channelId'" *ngIf="!editForm">
             <option *ngFor="let c of channels" [ngValue]="c.Id">{{c.Title}}</option>
         </select>
     </div>

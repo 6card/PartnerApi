@@ -225,6 +225,18 @@ export class PartnerService {
     }).catch(this.handleError);
   }
 
+  getReportsUrl(sessionId: any): Observable<Media> {
+    let apiURL = this.apiRoot + API_URLS.STAT_GET_REPORTS_URL;
+    let params: URLSearchParams = new URLSearchParams();
+
+    params.set('sessionId', sessionId);
+
+    return this.http.get(apiURL, {search: params} )
+      .map((res:Response) => {
+        return res.json();
+    }).catch(this.handleError);
+  }
+
 
 
 

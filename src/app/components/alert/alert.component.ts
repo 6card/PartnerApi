@@ -22,7 +22,8 @@ export class AlertComponent {
             }
 
             // add alert to array
-            this.alerts.push(alert);
+            if (!this.alerts.filter(item => item.id == alert.id)[0])
+                this.alerts.push(alert);
         });
     }
 

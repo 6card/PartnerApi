@@ -17,9 +17,10 @@ export class MediaFormComponent implements AfterViewInit {
     @Input() title: string;
     @Input() description: string;
     @Input() channels: Array<Channel>;
-    @Input() channelId: string;
+    @Input() channelId: number;
     @Input() shootDate: string;
     @Input() state: string;
+    @Input() editForm: boolean = false;
 
     private tempDate: Date;
 
@@ -71,4 +72,11 @@ export class MediaFormComponent implements AfterViewInit {
     }
 
     ngAfterViewInit() { }
+
+    get ChannelName(): string {
+        let channel: Channel = this.channels.filter( (item: Channel) => item.Id == this.channelId)[0];
+        if (!channel)
+            return '';
+        return channel.Title;
+    }
 }

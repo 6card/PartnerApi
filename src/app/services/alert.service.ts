@@ -29,25 +29,25 @@ export class AlertService {
         return this.subject.asObservable();
     }
 
-    success(message: string, keepAfterRouteChange = false) {
-        this.alert(AlertType.Success, message, keepAfterRouteChange);
+    success(id: number, message: string, keepAfterRouteChange = false) {
+        this.alert(AlertType.Success, id, message, keepAfterRouteChange);
     }
 
-    error(message: string, keepAfterRouteChange = false) {
-        this.alert(AlertType.Error, message, keepAfterRouteChange);
+    error(id: number, message: string, keepAfterRouteChange = false) {
+        this.alert(AlertType.Error, id, message, keepAfterRouteChange);
     }
 
-    info(message: string, keepAfterRouteChange = false) {
-        this.alert(AlertType.Info, message, keepAfterRouteChange);
+    info(id: number, message: string, keepAfterRouteChange = false) {
+        this.alert(AlertType.Info, id, message, keepAfterRouteChange);
     }
 
-    warn(message: string, keepAfterRouteChange = false) {
-        this.alert(AlertType.Warning, message, keepAfterRouteChange);
+    warn(id: number, message: string, keepAfterRouteChange = false) {
+        this.alert(AlertType.Warning, id, message, keepAfterRouteChange);
     }
 
-    alert(type: AlertType, message: string, keepAfterRouteChange = false) {
+    alert(type: AlertType, id: number, message: string, keepAfterRouteChange = false) {
         this.keepAfterRouteChange = keepAfterRouteChange;
-        this.subject.next(<Alert>{ type: type, message: message });
+        this.subject.next(<Alert>{ type: type, id: id, message: message });
     }
 
     clear() {

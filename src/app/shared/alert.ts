@@ -1,5 +1,6 @@
 export class Alert {
     type: AlertType;
+    id: number;
     message: string;
 }
 
