@@ -44,14 +44,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let media of medias">
+          <tr *ngFor="let media of medias" [id]="media.MediaId">
               <td>
                 <a  [routerLink]="['/media', media.MediaId]">{{media.Title}}</a>
               </td>
               <td>{{media.ShootDateUtc | date:'dd-MM-yyyy HH:mm'}}</td>
               <td>{{media.PubDate | date:'dd-MM-yyyy HH:mm'}}</td>
               <td><img class="ui tiny image" [src]="media.ThumbnailUrl"></td>
-              <td><div [ngClass]="media.StateColor"class="ui label">{{media.StateName}}</div></td>
+              <td><div [ngClass]="media.StateColor" class="ui label">{{media.StateName}}</div></td>
               <td>
                 <div class="ui buttons">
                   <button class="ui icon button" [routerLink]="['/media', media.MediaId]" title="edit"><i class="edit icon"></i></button>
@@ -64,6 +64,9 @@
           </tr>  
         </tbody>
       </table>
+      <div class="ui inverted dimmer" [class.active]="loadingMedia">
+        <div class="ui loader"></div>
+      </div>
     </div>
   </div>
   <div class="row"  *ngIf="medias && medias.length > 0">

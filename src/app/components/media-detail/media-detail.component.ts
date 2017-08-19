@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, DoCheck, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { CommonComponent }  from '../../shared/common.component';
@@ -13,11 +13,16 @@ import { Media, Channel } from '../../shared/media';
   templateUrl: './media-detail.component.html'
 })
 
-export class MediaDetailComponent extends CommonComponent {
+export class MediaDetailComponent extends CommonComponent implements DoCheck{
     public media: Media;
+    public oldMedia: Media;
     public mediaId: number;
     public channels: Array<Channel> = [];
     public TempEmbedUrl: string;
+    public MediaReportsUrl: string;
+    public loadingMedia: boolean = false;
+
+    @ViewChild('mediaForm') mediaForm: any;
 
     constructor(
         protected authService: AuthService,
@@ -35,6 +40,19 @@ export class MediaDetailComponent extends CommonComponent {
       */
     }
 
+    ngDoCheck() {
+        if (this.oldMedia !== this.media) {
+            this.oldMedia = this.media;
+            if (this.media.isPossibleToView) {
+                this.getTempEmbedUrl();
+            }
+
+            if (this.media.isAvailableMediaStat) {
+                this.getMediaReportsUrl();
+            }
+        }
+    }
+
     ngOnInit(){
        this.route.params.forEach((params: Params) => {
             this.mediaId = params['id'];
@@ -42,8 +60,8 @@ export class MediaDetailComponent extends CommonComponent {
         });        
         this.loadChannels();
 
-        this.getTempEmbedUrl();
-        this.getMediaReportsUrl();
+        
+        
     }
 
     loadChannels() { 
@@ -59,11 +77,13 @@ export class MediaDetailComponent extends CommonComponent {
     }
 
     loadMedia(mediaId: number) { 
+        this.loadingMedia = true;
         this.partnerService.getMedia(this.authService.sessionId, mediaId, 1).subscribe( res => {  
             let data = this.respondHandler(res);
             if (data !== undefined) {
                 this.media = new Media(data.Data); 
                 //console.log(data);
+                this.loadingMedia = false;
             }   
         }, 
             error => this.errorHandler(error)
@@ -73,9 +93,11 @@ export class MediaDetailComponent extends CommonComponent {
     updateMedia() { 
         this.partnerService.updateMedia(this.authService.sessionId, this.media).subscribe( res => {  
             let data = this.respondHandler(res);
+            this.loadMedia(this.media.MediaId);
         }, 
             error => this.errorHandler(error)
-        ); 
+        );
+        
     }
 
     changeMediaBlock(e: any) {
@@ -88,16 +110,23 @@ export class MediaDetailComponent extends CommonComponent {
     }
 
     mediaBlock() {
-        this.partnerService.blockMedia(this.authService.sessionId, this.mediaId, 1).subscribe( res => {  
-            let data = this.respondHandler(res);
-        }, 
-            error => this.errorHandler(error)
-        );
+        if(confirm("Вы действительно хотите заблокировать ролик?")) {
+            this.partnerService.blockMedia(this.authService.sessionId, this.mediaId, 1).subscribe( res => {  
+                let data = this.respondHandler(res);
+                this.mediaForm.pushValues();
+                //this.updateMedia();
+            }, 
+                error => this.errorHandler(error)
+            );
+        }
+        
     }
 
     mediaUnblock() {
         this.partnerService.unblockMedia(this.authService.sessionId, this.mediaId, 1).subscribe( res => {  
             let data = this.respondHandler(res);
+            this.mediaForm.pushValues();
+            //this.updateMedia();
         }, 
             error => this.errorHandler(error)
         );
@@ -119,7 +148,7 @@ export class MediaDetailComponent extends CommonComponent {
         this.partnerService.getMediaReportsUrl(this.authService.sessionId, this.mediaId).subscribe( res => {  
             let data = this.respondHandler(res);
             url = data.Data;
-            console.log(url);
+            this.MediaReportsUrl = url;
         }, 
             error => this.errorHandler(error)
         );

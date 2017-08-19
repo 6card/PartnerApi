@@ -3,14 +3,14 @@
     <div class="sixteen wide column"> 
       <div *ngIf="media">
         <div *ngIf="media.Video" class="videoWrapper">
-          <iframe *ngIf="media.isPossibleToView" width="{{media.Video.Width}}" height="{{media.Video.Height}}" [src]="TempEmbedUrl | safe" frameborder="0" allowfullscreen></iframe>
+          <iframe *ngIf="TempEmbedUrl" width="{{media.Video.Width}}" height="{{media.Video.Height}}" [src]="TempEmbedUrl | safe" frameborder="0" allowfullscreen></iframe>
         </div>
         <div class="ui segment">
           <video-upload
             [mediaId]="mediaId"
-            (sendVideo)="UploadVideoFile($event)"
+            (onSendVideoDone)="updateMedia()"
           ></video-upload>
-          <h4 class="ui dividing header">Видео</h4>
+          <h4 class="ui dividing header" *ngIf="media.Videos && media.Videos.length > 0">Видео</h4>
           <table *ngIf="media.Videos && media.Videos.length > 0" class="ui celled striped table">
             <thead>
               <tr>
@@ -32,7 +32,7 @@
         </div>
 
         <div class="ui segment">          
-          <media-form 
+          <media-form #mediaForm
             [title]="media.Title" 
             [description]="media.Description" 
             [channels]="channels"
@@ -47,9 +47,9 @@
 
         <div class="ui segment">
           <h4 class="ui dividing header">Действия</h4>          
-          <button class="ui red button" *ngIf="media.isPossibleToBlock" (click)="mediaBlock()">Block</button>
-          <button class="ui green button" *ngIf="media.isPossibleToUnblock" (click)="mediaUnblock()">Unblock</button>
-          <button class="ui button" *ngIf="media.isAvailableMediaStat" (click)="viewVideo()">Отчеты по ролику</button>
+          <button class="ui red button" *ngIf="media.isPossibleToBlock" (click)="mediaBlock()" title="Заблокировать">Заблокировать</button>
+          <button class="ui green button" *ngIf="media.isPossibleToUnblock" (click)="mediaUnblock()" title="Разблокировать">Разблокировать</button>
+          <a class="ui button" *ngIf="media.isAvailableMediaStat" [href]="MediaReportsUrl" target="_blank" title="Отчеты по ролику">Отчеты по ролику</a>
           <a class="ui orange button" *ngIf="media.isAvailableOnSite" href="https://www.newstube.ru/embed/{{media.MediaGuid}}" target="_blank" title="Посмотреть на сайте">Посмотреть на сайте</a>     
         </div>
 
@@ -99,12 +99,16 @@
                   <td class="collapsing">
                       Ссылка на страницу просмотра статистики
                   </td>
-                  <td></td>
+                  <td>
+                    <a *ngIf="media.isAvailableMediaStat" [href]="MediaReportsUrl" target="_blank" title="Отчеты по ролику">{{MediaReportsUrl}}</a>
+                  </td>
                 </tr>
               </tbody>
           </table>   
         </div>
-        
+        <div class="ui inverted dimmer" [class.active]="loadingMedia">
+          <div class="ui loader"></div>
+        </div>
       </div>
     </div>
   </div>

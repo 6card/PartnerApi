@@ -1,21 +1,23 @@
 <div class="ui form">
     <div class="field video">
-        <div class="ui action input" *ngIf="this.videoFile">
+        <div class="ui action input" *ngIf="this.videoFile && !isSending">
             <input type="text" [value]="this.videoFile ? this.videoFile.name : ''" [disabled]="true">
-            <button type="button" (click)="onSendVideo($event)" class="ui red button">Send</button>
-            <button type="button" (click)="ClearVideoFile()" class="ui button">Cancel</button>
+            <button type="button" (click)="onSendVideo($event)" class="ui red button">Загрузить</button>
+            <button type="button" (click)="ClearVideoFile()" class="ui button">Отмена</button>
         </div>
         <label class="fluid ui big green button" *ngIf="!this.videoFile" for="videoFile"> 
-            Upload Video &nbsp;
+            Загрузить видео &nbsp;
             <i class="upload icon"></i>
             <input #videoFileInput type="file" id="videoFile" name="videoFile" (change)="ChangeListener($event)" style="display: none">
         </label>
 
-        <div *ngIf="videoFileProgress > 0" class="ui indicating progress" [attr.data-percent]="videoFileProgress">
-            <div class="bar" [ngStyle]="{'transition-duration': '300ms', 'width': videoFileProgress+'%'}">
+        <div *ngIf="isSending || isVideoUploadDone" class="ui indicating progress" [attr.data-percent]="videoFileProgress">
+            <div *ngIf="!isVideoUploadDone" class="bar" [ngStyle]="{'transition-duration': '300ms', 'width': videoFileProgress+'%'}">
                 <div class="progress">{{videoFileProgress}}%</div>
             </div>
-            <div class="label">Uploading Video...</div>
+            <div *ngIf="!isVideoUploadDone" class="label">Загрузка видео...</div>
+            <div *ngIf="isVideoUploadDone && !this.videoFile" class="label">Видео успешно загружено</div>
         </div>
+        
     </div>
 </div>

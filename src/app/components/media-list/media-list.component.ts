@@ -25,6 +25,8 @@ export class MediaListComponent extends CommonComponent {
     public channelId: number;
     public channels: Array<Channel> = [];
 
+    public loadingMedia: boolean = false;
+
     constructor(
         protected router: Router,
         protected authService: AuthService,
@@ -44,7 +46,7 @@ export class MediaListComponent extends CommonComponent {
         this.channelId = + localStorage.getItem('channelId') || null;
 
         this.loadChannels();      
-        this.loadMedia();
+        this.loadMedias();
     }
 
     ngAfterViewInit() { 
@@ -57,19 +59,23 @@ export class MediaListComponent extends CommonComponent {
         */
     }
 
-    loadMedia() {        
+    loadMedias() {        
+
         if (!this.channelId)
             return;
         this.getTotalMediaCount();      
         let countItems = this.itemsPerPage;
         let startItem = (this.currentPage * countItems) - countItems + 1;
+        
+        this.loadingMedia = true;
 
-        this.medias.length = 0;
         this.partnerService.getMedias(this.authService.sessionId, this.channelId, startItem, countItems).subscribe( data => {  
             let medias = this.respondHandler(data);
             if (medias && medias.Data !== undefined) {
+                this.medias.length = 0;
                 medias.Data.map((item:any) =>  this.medias.push(new Media(item)));  
-            }       
+            } 
+            this.loadingMedia = false;      
         }, 
             error => this.errorHandler(error)
         );  
@@ -100,17 +106,23 @@ export class MediaListComponent extends CommonComponent {
         ); 
     }
 
-    mediaBlock(mediaId: number) {
-        this.partnerService.blockMedia(this.authService.sessionId, mediaId, 1).subscribe( res => {  
-            let data = this.respondHandler(res);
-        }, 
-            error => this.errorHandler(error)
-        );
+    mediaBlock(mediaId: number) {        
+        
+        if(confirm("Вы действительно хотите заблокировать ролик?")) {
+            this.partnerService.blockMedia(this.authService.sessionId, mediaId, 1).subscribe( res => {  
+                let data = this.respondHandler(res);
+                this.loadMedias();
+            }, 
+                error => this.errorHandler(error)
+            );
+        }
+        
     }
 
     mediaUnblock(mediaId: number) {
         this.partnerService.unblockMedia(this.authService.sessionId, mediaId, 1).subscribe( res => {  
             let data = this.respondHandler(res);
+            this.loadMedias();
         }, 
             error => this.errorHandler(error)
         );
@@ -125,7 +137,7 @@ export class MediaListComponent extends CommonComponent {
         this.channelId = newValue;        
         localStorage.setItem('channelId', this.channelId.toString());
         this.currentPage = 1;
-        this.loadMedia();
+        this.loadMedias();
     }
 
 
@@ -133,13 +145,13 @@ export class MediaListComponent extends CommonComponent {
         this.itemsPerPage = newValue;
         localStorage.setItem('itemsPerPage', this.itemsPerPage.toString());
         this.currentPage = 1;
-        this.loadMedia();
+        this.loadMedias();
     }
 
     pageUpdated(page: number) {
         //console.log('PAGE UPDATED 2');
         this.currentPage = page;
-        this.loadMedia();
+        this.loadMedias();
     }
 
 }

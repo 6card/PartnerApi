@@ -14,13 +14,16 @@ import { PartnerService } from '../../services/partner.service';
 
 export class VideoUploadComponent extends CommonComponent  {
 
-    @Output() sendVideo: EventEmitter<any> = new EventEmitter();
+    //@Output() sendVideo: EventEmitter<any> = new EventEmitter();
+    @Output() onSendVideoDone: EventEmitter<any> = new EventEmitter();
     @Input() mediaId: number;
-    @Input() videoFileProgress: number;
+    
     @ViewChild('videoFileInput') inputVariable: any;
 
     public videoFile: File = null;    
     public isSending: boolean = false;
+    public videoFileProgress: number = 0;
+    public isVideoUploadDone: boolean = false;
 
     constructor(
         protected authService: AuthService,
@@ -36,11 +39,12 @@ export class VideoUploadComponent extends CommonComponent  {
     }
 
     onSendVideo(event: any): void {
-        this.UploadVideoFile(this.videoFile);
+        this.UploadVideoFile(this.videoFile);        
     }
 
     ChangeListener($event: any): void {
         this.videoFile = $event.target.files[0];
+        this.isVideoUploadDone = false;
     }
 
     ClearVideoFile() {
@@ -50,6 +54,8 @@ export class VideoUploadComponent extends CommonComponent  {
     UploadVideoFile(videoFile: File){        
         this.partnerService.startUpload(this.authService.sessionId, this.mediaId, 0).subscribe( res => {  
             this.readThis(videoFile, res.Data);
+            this.isVideoUploadDone = false;
+            this.isSending = true;
         }, 
             error => console.log(error)
         ); 
@@ -111,19 +117,20 @@ export class VideoUploadComponent extends CommonComponent  {
         myReader.onloadend = function(e){
              if (this.readyState == 2) { // Загрузка DONE
 
-                console.log('uploading ' + start + '-' + end + '/' + file.size)
+                //console.log('uploading ' + start + '-' + end + '/' + file.size)
 
                 //загружаем кусок и после удачной загрузки рисуем прогресс и запускаем следующую порцию
 
                 that.partnerService.videoUpload(uploadSessionId, start, blob, file.name).subscribe( res => {  
                     //console.log();
                     that.videoFileProgress = Math.round((start + blob.size) * 100 / file.size);
-                    console.log('loaded');
+                    //console.log('loaded');
                     if (end >= file.size) {
-                        console.log('end');
+                        //console.log('end');
                         that.partnerService.completeUpload(uploadSessionId).subscribe( res => {                             
                             if (res.Success == true) {
-                                 console.log(res);
+                                 //console.log(res);
+                                 that.VideoUploadDone();
                             }
                             else {
                                 if (res.Message.Id == 17) {
@@ -137,7 +144,7 @@ export class VideoUploadComponent extends CommonComponent  {
                         ); ;
                     }
                     else {
-                        console.log('continue...');
+                        //console.log('continue...');
                         that.UploadPortion(file, uploadSessionId, end, length);
                     }
   
@@ -158,9 +165,20 @@ export class VideoUploadComponent extends CommonComponent  {
     setVideo(videoId: number) {
         this.partnerService.setVideo(this.authService.sessionId, videoId, this.mediaId, 1).subscribe( res => {  
             let data = this.respondHandler(res);
+            if (data.Success == true) {
+                this.VideoUploadDone();
+            }
         }, 
             error => this.errorHandler(error)
         );
+    }
+
+    VideoUploadDone() {
+        this.ClearVideoFile();
+        this.isVideoUploadDone = true;
+        this.isSending = false;
+        this.videoFileProgress = 0;
+        this.onSendVideoDone.emit();
     }
 
 }
