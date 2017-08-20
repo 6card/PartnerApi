@@ -8,7 +8,7 @@
         <div class="ui segment">
           <video-upload
             [mediaId]="mediaId"
-            (onSendVideoDone)="updateMedia()"
+            (onSendVideoDone)="onVideoUploadDone()"
           ></video-upload>
           <h4 class="ui dividing header" *ngIf="media.Videos && media.Videos.length > 0">Видео</h4>
           <table *ngIf="media.Videos && media.Videos.length > 0" class="ui celled striped table">
@@ -22,7 +22,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let Video of media.Videos | orderBy: ['-CreateTime']">
-                <td>{{Video.CreateTime | date:'dd-MM-yyyy HH:mm'}}</td>
+                <td>{{Video.CreateTimeGMT | date:'dd-MM-yyyy HH:mm'}}</td>
                 <td>{{Video.Width}}x{{Video.Height}}</td>
                 <td>{{Video.Duration | secondsToTime}}</td>
                 <td>{{Video.StateName}}</td>
@@ -62,13 +62,13 @@
                   <td class="collapsing">
                       Время создания
                   </td>
-                  <td>{{media.CreateTime | date:'dd-MM-yyyy HH:mm'}}</td>
+                  <td>{{media.CreateTimeGMT | date:'dd-MM-yyyy HH:mm'}}</td>
                 </tr>
                 <tr>
                   <td class="collapsing">
                       Время изменения
                   </td>
-                  <td>{{media.UpdateTime | date:'dd-MM-yyyy HH:mm'}}</td>
+                  <td>{{media.UpdateTimeGMT | date:'dd-MM-yyyy HH:mm'}}</td>
                 </tr>
                 <tr>
                   <td class="collapsing">

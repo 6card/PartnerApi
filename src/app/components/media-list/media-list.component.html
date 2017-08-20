@@ -49,16 +49,16 @@
                 <a  [routerLink]="['/media', media.MediaId]">{{media.Title}}</a>
               </td>
               <td>{{media.ShootDateUtc | date:'dd-MM-yyyy HH:mm'}}</td>
-              <td>{{media.PubDate | date:'dd-MM-yyyy HH:mm'}}</td>
+              <td>{{media.PubDateGMT | date:'dd-MM-yyyy HH:mm'}}</td>
               <td><img class="ui tiny image" [src]="media.ThumbnailUrl"></td>
               <td><div [ngClass]="media.StateColor" class="ui label">{{media.StateName}}</div></td>
               <td>
                 <div class="ui buttons">
-                  <button class="ui icon button" [routerLink]="['/media', media.MediaId]" title="edit"><i class="edit icon"></i></button>
-                  <button class="ui red icon button" *ngIf="media.isPossibleToBlock" title="block" (click)="mediaBlock(media.MediaId)"><i class="lock icon"></i></button>
-                  <button class="ui green icon button" *ngIf="media.isPossibleToUnblock" title="unblock" (click)="mediaUnblock(media.MediaId)"><i class="unlock icon"></i></button>
-                  <button class="ui blue icon button" *ngIf="media.isPossibleToView" title="view video" (click)="alert('view')"><i class="video play outline icon"></i></button>
-                  <a class="ui icon button" href="https://www.newstube.ru/embed/{{media.MediaGuid}}" target="_blank" title="view on site" (click)="openViewWindow($event)"><i class="external icon"></i></a>
+                  <button class="ui icon button" [routerLink]="['/media', media.MediaId]" title="редактировать"><i class="edit icon"></i></button>
+                  <button class="ui red icon button" *ngIf="media.isPossibleToBlock" title="заблокировать" (click)="mediaBlock(media.MediaId)"><i class="lock icon"></i></button>
+                  <button class="ui green icon button" *ngIf="media.isPossibleToUnblock" title="разблокировать" (click)="mediaUnblock(media.MediaId)"><i class="unlock icon"></i></button>
+                  <button class="ui blue icon button" *ngIf="media.isPossibleToView" title="смотреть видео" (click)="alert('view')"><i class="video play outline icon"></i></button>
+                  <a class="ui icon button" href="https://www.newstube.ru/embed/{{media.MediaGuid}}" target="_blank" title="смотреть на сайте" (click)="openViewWindow($event)"><i class="external icon"></i></a>
                 </div>
               </td>
           </tr>  

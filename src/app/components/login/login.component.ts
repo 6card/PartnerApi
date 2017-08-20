@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
 
       // get return url from route parameters or default to '/'
       this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-      console.log(this.returnUrl);
+      //console.log(this.returnUrl);
   }
 
   doLogin(event:any) {
@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
               this.router.navigate([this.returnUrl]);
           } else {
               // login failed
-              this.error = 'Username or password is incorrect';
+              this.error = 'Неправильный логин или пароль';
               this.loading = false;
           }
       });

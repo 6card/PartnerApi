@@ -90,15 +90,7 @@ export class MediaDetailComponent extends CommonComponent implements DoCheck{
         ); 
     }
 
-    updateMedia() { 
-        this.partnerService.updateMedia(this.authService.sessionId, this.media).subscribe( res => {  
-            let data = this.respondHandler(res);
-            this.loadMedia(this.media.MediaId);
-        }, 
-            error => this.errorHandler(error)
-        );
-        
-    }
+    
 
     changeMediaBlock(e: any) {
         if(e.target.checked){
@@ -167,6 +159,16 @@ export class MediaDetailComponent extends CommonComponent implements DoCheck{
         return url;
     }
 
+    updateMedia(data: any) { 
+        this.partnerService.updateMedia(this.authService.sessionId, data).subscribe( res => {  
+            let data = this.respondHandler(res);
+            this.loadMedia(this.media.MediaId);
+        }, 
+            error => this.errorHandler(error)
+        );
+        
+    }
+
     formUpdated(params: any) {
 
         this.media.Title = params.title;
@@ -174,11 +176,22 @@ export class MediaDetailComponent extends CommonComponent implements DoCheck{
         this.media.ChannelId = params.channelId;
         this.media.ShootDate = params.shootDate;
         delete this.media.ShootDateUtc;
+
+        let obj = {
+            'MediaId': this.mediaId,
+            'ShootDate': params.shootDate,
+            'Title' : params.title,
+            'Description' : params.description
+        }
         
         //this.media.State = params.state ? 1 : 0;
 
         //console.log(this.media);
-        this.updateMedia();
+        this.updateMedia(obj);
+    }
+
+    onVideoUploadDone() {
+        this.mediaForm.pushValues();
     }
 
     get ChannelName(): string {

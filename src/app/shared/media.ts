@@ -19,7 +19,7 @@ export class Channel {
 }
 
 export class Media {
-  UpdateTime: string; //, optional),
+  UpdateTime: Date; //, optional),
   MediaId: number; //, optional): Внутренний идентификатор ролика. При обновление MediaId или ExternalId должны быть выставлены ,
   ExternalId: string; //, optional): Идентификатор ролика на стороне импортера. При обновление MediaId или ExternalId должны быть выставлены. stringMax. Length:256,
   MediaGuid: string; //, optional): readonly. Guid ролика ,
@@ -28,9 +28,9 @@ export class Media {
   AfterVideoUploadUnblockMedia: boolean; //, optional): После загрузки видео, разблокировать ролик. ,
   Title: string; //): Название ролика stringMax. Length:256,
   Description: string; //, optional): Описание ролика stringMax. Length:4000,
-  ShootDate: string; //): Время съемки сюжета или время публикации в MSK, ShootDate или ShootDateUtc должны быть выставлены ,
-  ShootDateUtc: string; //): Время съемки сюжета или время публикации в UTC, ShootDate или ShootDateUtc должны быть выставлены ,
-  PubDate: string; //, optional): readonly. Время публикации на newstube ,
+  ShootDate: Date; //): Время съемки сюжета или время публикации в MSK, ShootDate или ShootDateUtc должны быть выставлены ,
+  ShootDateUtc: Date; //): Время съемки сюжета или время публикации в UTC, ShootDate или ShootDateUtc должны быть выставлены ,
+  PubDate: Date; //, optional): readonly. Время публикации на newstube ,
   Link: string; //, optional): Ссылка на ресурс импортера stringMax. Length:256,
   Series: string; //, optional): Название передачи на канале stringMax. Length:200,
   Keywords: Array<string>; //, optional): Список ключевых слов ,
@@ -43,7 +43,7 @@ export class Media {
   Videos: Array<Video>; //, optional): readonly. Список видео ролика ,
   Downloads: Array<Download>; //, optional): readonly. Файлы отправленные на загрузку ,
   Actions: number; //, optional):readonly. Флаги дотсупных действий для ролика ,
-  CreateTime: string; //, optional): readonly. Время создания ролика UTC ,
+  CreateTime: Date; //, optional): readonly. Время создания ролика UTC ,
   State: number; //, optional): readonly. Состояние ролика UTC = ['0', '1', '5', '7', '8', '10', '16', '20']integerEnum:0, 1, 5, 7, 8, 10, 16, 20,
   User: User; //, optional): Пользователь добавивший ролик ,
   SourceGuid: string; //, optional): Источник из которого получена информация по ролику, значение выбирается импортером ,
@@ -51,7 +51,7 @@ export class Media {
 
   EmbedUrl: string;
   constructor(obj: Object) {
-    this.UpdateTime = obj['UpdateTime'];
+    this.UpdateTime = new Date(obj['UpdateTime']);
     this.MediaId = obj['MediaId'];
     this.ExternalId = obj['ExternalId'];
     this.MediaGuid = obj['MediaGuid'];
@@ -60,9 +60,9 @@ export class Media {
     this.AfterVideoUploadUnblockMedia = obj['AfterVideoUploadUnblockMedia'];
     this.Title = obj['Title'];
     this.Description = obj['Description'];
-    this.ShootDate = obj['ShootDate'];
-    this.ShootDateUtc = obj['ShootDateUtc'];
-    this.PubDate = obj['PubDate'];
+    this.ShootDate = new Date(obj['ShootDate']);
+    this.ShootDateUtc = new Date(obj['ShootDateUtc']);
+    this.PubDate = new Date(obj['PubDate']);
     this.Link = obj['Link'];
     this.Series = obj['Series'];
     this.Keywords = obj['Keywords'];
@@ -75,13 +75,31 @@ export class Media {
     this.Videos = obj['Videos'] ? obj['Videos'].map((item: any) => new Video(item)) : undefined;
     this.Downloads = obj['Downloads'] ? obj['Downloads'].map((item: any) => new Download(item)) : undefined;
     this.Actions = obj['Actions'];
-    this.CreateTime = obj['CreateTime'];
+    this.CreateTime = new Date(obj['CreateTime']);
     this.State = obj['State'];
     this.User = obj['User'];
     this.SourceGuid = obj['SourceGuid'];
     this.Data = obj['Data'];
 
     this.EmbedUrl = '//www.newstube.ru/embed/'+ obj['MediaGuid'];
+  }
+
+  get CreateTimeGMT() {
+    if (this.CreateTime)
+      return this.CreateTime.getTime() - (this.CreateTime.getTimezoneOffset() * 60000);
+    return false;
+  }
+
+  get UpdateTimeGMT() {
+    if (this.UpdateTime)
+      return this.UpdateTime.getTime() - (this.UpdateTime.getTimezoneOffset() * 60000);
+    return false;
+  }
+
+  get PubDateGMT() {
+    if (this.PubDate)
+      return this.PubDate.getTime() - (this.PubDate.getTimezoneOffset() * 60000);
+    return false;
   }
 
   get StateName(): string {  
@@ -151,8 +169,8 @@ export class Video {
   Duration: number; //, optional): Длительность, ms ,
   Url: string; //, optional): Адрес с которого загрузилось видео ,
   State: number; //, optional): Состояние файла. 0 зарегистрирован 2 загружен 3 транскодируется 4 готов 6 готов, исходный файл удален 35 ошибка кодирования ,
-  CreateTime: string; //, optional): Время загрузки видео ,
-  UpdateTime: string; //, optional): Последнее изменение с файлом ,
+  CreateTime: Date; //, optional): Время загрузки видео ,
+  UpdateTime: Date; //, optional): Последнее изменение с файлом ,
   Downloads: Array<Download>; //, optional): История запросов на загрузку видео
   
   constructor(obj: Object) {
@@ -162,9 +180,17 @@ export class Video {
     this.Duration = obj['Duration'];
     this.Url = obj['Url'];
     this.State = obj['State'];
-    this.CreateTime = obj['CreateTime'];
-    this.UpdateTime = obj['UpdateTime'];
+    this.CreateTime = new Date(obj['CreateTime']);
+    this.UpdateTime = new Date(obj['UpdateTime']);
     this.Downloads = obj['Downloads'] ? obj['Downloads'].map((item: any) => new Download(item)) : undefined;
+  }
+
+  get CreateTimeGMT() {
+    return this.CreateTime.getTime() - (this.CreateTime.getTimezoneOffset() * 60000);
+  }
+
+  get UpdateTimeGMT() {
+    return this.UpdateTime.getTime() - (this.UpdateTime.getTimezoneOffset() * 60000);
   }
 
   get StateName(): string {  
