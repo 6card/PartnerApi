@@ -26,6 +26,7 @@ import { PartnerService } from './services/partner.service';
 import { AuthGuard } from './shared/auth.guard';
 
 import { SafePipe } from './pipes/safe.pipe';
+import { KeysPipe } from './pipes/keys.pipe';
 import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe';
 import { OrderByPipe } from './pipes/order-by.pipe';
 
@@ -60,6 +61,7 @@ const	routes:	Routes	=	[
 
     //DatePipe,
     SafePipe,
+    KeysPipe,
     SecondsToTimePipe,
     OrderByPipe
   ],

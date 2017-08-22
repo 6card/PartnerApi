@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute, Params } from "@angular/router";
 
 import { CommonComponent }  from '../../shared/common.component';
 //import { PaginationComponent } from "../pagination.component"
@@ -22,8 +22,11 @@ export class MediaListComponent extends CommonComponent {
     public itemsPerPage: number = 2;
     public totalItems: number;
     public error: any;
-    public channelId: number;
-    public channels: Array<Channel> = [];
+    public channelId: number = -1;
+    public stateId: number = -1;
+    public states: any = Object.assign({'-1': 'Все статусы'}, Media.getStates());
+    public title: string = '';
+    public channels: Array<Channel> = [new Channel({Title: 'Все каналы', Id: -1})];
 
     public loadingMedia: boolean = false;
 
@@ -31,9 +34,13 @@ export class MediaListComponent extends CommonComponent {
         protected router: Router,
         protected authService: AuthService,
         protected partnerService: PartnerService,
-        protected alertService: AlertService
+        protected alertService: AlertService,
+        protected activatedRoute: ActivatedRoute
     ) { 
         super(authService, partnerService, alertService);
+
+    //this.states.concat(Media.getStates()); 
+    //console.log(this.states);
       /*
       if (!partnerService.xSessionId) {
         this.router.navigate(['login']);
@@ -42,11 +49,20 @@ export class MediaListComponent extends CommonComponent {
     }
 
     ngOnInit(){
-        this.itemsPerPage = + localStorage.getItem('itemsPerPage') || ITEMS_PER_PAGE;
-        this.channelId = + localStorage.getItem('channelId') || null;
-
-        this.loadChannels();      
-        this.loadMedias();
+        
+        //this.itemsPerPage = + localStorage.getItem('itemsPerPage') || ITEMS_PER_PAGE;
+        //this.channelId = + localStorage.getItem('channelId') || null;
+        this.loadChannels();
+        this.activatedRoute.queryParams.subscribe( (param: Params) => {
+            this.currentPage = param['page'] || 1;
+            this.channelId = param['channel'] || -1;
+            this.stateId = param['state'] || -1;
+            this.title = param['title'] || '';
+            this.itemsPerPage = param['items'] || localStorage.getItem('itemsPerPage') || ITEMS_PER_PAGE;
+            this.loadMedias();
+        });
+        
+        
     }
 
     ngAfterViewInit() { 
@@ -69,7 +85,7 @@ export class MediaListComponent extends CommonComponent {
         
         this.loadingMedia = true;
 
-        this.partnerService.getMedias(this.authService.sessionId, this.channelId, startItem, countItems).subscribe( data => {  
+        this.partnerService.getMedias(this.authService.sessionId, this.channelId, startItem, countItems, this.stateId, this.title).subscribe( data => {  
             let medias = this.respondHandler(data);
             if (medias && medias.Data !== undefined) {
                 this.medias.length = 0;
@@ -82,7 +98,7 @@ export class MediaListComponent extends CommonComponent {
     }
 
     getTotalMediaCount() {
-        this.partnerService.getMediasCount(this.authService.sessionId, this.channelId).subscribe( res => {  
+        this.partnerService.getMediasCount(this.authService.sessionId, this.channelId, this.stateId, this.title).subscribe( res => {  
             let data = this.respondHandler(res);
             if (data.Data !== undefined) {
                 this.totalItems = data.Data;
@@ -99,7 +115,8 @@ export class MediaListComponent extends CommonComponent {
         this.partnerService.getChannels(this.authService.sessionId).subscribe( res => {  
             let data = this.respondHandler(res);
             if (data.Data !== undefined) {
-                data.Data.map((item:any) =>  this.channels.push(new Channel(item)));  
+                data.Data.map((item:any) =>  this.channels.push(new Channel(item))); 
+                //console.log(this.channels); 
             }   
         }, 
             error => this.errorHandler(error)
@@ -135,9 +152,10 @@ export class MediaListComponent extends CommonComponent {
 
     onChannelChange(newValue: number) {
         this.channelId = newValue;        
-        localStorage.setItem('channelId', this.channelId.toString());
+        //localStorage.setItem('channelId', this.channelId.toString());
         this.currentPage = 1;
-        this.loadMedias();
+        //this.loadMedias();
+        this.navigate();
     }
 
 
@@ -145,13 +163,31 @@ export class MediaListComponent extends CommonComponent {
         this.itemsPerPage = newValue;
         localStorage.setItem('itemsPerPage', this.itemsPerPage.toString());
         this.currentPage = 1;
-        this.loadMedias();
+        //this.loadMedias();
+        this.navigate();
+    }
+
+    onStateChange(state: number) {
+        this.stateId = state;
+        this.currentPage = 1;
+        this.navigate();
+    }
+
+    onTitleChange(title: string) {
+        this.title = title;
+
+        this.navigate();
     }
 
     pageUpdated(page: number) {
         //console.log('PAGE UPDATED 2');
         this.currentPage = page;
-        this.loadMedias();
+        this.navigate();
+        //this.loadMedias();
+    }
+
+    navigate() {
+        this.router.navigate(['/media'], { queryParams: { page: this.currentPage, items: this.itemsPerPage, channel: this.channelId, state: this.stateId, title: this.title } });
     }
 
 }

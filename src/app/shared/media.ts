@@ -102,8 +102,8 @@ export class Media {
     return false;
   }
 
-  get StateName(): string {  
-    let statuses = {
+  static getStates(): any {
+    return {
         0: "зарегистрирован",
         1: "загружен",
         5: "модерируется",
@@ -114,6 +114,10 @@ export class Media {
         20: "дубль",
         21: "заблокировано правообладателем"
     };
+  }
+
+  get StateName(): string {  
+    let statuses = Media.getStates();
     return statuses[this.State];
   }
 

@@ -15,6 +15,8 @@ export class AuthService {
     constructor(private http: Http) {
         let lcstg = localStorage.getItem('currentUser');
         this.sessionId = lcstg ? JSON.parse(lcstg).token : null;
+        if (this.sessionId)
+            this.authenticated.next(true);
         this.username = lcstg ? JSON.parse(lcstg).username : null;
     }
 

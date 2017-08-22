@@ -17,25 +17,29 @@ export class PartnerService {
  
   }
 
-  getMediasCount(sessionId: string, channelId: any) {
-    let apiURL = this.apiRoot + API_URLS.MEDIA_IMPORT_MEDIAS_PAGE_COUNT;
+  getMediasCount(sessionId: string, channelId: any, stateId: any, title: string) {
+    let apiURL = this.apiRoot + API_URLS.MEDIA_MEDIAS_PAGE_COUNT;
     let params: URLSearchParams = new URLSearchParams();
 
     params.set('sessionId', sessionId);
     params.set('channelId', channelId);
-
+    params.set('stateId', stateId);
+    params.set('title', title);
+    
     return this.http.get(apiURL, {search: params} )
       .map((res:Response) => {
         return res.json();
     }).catch(this.handleError);
   }
 
-  getMedias(sessionId: string, channelId: any, startItem: any, countItems: any) {
-    let apiURL = this.apiRoot + API_URLS.MEDIA_IMPORT_MEDIAS_PAGE;
+  getMedias(sessionId: string, channelId: any, startItem: any, countItems: any, stateId: any, title: string) {
+    let apiURL = this.apiRoot + API_URLS.MEDIA_MEDIAS_PAGE;
     let params: URLSearchParams = new URLSearchParams();
 
     params.set('sessionId', sessionId);
     params.set('channelId', channelId);
+    params.set('stateId', stateId);
+    params.set('title', title);
     params.set('start', startItem);
     params.set('length', countItems);
 

@@ -22,7 +22,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let Video of media.Videos | orderBy: ['-CreateTime']">
-                <td>{{Video.CreateTimeGMT | date:'dd-MM-yyyy HH:mm'}}</td>
+                <td>{{Video.CreateTimeGMT | date:'dd.MM.yyyy HH:mm'}}</td>
                 <td>{{Video.Width}}x{{Video.Height}}</td>
                 <td>{{Video.Duration | secondsToTime}}</td>
                 <td>{{Video.StateName}}</td>
@@ -51,7 +51,7 @@
           <button class="ui red button" *ngIf="media.isPossibleToBlock" (click)="mediaBlock()" title="Заблокировать">Заблокировать</button>
           <button class="ui green button" *ngIf="media.isPossibleToUnblock" (click)="mediaUnblock()" title="Разблокировать">Разблокировать</button>
           <a class="ui button" *ngIf="media.isAvailableMediaStat" [href]="MediaReportsUrl" target="_blank" title="Отчеты по ролику">Отчеты по ролику</a>
-          <a class="ui orange button" *ngIf="media.isAvailableOnSite" href="https://www.newstube.ru/embed/{{media.MediaGuid}}" target="_blank" title="Посмотреть на сайте">Посмотреть на сайте</a>     
+          <a class="ui orange button" *ngIf="media.isAvailableOnSite" href="{{media.CanonicalUrl}}" target="_blank" title="Посмотреть на сайте">Посмотреть на сайте</a>     
         </div>
 
         <div class="ui segment">
@@ -62,13 +62,13 @@
                   <td class="collapsing">
                       Время создания
                   </td>
-                  <td>{{media.CreateTimeGMT | date:'dd-MM-yyyy HH:mm'}}</td>
+                  <td>{{media.CreateTimeGMT | date:'dd.MM.yyyy HH:mm'}}</td>
                 </tr>
                 <tr>
                   <td class="collapsing">
                       Время изменения
                   </td>
-                  <td>{{media.UpdateTimeGMT | date:'dd-MM-yyyy HH:mm'}}</td>
+                  <td>{{media.UpdateTimeGMT | date:'dd.MM.yyyy HH:mm'}}</td>
                 </tr>
                 <tr>
                   <td class="collapsing">
@@ -87,7 +87,7 @@
                       Ссылка на сайт
                   </td>
                   <td>
-                    <a *ngIf="media.isAvailableOnSite" href="https://www.newstube.ru/embed/{{media.MediaGuid}}" target="_blank" title="Посмотреть на сайте">https://www.newstube.ru/embed/{{media.MediaGuid}}</a>
+                    <a *ngIf="media.isAvailableOnSite" href="{{media.CanonicalUrl}}" target="_blank" title="Посмотреть на сайте">{{media.CanonicalUrl}}</a>
                   </td>
                 </tr>
                 <tr>

@@ -77,7 +77,7 @@ export class CalendarComponent implements AfterViewInit {
     //2017-07-15T19:06:00+03:00
     if (value instanceof Date) {
       
-        let transformDate = this.datepipe.transform(value, 'dd-MM-yyyy HH:mm');
+        let transformDate = this.datepipe.transform(value, 'dd.MM.yyyy HH:mm');
         this.fGroup.controls[this.fControlName].setValue(transformDate);
         this.changeDate.emit(value);
     }

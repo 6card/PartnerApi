@@ -7,8 +7,8 @@ export class OrderByPipe implements PipeTransform {
     
       if((isNaN(parseFloat(a)) || !isFinite(a)) || (isNaN(parseFloat(b)) || !isFinite(b))){
         //Isn't a number so lowercase the string to properly compare
-        if(a.toLowerCase() < b.toLowerCase()) return -1;
-        if(a.toLowerCase() > b.toLowerCase()) return 1;
+        if(a.toString().toLowerCase() < b.toString().toLowerCase()) return -1;
+        if(a.toString().toLowerCase() > b.toString().toLowerCase()) return 1;
       }
       else{
         //Parse strings as numbers to compare properly
