@@ -58,7 +58,7 @@ export class CalendarComponent implements AfterViewInit {
             let hour = date.getHours();
             let minute = date.getMinutes();
 
-            let total = ((day < 10 ? '0' + day : day) + '-' + (month < 10 ? '0' + month : month) + '-' + year + ' ' + (hour < 10 ? '0' + hour : hour) + ':' + (minute < 10 ? '0' + minute : minute));
+            let total = ((day < 10 ? '0' + day : day) + '.' + (month < 10 ? '0' + month : month) + '.' + year + ' ' + (hour < 10 ? '0' + hour : hour) + ':' + (minute < 10 ? '0' + minute : minute));
            
             return total;
         }
