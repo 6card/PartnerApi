@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 
 import { AuthService } from '../services/auth.service';
 import { AlertService } from '../services/alert.service';
@@ -19,8 +19,10 @@ export class CommonComponent implements OnInit, AfterViewInit {
         private alertService = this.injector.get(AlertService);
     */
 
-    ngOnInit(){ }
+    ngOnInit(){ }    
     ngAfterViewInit() { }
+
+    ngOnDestroy() { }
 
     protected respondHandler(data: any) {
         if (!data.Success) {

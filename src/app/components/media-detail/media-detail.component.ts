@@ -40,10 +40,18 @@ export class MediaDetailComponent extends CommonComponent implements DoCheck{
       */
     }
 
+    ngOnInit(){
+        this.route.params.forEach((params: Params) => {
+             this.mediaId = params['id'];
+             this.loadMedia(this.mediaId);
+         });        
+         this.loadChannels();
+     }
+
     ngDoCheck() {
         if (this.oldMedia !== this.media) {
             this.oldMedia = this.media;
-            if (this.media.isPossibleToView) {
+            if (this.media.isPossibleToView && this.media.Video) {
                 this.getTempEmbedUrl();
             }
 
@@ -51,17 +59,6 @@ export class MediaDetailComponent extends CommonComponent implements DoCheck{
                 this.getMediaReportsUrl();
             }
         }
-    }
-
-    ngOnInit(){
-       this.route.params.forEach((params: Params) => {
-            this.mediaId = params['id'];
-            this.loadMedia(this.mediaId);
-        });        
-        this.loadChannels();
-
-        
-        
     }
 
     loadChannels() { 

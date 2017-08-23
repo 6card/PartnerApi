@@ -137,6 +137,9 @@ export class VideoUploadComponent extends CommonComponent  {
                                     if(confirm(res.Message.Text + " Привязать это видео?")) {
                                         that.setVideo(res.Data);
                                     }
+                                    else {
+                                        that.VideoUploadFail();
+                                    }
                                 }
                             }
                         }, 
@@ -179,6 +182,12 @@ export class VideoUploadComponent extends CommonComponent  {
         this.isSending = false;
         this.videoFileProgress = 0;
         this.onSendVideoDone.emit();
+    }
+
+    VideoUploadFail() {
+        this.ClearVideoFile();
+        this.isSending = false;
+        this.videoFileProgress = 0;
     }
 
 }

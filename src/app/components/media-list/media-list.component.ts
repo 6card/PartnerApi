@@ -9,6 +9,9 @@ import { AlertService } from '../../services/alert.service';
 import { PartnerService } from '../../services/partner.service';
 import { Media, Channel } from '../../shared/media';
 
+import { Subject } from 'rxjs/Subject';
+import { ISubscription } from "rxjs/Subscription";
+
 const ITEMS_PER_PAGE = 2;
 
 @Component({
@@ -28,7 +31,12 @@ export class MediaListComponent extends CommonComponent {
     public title: string = '';
     public channels: Array<Channel> = [new Channel({Title: 'Все каналы', Id: -1})];
 
+    titleChanged: Subject<string> = new Subject<string>();
+
     public loadingMedia: boolean = false;
+
+    private activatedRouteSubscription: ISubscription;
+    private titleChangedSubscription: ISubscription;
 
     constructor(
         protected router: Router,
@@ -38,6 +46,8 @@ export class MediaListComponent extends CommonComponent {
         protected activatedRoute: ActivatedRoute
     ) { 
         super(authService, partnerService, alertService);
+
+        
 
     //this.states.concat(Media.getStates()); 
     //console.log(this.states);
@@ -53,16 +63,29 @@ export class MediaListComponent extends CommonComponent {
         //this.itemsPerPage = + localStorage.getItem('itemsPerPage') || ITEMS_PER_PAGE;
         //this.channelId = + localStorage.getItem('channelId') || null;
         this.loadChannels();
-        this.activatedRoute.queryParams.subscribe( (param: Params) => {
+        this.activatedRouteSubscription = this.activatedRoute.queryParams.subscribe( (param: Params) => {
             this.currentPage = param['page'] || 1;
-            this.channelId = param['channel'] || -1;
-            this.stateId = param['state'] || -1;
+            this.channelId = param['channel'] || localStorage.getItem('channelId') || -1;
+            this.stateId = param['state'] || localStorage.getItem('stateId') || -1;
             this.title = param['title'] || '';
             this.itemsPerPage = param['items'] || localStorage.getItem('itemsPerPage') || ITEMS_PER_PAGE;
             this.loadMedias();
         });
+
+        this.titleChangedSubscription = this.titleChanged
+            .debounceTime(500) // wait 300ms after the last event before emitting last event
+            .distinctUntilChanged() // only emit if value is different from previous value
+            .subscribe(title => {
+                this.title = title;
+                this.navigate();
+        });
         
         
+    }
+
+    ngOnDestroy() {
+        this.activatedRouteSubscription.unsubscribe();
+        this.titleChangedSubscription.unsubscribe();
     }
 
     ngAfterViewInit() { 
@@ -73,6 +96,13 @@ export class MediaListComponent extends CommonComponent {
                 allowAdditions: true
             });
         */
+    }
+
+    getChannelName(channelId: number): string {
+        let channel: Channel = this.channels.filter( (item: Channel) => item.Id == channelId)[0];
+        if (!channel)
+            return '';
+        return channel.Title;
     }
 
     loadMedias() {        
@@ -152,7 +182,7 @@ export class MediaListComponent extends CommonComponent {
 
     onChannelChange(newValue: number) {
         this.channelId = newValue;        
-        //localStorage.setItem('channelId', this.channelId.toString());
+        localStorage.setItem('channelId', this.channelId.toString());
         this.currentPage = 1;
         //this.loadMedias();
         this.navigate();
@@ -169,14 +199,15 @@ export class MediaListComponent extends CommonComponent {
 
     onStateChange(state: number) {
         this.stateId = state;
+        localStorage.setItem('stateId', this.stateId.toString());
         this.currentPage = 1;
         this.navigate();
     }
 
     onTitleChange(title: string) {
-        this.title = title;
+        this.titleChanged.next(title);
 
-        this.navigate();
+        
     }
 
     pageUpdated(page: number) {

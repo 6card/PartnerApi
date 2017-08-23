@@ -1,6 +1,6 @@
 <div class="ui stackable grid">
   <div class="row">
-    <div class="four wide column">
+    <div class="sixteen wide column">
       <label>
         Показывать по 
         <select [ngModel]="itemsPerPage" (ngModelChange)="onItemsPerPageChange($event)" >
@@ -9,28 +9,6 @@
             <option value="25">25</option>
         </select>
          роликов
-      </label>
-    </div>
-    <div class="three wide column">
-      <label>
-        Канал: 
-        <select [ngModel]="channelId" (ngModelChange)="onChannelChange($event)" >
-            <option *ngFor="let c of channels" [value]="c.Id">{{c.Title}}</option>
-        </select>
-      </label>
-    </div>
-    <div class="five wide column">
-      <label>
-        Статус: 
-        <select [ngModel]="stateId" (ngModelChange)="onStateChange($event)" >
-            <option *ngFor="let s of states | keys | orderBy: ['+key']" [value]="s.key">{{s.value}}</option>
-        </select>
-      </label>
-    </div>
-    <div class="four wide column">
-      <label>
-        Название: 
-        <input type="text" [ngModel]="title" (ngModelChange)="onTitleChange($event)">
       </label>
     </div>
   </div>
@@ -44,23 +22,48 @@
 
     </div>
   </div>
-  <div class="row no-padding"  *ngIf="medias && medias.length > 0">
+  <div class="row no-padding">
     <div class="sixteen wide column">
       <table class="ui celled striped table">
         <thead>
           <tr>
             <th>Название</th>
+            <th>Канал</th>
             <th>Время съемки</th>
             <th>Время публикации</th>
             <th>Картинки</th>
             <th>Статус</th>
             <th>Действия</th>
           </tr>
+          <tr class="media-filters">
+            <th>
+              <input type="text" [ngModel]="title" (ngModelChange)="onTitleChange($event)">
+            </th>
+            <th>
+              <select [ngModel]="channelId" (ngModelChange)="onChannelChange($event)" >
+                  <option *ngFor="let c of channels" [value]="c.Id">{{c.Title}}</option>
+              </select>
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>
+              <select [ngModel]="stateId" (ngModelChange)="onStateChange($event)" >
+                  <option *ngFor="let s of states | keys | orderBy: ['+key']" [value]="s.key">{{s.value}}</option>
+              </select>
+            </th>
+            <th>
+
+            </th>
+          </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="medias && medias.length > 0">
           <tr *ngFor="let media of medias" [id]="media.MediaId">
               <td>
                 <a  [routerLink]="['/media', media.MediaId]">{{media.Title}}</a>
+              </td>
+              <td>
+                {{getChannelName(media.ChannelId)}}
               </td>
               <td>{{media.ShootDateUtc | date:'dd.MM.yyyy HH:mm'}}</td>
               <td>{{media.PubDateGMT | date:'dd.MM.yyyy HH:mm'}}</td>
@@ -75,12 +78,14 @@
                   <a class="ui icon button" href="{{media.CanonicalUrl}}" target="_blank" title="смотреть на сайте" (click)="openViewWindow($event)"><i class="external icon"></i></a>
                 </div>
               </td>
-          </tr>  
+          </tr>
+          
         </tbody>
+        <div class="ui inverted dimmer" [class.active]="loadingMedia">
+            <div class="ui loader"></div>
+          </div>     
       </table>
-      <div class="ui inverted dimmer" [class.active]="loadingMedia">
-        <div class="ui loader"></div>
-      </div>
+      
     </div>
   </div>
   <div class="row"  *ngIf="medias && medias.length > 0">
