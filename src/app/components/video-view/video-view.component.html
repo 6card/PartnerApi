@@ -1,0 +1,11 @@
+<div class="ui modal video-view" *ngIf="media">
+    <i class="close icon"></i>
+    <div class="header">
+        {{media.Title}}
+    </div>
+    <div class="content">
+        <div *ngIf="media.isPossibleToView" class="videoWrapper">
+            <iframe *ngIf="TempEmbedUrl"  [src]="TempEmbedUrl | safe" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>

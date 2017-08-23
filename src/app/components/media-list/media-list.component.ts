@@ -221,4 +221,5 @@ export class MediaListComponent extends CommonComponent {
         this.router.navigate(['/media'], { queryParams: { page: this.currentPage, items: this.itemsPerPage, channel: this.channelId, state: this.stateId, title: this.title } });
     }
 
+
 }

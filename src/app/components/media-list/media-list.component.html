@@ -72,7 +72,7 @@
               <td>
                 <div class="ui buttons">
                   <button class="ui icon button" [routerLink]="['/media', media.MediaId]" title="редактировать"><i class="edit icon"></i></button>
-                  <button class="ui blue icon button" *ngIf="media.isPossibleToView" title="смотреть видео" (click)="alert('view')"><i class="video play outline icon"></i></button>
+                  <button class="ui blue icon button" *ngIf="media.isPossibleToView" title="смотреть видео" (click)="videoView.Show(media)"><i class="video play outline icon"></i></button>
                   <button class="ui red icon button" *ngIf="media.isPossibleToBlock" title="заблокировать" (click)="mediaBlock(media.MediaId)"><i class="lock icon"></i></button>
                   <button class="ui green icon button" *ngIf="media.isPossibleToUnblock" title="разблокировать" (click)="mediaUnblock(media.MediaId)"><i class="unlock icon"></i></button>
                   <a class="ui icon button" href="{{media.CanonicalUrl}}" target="_blank" title="смотреть на сайте" (click)="openViewWindow($event)"><i class="external icon"></i></a>
@@ -99,3 +99,4 @@
     </div>
   </div>
 </div>
+<video-view #videoView></video-view>

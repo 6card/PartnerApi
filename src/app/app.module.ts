@@ -13,6 +13,7 @@ import { MediaStatComponent } from "./components/media-stat/media-stat.component
 import { MediaAddComponent } from './components/media-add/media-add.component';
 import { MediaFormComponent } from "./components/media-form/media-form.component";
 import { VideoUploadComponent } from './components/video-upload/video-upload.component';
+import { VideoViewComponent } from "./components/video-view/video-view.component";
 
 import { NavigationComponent } from "./components/navigation/navigation.component"
 import { AlertComponent } from "./components/alert/alert.component"
@@ -53,6 +54,7 @@ const	routes:	Routes	=	[
     MediaAddComponent,
     MediaFormComponent,
     VideoUploadComponent,
+    VideoViewComponent,
 
     NavigationComponent,
     AlertComponent,
