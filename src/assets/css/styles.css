@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 body {
-    background-color: #DADADA;
+    background-color: #FFFFFF;
 }
 body > .grid {
     height: 100%;
@@ -36,7 +36,7 @@ body > .grid {
 }
 
 .ui.form .field.video {
-    margin-bottom: 1em !important;
+    margin-bottom: 1em;
 }
 .videoWrapper {
 	position: relative;
@@ -54,4 +54,8 @@ body > .grid {
 
 .media-filters input, .media-filters select {
     font-weight: normal;
+}
+
+.messages .message:last-child {
+    margin-bottom: 1em;
 }

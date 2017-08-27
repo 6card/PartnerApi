@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   error = '';
   returnUrl: string;
 
+  isSended: boolean = false;
   
   constructor(
     public fb: FormBuilder,
@@ -37,18 +38,22 @@ export class LoginComponent implements OnInit {
   }
 
   doLogin(event:any) {
-    this.loading = true;
-    this.authService.login(this.loginForm.controls['UserName'].value, this.loginForm.controls['Password'].value)
-      .subscribe(result => {
-          if (result === true) {
-              // login successful
-              this.router.navigate([this.returnUrl]);
-          } else {
-              // login failed
-              this.error = 'Неправильный логин или пароль';
-              this.loading = false;
-          }
-      });
+    this.isSended = true;
+    this.error = '';
+    if(this.loginForm.dirty && this.loginForm.valid) {
+      this.loading = true;
+      this.authService.login(this.loginForm.controls['UserName'].value, this.loginForm.controls['Password'].value)
+        .subscribe(result => {
+            if (result === true) {
+                // login successful
+                this.router.navigate([this.returnUrl]);
+            } else {
+                // login failed
+                this.error = 'Неправильный логин или пароль';
+                this.loading = false;
+            }
+        });
+    }
   }
 
   public getError() {

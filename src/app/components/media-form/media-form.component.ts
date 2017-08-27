@@ -24,6 +24,8 @@ export class MediaFormComponent implements AfterViewInit {
 
     private tempDate: Date;
 
+    isSended: boolean = false;
+
     public mediaForm: FormGroup;
     constructor(
         public datepipe: DatePipe,
@@ -60,7 +62,10 @@ export class MediaFormComponent implements AfterViewInit {
 
     onSubmit(): void {  
         //console.log(this.mediaForm.controls['shootDate'].value);
-        this.pushValues();
+        this.isSended = true;
+        if(this.mediaForm.dirty && this.mediaForm.valid) {
+            this.pushValues();
+        }
     }
     onDateChange(date: any): void {
         //console.log(date);

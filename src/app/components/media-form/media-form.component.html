@@ -1,16 +1,16 @@
 <form class="ui form" (ngSubmit)="onSubmit()" [formGroup]="mediaForm">
     <h4 class="ui dividing header">Описание ролика</h4>
 
-    <div class="field" [ngClass]="{'error' : !mediaForm.controls['title'].valid && mediaForm.controls['title'].touched}">
+    <div class="field" [ngClass]="{'error' : !mediaForm.controls['title'].valid && isSended}">
         <label>Заголовок:</label>
         <input placeholder="Заголовок" type="text" [formControlName]="'title'">
     </div>
-    <div class="field" [ngClass]="{'error' : !mediaForm.controls['description'].valid && mediaForm.controls['description'].touched}">
+    <div class="field" [ngClass]="{'error' : !mediaForm.controls['description'].valid && isSended}">
         <label>Описание:</label>
         <textarea placeholder="Описание" [formControlName]="'description'">{{description}}</textarea>
     </div>
 
-    <div class="field">
+    <div class="field" [ngClass]="{'error' : !mediaForm.controls['channelId'].valid && isSended}">
         <label>Канал:</label>
         <input placeholder="Канал" type="text" [value]="ChannelName" [disabled]="true" *ngIf="editForm">
         <select placeholder="Channel" type="text" [formControlName]="'channelId'" *ngIf="!editForm">
@@ -18,7 +18,7 @@
         </select>
     </div>
 
-    <div class="field" [ngClass]="{'error' : !mediaForm.controls['shootDate'].valid && mediaForm.controls['shootDate'].touched}">
+    <div class="field" [ngClass]="{'error' : !mediaForm.controls['shootDate'].valid && isSended}">
         <label>Время съемки:</label>
         <calendar (changeDate)="onDateChange($event)" [fGroup]="mediaForm" [fControlName]="'shootDate'"></calendar>                
     </div>
@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <button type="submit" class="ui green submit button" [disabled]="!mediaForm.valid">Сохранить</button>
+    <button type="submit" class="ui green submit button">{{editForm ? 'Сохранить' : 'Продолжить'}}</button>
     <div class="ui error message">
         <ul>If you are looking for validation you should check out.</ul>
     </div>

@@ -94,15 +94,7 @@
                   <td class="collapsing">
                       Кол-во просмотров
                   </td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td class="collapsing">
-                      Ссылка на страницу просмотра статистики
-                  </td>
-                  <td>
-                    <a *ngIf="media.isAvailableMediaStat" [href]="MediaReportsUrl" target="_blank" title="Отчеты по ролику">{{MediaReportsUrl}}</a>
-                  </td>
+                  <td>{{media.Statistics.ViewCount}}</td>
                 </tr>
               </tbody>
           </table>   

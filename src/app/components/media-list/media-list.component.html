@@ -12,13 +12,13 @@
       </label>
     </div>
   </div>
-  <div class="row"  *ngIf="medias && medias.length > 0">
+  <div class="row">
     <div class="seven wide column">
       <div class="table-info">Показаны с {{currentPage * itemsPerPage - itemsPerPage + 1}} по {{(itemsPerPage * currentPage > totalItems) ? totalItems : (itemsPerPage * currentPage)}} из {{totalItems}} роликов</div>
     </div>
     <div class="right aligned nine wide column">
 
-      <pagination *ngIf="currentPage" (goToPage)="pageUpdated($event)" [page]="currentPage" [totalItems]="totalItems" [itemsPerPage]="itemsPerPage"></pagination>
+      <pagination *ngIf="currentPage && medias && medias.length > 0" (goToPage)="pageUpdated($event)" [page]="currentPage" [totalItems]="totalItems" [itemsPerPage]="itemsPerPage"></pagination>
 
     </div>
   </div>
@@ -81,6 +81,14 @@
           </tr>
           
         </tbody>
+
+        <tbody *ngIf="!medias || medias.length == 0">
+          <tr>
+            <td colspan="7">
+                Нет роликов соответствующим условиями поиска
+            </td>
+          </tr>
+        </tbody>
         <div class="ui inverted dimmer" [class.active]="loadingMedia">
             <div class="ui loader"></div>
           </div>     
@@ -88,13 +96,13 @@
       
     </div>
   </div>
-  <div class="row"  *ngIf="medias && medias.length > 0">
+  <div class="row">
     <div class="seven wide column">
       <div class="table-info">Показаны с {{currentPage * itemsPerPage - itemsPerPage + 1}} по {{(itemsPerPage * currentPage > totalItems) ? totalItems : (itemsPerPage * currentPage)}} из {{totalItems}} роликов</div>
     </div>
     <div class="right aligned nine wide column">
 
-      <pagination *ngIf="currentPage" (goToPage)="pageUpdated($event)" [page]="currentPage" [totalItems]="totalItems" [itemsPerPage]="itemsPerPage"></pagination>
+      <pagination *ngIf="currentPage && medias && medias.length > 0" (goToPage)="pageUpdated($event)" [page]="currentPage" [totalItems]="totalItems" [itemsPerPage]="itemsPerPage"></pagination>
 
     </div>
   </div>

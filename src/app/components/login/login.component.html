@@ -6,19 +6,19 @@
         
         <form class="ui large form" [formGroup]="loginForm" (ngSubmit)="doLogin($event)">
         <div class="ui segment">
-            <div class="field" [ngClass]="{'error':!loginForm.controls['UserName'].valid && loginForm.controls['UserName'].touched}">
+            <div class="field" [ngClass]="{'error':!loginForm.controls['UserName'].valid && isSended}">
             <div class="ui left icon input">
                 <i class="user icon"></i>
                 <input formControlName="UserName" type="email" placeholder="Логин">
             </div>
             </div>
-            <div class="field" [ngClass]="{'error':!loginForm.controls['Password'].valid && loginForm.controls['Password'].touched}">
+            <div class="field" [ngClass]="{'error':!loginForm.controls['Password'].valid && isSended}">
             <div class="ui left icon input">
                 <i class="lock icon"></i>
                 <input formControlName="Password" type="password" placeholder="Пароль">
             </div>
             </div>
-            <button [disabled]="loading" class="ui fluid large submit button" type="submit" [disabled]="!loginForm.valid">Вход</button>
+            <button [disabled]="loading" class="ui fluid large submit button" type="submit">Вход</button>
         </div>
 
         <div [ngStyle]="{'display': getError()}" class="ui error message">{{error}}</div>

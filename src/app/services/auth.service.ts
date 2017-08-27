@@ -6,14 +6,20 @@ import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
+import { API_URLS } from '../config/api.config';
+
+import { Cookie } from 'ng2-cookies/ng2-cookies';
+
 @Injectable()
 export class AuthService {
+    apiRoot: string = API_URLS.ROOT;
+
     sessionId: string;
     username: string;
     public authenticated = new BehaviorSubject(null);
 
     constructor(private http: Http) {
-        let lcstg = localStorage.getItem('currentUser');
+        let lcstg = Cookie.get('currentUser');
         this.sessionId = lcstg ? JSON.parse(lcstg).token : null;
         if (this.sessionId)
             this.authenticated.next(true);
@@ -29,12 +35,13 @@ export class AuthService {
     }
 
     login(username: string, password: string): Observable<boolean> {
+        let apiURL = this.apiRoot + API_URLS.AUTH_LOGIN;
         let headers = new Headers(); // ... Set content type to JSON
         headers.append('Content-Type', 'application/json'); // also tried other types to test if its working with other types, but no luck
         headers.append('Accept', 'application/json');
         let options = new RequestOptions({ headers: headers }); // Create a request option
 
-        return this.http.post('https://api.newstube.ru/dev/Auth/Login', JSON.stringify({ UserName: username, Password: password }), options)
+        return this.http.post(apiURL, JSON.stringify({ UserName: username, Password: password }), options)
             .map((response: Response) => {
                 // login successful if there's a jwt token in the response
                 let token = response.json()&& response.json().Data.SessionId;
@@ -45,7 +52,7 @@ export class AuthService {
                     this.authenticated.next(true);
                     //console.log(this.sessionId);
                     // store username and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token }));
+                    Cookie.set('currentUser', JSON.stringify({ username: username, token: token }), 1);
  
                     // return true to indicate successful login
                     return true;
@@ -60,7 +67,7 @@ export class AuthService {
         // clear token remove user from local storage to log user out
         this.sessionId = null;
         this.authenticated.next(false);
-        localStorage.removeItem('currentUser');
+        Cookie.delete('currentUser');
     }
 
 }

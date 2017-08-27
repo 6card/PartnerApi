@@ -1,6 +1,9 @@
-<div *ngFor="let alert of alerts" [ngClass]="cssClass(alert)" class="ui message">
-  <div class="header">
-    Error
+<div id="messages" class="messages">
+  <div *ngFor="let alert of alerts" [ngClass]="cssClass(alert)" class="ui message">
+    <i class="close icon" (click)="removeAlert(alert)"></i>
+    <div class="header">
+      Ошибка!
+    </div>
+    <p>{{alert.message}}</p>
   </div>
-  <p>{{alert.message}}</p>
 </div>

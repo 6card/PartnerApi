@@ -1,8 +1,9 @@
 import { Component, OnInit, AfterViewInit  } from '@angular/core';
 
-import '../assets/css/styles.css';
 import '../assets/css/semantic.min.css';
 import 'semantic-ui-calendar/dist/calendar.min.css'
+
+import '../assets/css/styles.css';
 
 @Component({
   selector: 'app-root',

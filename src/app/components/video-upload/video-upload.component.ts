@@ -7,6 +7,8 @@ import { AlertService } from '../../services/alert.service';
 import { AuthService } from '../../services/auth.service';
 import { PartnerService } from '../../services/partner.service';
 
+const COUNT_FAIL_UPLOAD = 3;
+
 @Component({
     selector: 'video-upload',
     templateUrl: './video-upload.component.html'
@@ -24,6 +26,8 @@ export class VideoUploadComponent extends CommonComponent  {
     public isSending: boolean = false;
     public videoFileProgress: number = 0;
     public isVideoUploadDone: boolean = false;
+
+    public uploadErrorCounter: number = 0;
 
     constructor(
         protected authService: AuthService,
@@ -152,7 +156,25 @@ export class VideoUploadComponent extends CommonComponent  {
                     }
   
                 }, 
-                    error => console.log(error)
+                    //Обработка неудачной загрузки
+                    error => {
+                        
+                        if (that.uploadErrorCounter < COUNT_FAIL_UPLOAD){
+                            that.uploadErrorCounter++;
+                            that.UploadPortion(file, uploadSessionId, start, length);
+                        }
+                        else {
+                            if(confirm("Произошла ошибка при загрузке видеофайла. Повторить попытку?")) {
+                                that.uploadErrorCounter = 0;
+                                that.UploadPortion(file, uploadSessionId, start, length);
+                            }
+                            else {
+                                that.VideoUploadFail();
+                                that.errorHandler(error);
+                            }
+                        }
+                        
+                    }
                 ); 
 
                 //console.log('PERCENT = ' + that.videoFileProgress);

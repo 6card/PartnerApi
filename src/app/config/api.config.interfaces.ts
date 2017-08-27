@@ -1,5 +1,6 @@
 export interface ApiUrls {
   ROOT: string;
+  AUTH_LOGIN: string;
   MEDIA_CHANNELS: string;
   MEDIA_GET_MEDIA: string;
   MEDIA_MEDIAS_PAGE_COUNT: string;

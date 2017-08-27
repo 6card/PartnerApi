@@ -22,8 +22,10 @@ export class AlertComponent {
             }
 
             // add alert to array
-            if (!this.alerts.filter(item => item.id == alert.id)[0])
+            if (!this.alerts.filter(item => item.id == alert.id)[0]) {
                 this.alerts.push(alert);
+                document.getElementById("messages").scrollIntoView();
+            }
         });
     }
 

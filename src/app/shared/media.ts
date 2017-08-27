@@ -50,6 +50,8 @@ export class Media {
   Data: string; //, optional): Дополнительные данные по ролику stringMax. Length:4000
 
   EmbedUrl: string;
+  Statistics: Statistics;
+
   constructor(obj: Object) {
     this.UpdateTime = new Date(obj['UpdateTime']);
     this.MediaId = obj['MediaId'];
@@ -82,6 +84,7 @@ export class Media {
     this.Data = obj['Data'];
 
     this.EmbedUrl = '//www.newstube.ru/embed/'+ obj['MediaGuid'];
+    this.Statistics = obj['Statistics'] ? new Statistics(obj['Statistics']) : undefined;
   }
 
   get CreateTimeGMT() {
@@ -246,5 +249,12 @@ export class Counter  {
     this.CreateDate = obj['CreateDate'];
     this.Location = obj['Location'];
     this.Counter = obj['Counter'];
+  }
+}
+
+export class Statistics {
+  ViewCount: number; //Просмотры ролика
+  constructor(obj: Object) {
+    this.ViewCount = obj['ViewCount'];
   }
 }
