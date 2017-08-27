@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, OnDestroy } from '@angular/core';
 import { Channel } from '../../shared/media';
 
 import { CommonComponent }  from '../../shared/common.component';
@@ -14,7 +14,7 @@ const COUNT_FAIL_UPLOAD = 3;
     templateUrl: './video-upload.component.html'
 })
 
-export class VideoUploadComponent extends CommonComponent  {
+export class VideoUploadComponent extends CommonComponent implements OnDestroy {
 
     //@Output() sendVideo: EventEmitter<any> = new EventEmitter();
     @Output() onSendVideoDone: EventEmitter<any> = new EventEmitter();
@@ -57,9 +57,9 @@ export class VideoUploadComponent extends CommonComponent  {
 
     UploadVideoFile(videoFile: File){        
         this.partnerService.startUpload(this.authService.sessionId, this.mediaId, 0).subscribe( res => {  
-            this.readThis(videoFile, res.Data);
             this.isVideoUploadDone = false;
             this.isSending = true;
+            this.readThis(videoFile, res.Data);            
         }, 
             error => console.log(error)
         ); 
@@ -107,12 +107,18 @@ export class VideoUploadComponent extends CommonComponent  {
         */
     }
 
-    UploadPortion = (file: File, uploadSessionId: any, start: number, length: number, last?: boolean) => {
+    UploadPortion(file: File, uploadSessionId: any, start: number, length: number, last?: boolean) 
+    {
         var myReader:FileReader = new FileReader();
         var blob: Blob;
         var that = this;
 
         var end = start + length;
+
+        if (!this.isSending) {
+            return;
+        }
+
         if (end > file.size)
             end = file.size;
 
@@ -210,6 +216,11 @@ export class VideoUploadComponent extends CommonComponent  {
         this.ClearVideoFile();
         this.isSending = false;
         this.videoFileProgress = 0;
+    }
+
+    ngOnDestroy() {        
+        this.VideoUploadFail();
+        //console.log('destroy upload');
     }
 
 }

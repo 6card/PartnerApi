@@ -30,7 +30,7 @@ export class MediaAddComponent extends CommonComponent {
     }
 
     ngOnInit(){    
-        console.log('loadChannels');    
+        //console.log('loadChannels');    
         this.loadChannels();
         
     }

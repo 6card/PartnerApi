@@ -17,6 +17,6 @@ export const API_URLS: ApiUrls = {
   STAT_GET_MEDIA_REPORTS_URL: '/Stat/GetMediaReportsUrl',
   STAT_GET_REPORTS_URL: '/Stat/GetReportsUrl',
   VIDEO_UPLOAD_START: '/VideoUpload/Start',
-  VIDEO_UPLOAD_UPLOAD:'/VideoUpload/UploadData2',
+  VIDEO_UPLOAD_UPLOAD:'/VideoUpload/UploadData',
   VIDEO_UPLOAD_COMPLETE: '/VideoUpload/Complete'
 };
