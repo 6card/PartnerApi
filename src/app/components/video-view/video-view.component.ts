@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 
 import { CommonComponent }  from '../../shared/common.component';
 
@@ -14,10 +14,12 @@ import {Observable} from 'rxjs/Rx';
   selector: 'video-view',
   templateUrl: './video-view.component.html'
 })
-export class VideoViewComponent extends CommonComponent implements OnInit{
+export class VideoViewComponent extends CommonComponent implements OnDestroy{
 
   public media: Media;
   public TempEmbedUrl: string;
+
+  public subsUrl: any;
 
   constructor(
     protected authService:AuthService,
@@ -32,23 +34,42 @@ export class VideoViewComponent extends CommonComponent implements OnInit{
 
   }
 
+  ngAfterViewInit() {
+
+  }
+
+  closeModal() {
+    this.TempEmbedUrl = null;
+  }
+
   Show(media: Media){
     this.media = media;
 
     if (media.isPossibleToView) {
       
       let url: string;
-      this.partnerService.getTempEmbedUrl(this.authService.sessionId, media.MediaId, 1).subscribe( res => {  
+      this.subsUrl = this.partnerService.getTempEmbedUrl(this.authService.sessionId, media.MediaId, 1).subscribe( res => {  
           let data = this.respondHandler(res);
           url = data.Data;
           this.TempEmbedUrl = url;
-          $('.ui.modal.video-view').modal('show');
+          var self = this;
+          $('.ui.modal.video-view').modal({
+            onHide: function(){
+              self.closeModal();
+            }            
+          }).modal('show');
       }, 
           error => this.errorHandler(error)
       );
     }
 
 
+  }
+
+  ngOnDestroy() {
+    this.closeModal();
+    if (this.subsUrl)
+      this.subsUrl.unsubscribe();
   }
 
   
