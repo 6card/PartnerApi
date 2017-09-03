@@ -59,17 +59,23 @@ export class MediaListComponent extends CommonComponent {
     }
 
     ngOnInit(){
-        
+        let params: Params;
         //this.itemsPerPage = + localStorage.getItem('itemsPerPage') || ITEMS_PER_PAGE;
         //this.channelId = + localStorage.getItem('channelId') || null;
         this.loadChannels();
         this.activatedRouteSubscription = this.activatedRoute.queryParams.subscribe( (param: Params) => {
+            params = param;
             this.currentPage = param['page'] || 1;
             this.channelId = param['channel'] || localStorage.getItem('channelId') || -1;
             this.stateId = param['state'] || localStorage.getItem('stateId') || -1;
             this.title = param['title'] || '';
             this.itemsPerPage = param['items'] || localStorage.getItem('itemsPerPage') || ITEMS_PER_PAGE;
-            this.loadMedias();
+            if (params && (Object.keys(params).length === 0)) { // empty params
+                this.navigate();
+            }
+            else {            
+                this.loadMedias();
+            }
         });
 
         this.titleChangedSubscription = this.titleChanged
@@ -79,6 +85,8 @@ export class MediaListComponent extends CommonComponent {
                 this.title = title;
                 this.navigate();
         });
+        //console.log(params);
+        
         
         
     }
