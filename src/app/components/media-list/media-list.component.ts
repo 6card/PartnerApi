@@ -71,7 +71,7 @@ export class MediaListComponent extends CommonComponent {
             this.title = param['title'] || '';
             this.itemsPerPage = param['items'] || localStorage.getItem('itemsPerPage') || ITEMS_PER_PAGE;
             if (params && (Object.keys(params).length === 0)) { // empty params
-                this.navigate();
+                this.navigate(true);
             }
             else {            
                 this.loadMedias();
@@ -225,8 +225,8 @@ export class MediaListComponent extends CommonComponent {
         //this.loadMedias();
     }
 
-    navigate() {
-        this.router.navigate(['/media'], { queryParams: { page: this.currentPage, items: this.itemsPerPage, channel: this.channelId, state: this.stateId, title: this.title } });
+    navigate(replaceUrl?: boolean) {
+        this.router.navigate(['/media'], {replaceUrl: replaceUrl || false, queryParams: { page: this.currentPage, items: this.itemsPerPage, channel: this.channelId, state: this.stateId, title: this.title } });
     }
 
 
