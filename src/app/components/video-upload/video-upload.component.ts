@@ -56,12 +56,13 @@ export class VideoUploadComponent extends CommonComponent implements OnDestroy {
     }
 
     UploadVideoFile(videoFile: File){        
-        this.partnerService.startUpload(this.authService.sessionId, this.mediaId, 0).subscribe( res => {  
+        this.partnerService.startUpload(this.authService.sessionId, this.mediaId, 0).subscribe( data => {  
+            let res = this.respondHandler(data);
             this.isVideoUploadDone = false;
             this.isSending = true;
             this.readThis(videoFile, res.Data);            
         }, 
-            error => console.log(error)
+            error => this.errorHandler(error)
         ); 
         
         // сначала сохраняем форму и получаем guid        
@@ -131,8 +132,9 @@ export class VideoUploadComponent extends CommonComponent implements OnDestroy {
 
                 //загружаем кусок и после удачной загрузки рисуем прогресс и запускаем следующую порцию
 
-                that.partnerService.videoUpload(uploadSessionId, start, blob, file.name).subscribe( res => {  
+                that.partnerService.videoUpload(uploadSessionId, start, blob, file.name).subscribe( data => {  
                     //console.log();
+                    let res = that.respondHandler(data);
                     that.videoFileProgress = Math.round((start + blob.size) * 100 / file.size);
                     //console.log('loaded');
                     if (end >= file.size) {
@@ -151,9 +153,12 @@ export class VideoUploadComponent extends CommonComponent implements OnDestroy {
                                         that.VideoUploadFail();
                                     }
                                 }
+                                else {
+                                    that.respondHandler(res);
+                                }
                             }
                         }, 
-                            error => console.log(error)
+                            error => that.errorHandler(error)
                         ); ;
                     }
                     else {
@@ -221,6 +226,17 @@ export class VideoUploadComponent extends CommonComponent implements OnDestroy {
     ngOnDestroy() {        
         this.VideoUploadFail();
         //console.log('destroy upload');
+    }
+
+    protected respondHandler(data: any) {
+        if (!data.Success) {
+            this.alertService.error(data.Message.Id, data.Message.Text);
+        }        
+        return data;        
+    }
+
+    protected errorHandler(error: any) {
+        this.alertService.error(0, error);
     }
 
 }
