@@ -139,7 +139,8 @@ export class VideoUploadComponent extends CommonComponent implements OnDestroy {
                     //console.log('loaded');
                     if (end >= file.size) {
                         //console.log('end');
-                        that.partnerService.completeUpload(uploadSessionId).subscribe( res => {                             
+                        that.partnerService.completeUpload(uploadSessionId).subscribe( data => {                             
+                            let res = that.respondHandler(data);
                             if (res.Success == true) {
                                  //console.log(res);
                                  that.VideoUploadDone();
@@ -152,9 +153,6 @@ export class VideoUploadComponent extends CommonComponent implements OnDestroy {
                                     else {
                                         that.VideoUploadFail();
                                     }
-                                }
-                                else {
-                                    that.respondHandler(res);
                                 }
                             }
                         }, 
