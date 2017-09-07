@@ -49,11 +49,11 @@ export class VideoUploadComponent extends CommonComponent implements OnDestroy {
     }
 
     UploadVideoFile(videoFile: File){        
-        this.partnerService.startUpload(this.authService.sessionId, this.mediaId, 0).subscribe( data => {  
-            let res = this.respondHandler(data);
+        this.partnerService.startUpload(this.authService.sessionId, this.mediaId, 0).subscribe( res => {  
+            let data = this.respondHandler(res);
             this.isVideoUploadDone = false;
             this.isSending = true;
-            this.readThis(videoFile, res.Data);            
+            this.readThis(videoFile, data.Data);            
         }, 
             error => this.errorHandler(error)
         ); 
@@ -91,19 +91,19 @@ export class VideoUploadComponent extends CommonComponent implements OnDestroy {
 
                 //загружаем кусок и после удачной загрузки рисуем прогресс и запускаем следующую порцию
 
-                that.partnerService.videoUpload(uploadSessionId, start, blob, file.name).subscribe( data => {  
-                    let res = that.respondHandler(data);
+                that.partnerService.videoUpload(uploadSessionId, start, blob, file.name).subscribe( res => {  
+                    let data = that.respondHandler(res);
                     that.videoFileProgress = Math.round((start + blob.size) * 100 / file.size);
                     if (end >= file.size) {
-                        that.partnerService.completeUpload(uploadSessionId).subscribe( data => {                             
-                            let res = that.respondHandler(data);
-                            if (res.Success == true) {
+                        that.partnerService.completeUpload(uploadSessionId).subscribe( res => {                             
+                            let data = that.respondHandler(res);
+                            if (data.Success == true) {
                                  that.VideoUploadDone();
                             }
                             else {
-                                if (res.Message.Id == 17) {
-                                    if(confirm(res.Message.Text + " Привязать это видео?")) {
-                                        that.setVideo(res.Data);
+                                if (data.Message.Id == 17) {
+                                    if(confirm(data.Message.Text + " Привязать это видео?")) {
+                                        that.setVideo(data.Data);
                                     }
                                     else {
                                         that.VideoUploadFail();
