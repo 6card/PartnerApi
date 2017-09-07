@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { Channel } from '../../shared/media';
@@ -10,7 +10,7 @@ import { Channel } from '../../shared/media';
     providers: [DatePipe]
 })
 
-export class MediaFormComponent implements AfterViewInit {
+export class MediaFormComponent {
     @Output() formResults: EventEmitter<any> = new EventEmitter();
     @Output() changeBlock: EventEmitter<any> = new EventEmitter();
 
@@ -42,41 +42,28 @@ export class MediaFormComponent implements AfterViewInit {
             'state': [this.state],
             'shootDate': [this.shootDate ? this.shootDate : new Date(), Validators.required]
         });
-        /*
-        this.mediaForm.controls['title'].setValue(this.title);
-        this.mediaForm.controls['description'].setValue(this.description);
-        this.mediaForm.controls['channelId'].setValue(this.channelId); 
-        this.mediaForm.controls['shootDate'].setValue(this.shootDate); 
-        this.mediaForm.controls['state'].setValue(this.state); 
-        */
     }
 
     pushValues(): void {
         let values = this.mediaForm.value;
-        //this.datepipe.transform(value, 'yyyy-MM-ddTHH:mm:ss+03:00');
         if (this.tempDate)
             values.shootDate = this.datepipe.transform(this.tempDate, 'yyyy-MM-ddTHH:mm:ss+03:00');
-        //console.log(values);
         this.formResults.emit(values);
     }
 
     onSubmit(): void {  
-        //console.log(this.mediaForm.controls['shootDate'].value);
         this.isSended = true;
         if(this.mediaForm.dirty && this.mediaForm.valid) {
             this.pushValues();
         }
     }
     onDateChange(date: any): void {
-        //console.log(date);
         this.tempDate = date;
     }
 
     onBlockMedia(event: any): void {
         this.changeBlock.emit(event);
     }
-
-    ngAfterViewInit() { }
 
     get ChannelName(): string {
         let channel: Channel = this.channels.filter( (item: Channel) => item.Id == this.channelId)[0];

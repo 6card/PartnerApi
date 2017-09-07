@@ -13,7 +13,6 @@ import {Observable} from 'rxjs/Rx';
   templateUrl: './navigation.component.html'
 })
 export class NavigationComponent extends CommonComponent implements OnInit{
-
   reportsUrl: any;
   isLoggedIn : boolean = false;
 
@@ -27,11 +26,8 @@ export class NavigationComponent extends CommonComponent implements OnInit{
   }
 
   ngOnInit(){
-      //this.isLoggedIn = this.authService.isLoggedIn();
       this.authService.isLoggedIn().subscribe( res => {  
-        //let data = this.respondHandler(res);
         this.isLoggedIn = res;
-        //console.log(this.isLoggedIn);
         if(this.isLoggedIn) {
           this.partnerService.getReportsUrl(this.authService.sessionId).subscribe( res => {  
               let data = this.respondHandler(res);
@@ -46,10 +42,5 @@ export class NavigationComponent extends CommonComponent implements OnInit{
     }, 
         error => this.errorHandler(error)
     );
-
-      
-
   }
-
-  //(isLoggedIn | async) or authService.isAuthenticated()
 }

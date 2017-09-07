@@ -16,12 +16,12 @@ export class AlertComponent {
     ngOnInit() {
         this.alertService.getAlert().subscribe((alert: Alert) => {
             if (!alert) {
-                // clear alerts when an empty alert is received
+                // очищаем alerts получен пустой alert
                 this.alerts = [];
                 return;
             }
 
-            // add alert to array
+            //добавляем alert в массив
             if (!this.alerts.filter(item => item.id == alert.id)[0]) {
                 this.alerts.push(alert);
                 document.getElementById("messages").scrollIntoView();
@@ -37,8 +37,6 @@ export class AlertComponent {
         if (!alert) {
             return;
         }
-
-        // return css class based on alert type
         switch (alert.type) {
             case AlertType.Success:
                 return 'positive';

@@ -1,4 +1,5 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+//компонент для статистики, но уже не нужен
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { CommonComponent }  from '../../shared/common.component';
@@ -27,11 +28,6 @@ export class MediaStatComponent extends CommonComponent {
         private route: ActivatedRoute
     ) { 
         super(authService, partnerService, alertService);
-      /*
-      if (!partnerService.xSessionId) {
-        this.router.navigate(['login']);
-      }
-      */
     }
 
     ngOnInit(){
@@ -47,7 +43,6 @@ export class MediaStatComponent extends CommonComponent {
             let data = this.respondHandler(res);
             if (data !== undefined) {
                 data.Data.map((item:any) =>  this.counters.push(new Counter(item)));  
-                //console.log(data);
             }   
         }, 
             error => this.errorHandler(error)

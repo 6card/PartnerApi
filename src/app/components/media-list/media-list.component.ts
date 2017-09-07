@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 
 import { CommonComponent }  from '../../shared/common.component';
-//import { PaginationComponent } from "../pagination.component"
 
 import { AuthService } from '../../services/auth.service';
 import { AlertService } from '../../services/alert.service';
@@ -46,22 +45,11 @@ export class MediaListComponent extends CommonComponent {
         protected activatedRoute: ActivatedRoute
     ) { 
         super(authService, partnerService, alertService);
-
-        
-
-    //this.states.concat(Media.getStates()); 
-    //console.log(this.states);
-      /*
-      if (!partnerService.xSessionId) {
-        this.router.navigate(['login']);
-      }
-      */
     }
 
     ngOnInit(){
         let params: Params;
-        //this.itemsPerPage = + localStorage.getItem('itemsPerPage') || ITEMS_PER_PAGE;
-        //this.channelId = + localStorage.getItem('channelId') || null;
+
         this.loadChannels();
         this.activatedRouteSubscription = this.activatedRoute.queryParams.subscribe( (param: Params) => {
             params = param;
@@ -79,31 +67,17 @@ export class MediaListComponent extends CommonComponent {
         });
 
         this.titleChangedSubscription = this.titleChanged
-            .debounceTime(500) // wait 300ms after the last event before emitting last event
-            .distinctUntilChanged() // only emit if value is different from previous value
+            .debounceTime(500)
+            .distinctUntilChanged()
             .subscribe(title => {
                 this.title = title;
                 this.navigate();
-        });
-        //console.log(params);
-        
-        
-        
+        });    
     }
 
     ngOnDestroy() {
         this.activatedRouteSubscription.unsubscribe();
         this.titleChangedSubscription.unsubscribe();
-    }
-
-    ngAfterViewInit() { 
-        //console.log('media-list ngAfterViewInit');
-        /*
-        jQuery('.ui.dropdown.example')
-            .dropdown({
-                allowAdditions: true
-            });
-        */
     }
 
     getChannelName(channelId: number): string {
@@ -113,10 +87,10 @@ export class MediaListComponent extends CommonComponent {
         return channel.Title;
     }
 
-    loadMedias() {        
-
+    loadMedias() {
         if (!this.channelId)
             return;
+
         this.getTotalMediaCount();      
         let countItems = this.itemsPerPage;
         let startItem = (this.currentPage * countItems) - countItems + 1;
@@ -140,7 +114,6 @@ export class MediaListComponent extends CommonComponent {
             let data = this.respondHandler(res);
             if (data.Data !== undefined) {
                 this.totalItems = data.Data;
-                //console.log('total items'+this.totalItems);
             }        
         },
             error => this.errorHandler(error)
@@ -154,15 +127,13 @@ export class MediaListComponent extends CommonComponent {
             let data = this.respondHandler(res);
             if (data.Data !== undefined) {
                 data.Data.map((item:any) =>  this.channels.push(new Channel(item))); 
-                //console.log(this.channels); 
             }   
         }, 
             error => this.errorHandler(error)
         ); 
     }
 
-    mediaBlock(mediaId: number) {        
-        
+    mediaBlock(mediaId: number) {
         if(confirm("Вы действительно хотите заблокировать ролик?")) {
             this.partnerService.blockMedia(this.authService.sessionId, mediaId, 1).subscribe( res => {  
                 let data = this.respondHandler(res);
@@ -183,16 +154,10 @@ export class MediaListComponent extends CommonComponent {
         );
     }
 
-    openViewWindow(event: any) {
-        //console.log(event.target.parentElement.attr.href);
-        //return false;        
-    }
-
     onChannelChange(newValue: number) {
         this.channelId = newValue;        
         localStorage.setItem('channelId', this.channelId.toString());
         this.currentPage = 1;
-        //this.loadMedias();
         this.navigate();
     }
 
@@ -201,7 +166,6 @@ export class MediaListComponent extends CommonComponent {
         this.itemsPerPage = newValue;
         localStorage.setItem('itemsPerPage', this.itemsPerPage.toString());
         this.currentPage = 1;
-        //this.loadMedias();
         this.navigate();
     }
 
@@ -219,10 +183,8 @@ export class MediaListComponent extends CommonComponent {
     }
 
     pageUpdated(page: number) {
-        //console.log('PAGE UPDATED 2');
         this.currentPage = page;
         this.navigate();
-        //this.loadMedias();
     }
 
     navigate(replaceUrl?: boolean) {

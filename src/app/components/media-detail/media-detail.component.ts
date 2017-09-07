@@ -33,11 +33,6 @@ export class MediaDetailComponent extends CommonComponent implements DoCheck{
         private route: ActivatedRoute
     ) { 
         super(authService, partnerService, alertService);
-      /*
-      if (!partnerService.xSessionId) {
-        this.router.navigate(['login']);
-      }
-      */
     }
 
     ngOnInit(){
@@ -66,7 +61,6 @@ export class MediaDetailComponent extends CommonComponent implements DoCheck{
             let data = this.respondHandler(res);
             if (data.Data !== undefined) {
                 data.Data.map((item:any) =>  this.channels.push(new Channel(item)));  
-                //console.log(this.channels); 
             }   
         }, 
             error => this.errorHandler(error)
@@ -79,7 +73,6 @@ export class MediaDetailComponent extends CommonComponent implements DoCheck{
             let data = this.respondHandler(res);
             if (data !== undefined) {
                 this.media = new Media(data.Data); 
-                //console.log(data);
                 this.loadingMedia = false;
             }   
         }, 
@@ -103,7 +96,6 @@ export class MediaDetailComponent extends CommonComponent implements DoCheck{
             this.partnerService.blockMedia(this.authService.sessionId, this.mediaId, 1).subscribe( res => {  
                 let data = this.respondHandler(res);
                 this.mediaForm.pushValues();
-                //this.updateMedia();
             }, 
                 error => this.errorHandler(error)
             );
@@ -115,7 +107,6 @@ export class MediaDetailComponent extends CommonComponent implements DoCheck{
         this.partnerService.unblockMedia(this.authService.sessionId, this.mediaId, 1).subscribe( res => {  
             let data = this.respondHandler(res);
             this.mediaForm.pushValues();
-            //this.updateMedia();
         }, 
             error => this.errorHandler(error)
         );
@@ -146,9 +137,8 @@ export class MediaDetailComponent extends CommonComponent implements DoCheck{
     viewVideo() {
         let url: string;
         this.partnerService.getTempEmbedUrl(this.authService.sessionId, this.mediaId, 1).subscribe( res => {  
-            // исправить когда будет Success true
-            //let data = this.respondHandler(res);
-            url = res.Data; 
+            let data = this.respondHandler(res);
+            url = data.Data; 
             window.open(url, "_blank");
         }, 
             error => this.errorHandler(error)
@@ -167,7 +157,6 @@ export class MediaDetailComponent extends CommonComponent implements DoCheck{
     }
 
     formUpdated(params: any) {
-
         this.media.Title = params.title;
         this.media.Description = params.description;
         this.media.ChannelId = params.channelId;
@@ -180,10 +169,6 @@ export class MediaDetailComponent extends CommonComponent implements DoCheck{
             'Title' : params.title,
             'Description' : params.description
         }
-        
-        //this.media.State = params.state ? 1 : 0;
-
-        //console.log(this.media);
         this.updateMedia(obj);
     }
 
@@ -197,8 +182,4 @@ export class MediaDetailComponent extends CommonComponent implements DoCheck{
             return '';
         return channel.Title;
     }
-    
-
-    
-
 }

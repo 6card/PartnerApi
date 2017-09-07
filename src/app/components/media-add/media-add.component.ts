@@ -22,17 +22,10 @@ export class MediaAddComponent extends CommonComponent {
         protected alertService: AlertService
     ) { 
         super(authService, partnerService, alertService);
-      /*
-      if (!partnerService.xSessionId) {
-        this.router.navigate(['login']);
-      }
-      */
     }
 
-    ngOnInit(){    
-        //console.log('loadChannels');    
-        this.loadChannels();
-        
+    ngOnInit(){   
+        this.loadChannels();        
     }
 
     loadChannels() { 
@@ -40,7 +33,6 @@ export class MediaAddComponent extends CommonComponent {
             let data = this.respondHandler(res);
             if (data.Data !== undefined) {
                 data.Data.map((item:any) =>  this.channels.push(new Channel(item)));  
-                //console.log(this.channels); 
             }   
         }, 
             error => this.errorHandler(error)
@@ -56,18 +48,14 @@ export class MediaAddComponent extends CommonComponent {
         ); 
     }
 
-    formUpdated(params: any) {
-        
+    formUpdated(params: any) {        
         let obj = {
             'ShootDate': params.shootDate,
             'Title' : params.title,
             'Description' : params.description,
             'ChannelId' : params.channelId
-        }
-        
+        }        
         this.media = new Media(obj);
- 
-        //console.log(this.media);
         this.addMedia();
     }
 

@@ -30,14 +30,6 @@ export class VideoViewComponent extends CommonComponent implements OnDestroy{
     
   }
 
-  ngOnInit(){
-
-  }
-
-  ngAfterViewInit() {
-
-  }
-
   closeModal() {
     this.TempEmbedUrl = null;
   }
@@ -45,8 +37,7 @@ export class VideoViewComponent extends CommonComponent implements OnDestroy{
   Show(media: Media){
     this.media = media;
 
-    if (media.isPossibleToView) {
-      
+    if (media.isPossibleToView) {      
       let url: string;
       this.subsUrl = this.partnerService.getTempEmbedUrl(this.authService.sessionId, media.MediaId, 1).subscribe( res => {  
           let data = this.respondHandler(res);
@@ -62,8 +53,6 @@ export class VideoViewComponent extends CommonComponent implements OnDestroy{
           error => this.errorHandler(error)
       );
     }
-
-
   }
 
   ngOnDestroy() {
@@ -72,7 +61,4 @@ export class VideoViewComponent extends CommonComponent implements OnDestroy{
       this.subsUrl.unsubscribe();
   }
 
-  
-
-  //(isLoggedIn | async) or authService.isAuthenticated()
 }

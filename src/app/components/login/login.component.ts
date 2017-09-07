@@ -29,12 +29,11 @@ export class LoginComponent implements OnInit {
   });
 
   ngOnInit() {
-      // reset login status
+      //сброс авторизации
       this.authService.logout();
 
-      // get return url from route parameters or default to '/'
+      //получаем returnUrl
       this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-      //console.log(this.returnUrl);
   }
 
   doLogin(event:any) {

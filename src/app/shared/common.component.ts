@@ -12,12 +12,6 @@ export class CommonComponent implements OnInit, AfterViewInit {
         protected alertService: AlertService
     ) { }
 
-    /*
-        ALTERNATIVE 
-
-        injector = ReflectiveInjector.resolveAndCreate([AlertService]);
-        private alertService = this.injector.get(AlertService);
-    */
 
     ngOnInit(){ }    
     ngAfterViewInit() { }
