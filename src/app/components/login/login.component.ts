@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 
@@ -9,10 +9,11 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './login.component.html'
 })
 
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   loading = false;
   error = '';
   returnUrl: string;
+  private alive: boolean = true;
 
   isSended: boolean = false;
   
@@ -42,6 +43,7 @@ export class LoginComponent implements OnInit {
     if(this.loginForm.dirty && this.loginForm.valid) {
       this.loading = true;
       this.authService.login(this.loginForm.controls['UserName'].value, this.loginForm.controls['Password'].value)
+        .takeWhile(() => this.alive)  
         .subscribe(result => {
             if (result === true) {
                 // login successful
@@ -60,6 +62,10 @@ export class LoginComponent implements OnInit {
       return 'block'
     else
       return 'none';
+  }
+
+  ngOnDestroy() { 
+    this.alive = false;
   }
 
 }

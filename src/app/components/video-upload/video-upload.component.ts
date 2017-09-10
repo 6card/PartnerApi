@@ -49,7 +49,9 @@ export class VideoUploadComponent extends CommonComponent implements OnDestroy {
     }
 
     UploadVideoFile(videoFile: File){        
-        this.partnerService.startUpload(this.authService.sessionId, this.mediaId, 0).subscribe( res => {  
+        this.partnerService.startUpload(this.authService.sessionId, this.mediaId, 0)
+        .takeWhile(() => this.alive)  
+        .subscribe( res => {  
             let data = this.respondHandler(res);
             this.isVideoUploadDone = false;
             this.isSending = true;
@@ -91,11 +93,15 @@ export class VideoUploadComponent extends CommonComponent implements OnDestroy {
 
                 //загружаем кусок и после удачной загрузки рисуем прогресс и запускаем следующую порцию
 
-                that.partnerService.videoUpload(uploadSessionId, start, blob, file.name).subscribe( res => {  
+                that.partnerService.videoUpload(uploadSessionId, start, blob, file.name)
+                .takeWhile(() => that.alive)  
+                .subscribe( res => {  
                     let data = that.respondHandler(res);
                     that.videoFileProgress = Math.round((start + blob.size) * 100 / file.size);
                     if (end >= file.size) {
-                        that.partnerService.completeUpload(uploadSessionId).subscribe( res => {                             
+                        that.partnerService.completeUpload(uploadSessionId)
+                        .takeWhile(() => that.alive)
+                        .subscribe( res => {                             
                             let data = that.respondHandler(res);
                             if (data.Success == true) {
                                  that.VideoUploadDone();
@@ -144,7 +150,9 @@ export class VideoUploadComponent extends CommonComponent implements OnDestroy {
     }
 
     setVideo(videoId: number) {
-        this.partnerService.setVideo(this.authService.sessionId, videoId, this.mediaId, 1).subscribe( res => {  
+        this.partnerService.setVideo(this.authService.sessionId, videoId, this.mediaId, 1)
+        .takeWhile(() => this.alive)  
+        .subscribe( res => {  
             let data = this.respondHandler(res);
             if (data.Success == true) {
                 this.VideoUploadDone();
@@ -169,7 +177,8 @@ export class VideoUploadComponent extends CommonComponent implements OnDestroy {
     }
 
     //прекратить загрузку при смене страницы
-    ngOnDestroy() {        
+    ngOnDestroy() {
+        this.alive = false;
         this.VideoUploadFail();
     }
 

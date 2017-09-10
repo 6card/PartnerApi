@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Alert, AlertType } from '../../shared/alert';
 import { AlertService } from '../../services/alert.service';
@@ -8,19 +8,21 @@ import { AlertService } from '../../services/alert.service';
     templateUrl: 'alert.component.html'
 })
 
-export class AlertComponent {
+export class AlertComponent implements OnInit, OnDestroy {
     alerts: Alert[] = [];
+    private alive: boolean = true;
 
     constructor(private alertService: AlertService) { }
 
     ngOnInit() {
-        this.alertService.getAlert().subscribe((alert: Alert) => {
+        this.alertService.getAlert()
+        .takeWhile(() => this.alive)
+        .subscribe((alert: Alert) => {
             if (!alert) {
                 // очищаем alerts получен пустой alert
                 this.alerts = [];
                 return;
             }
-
             //добавляем alert в массив
             if (!this.alerts.filter(item => item.id == alert.id)[0]) {
                 this.alerts.push(alert);
@@ -47,5 +49,9 @@ export class AlertComponent {
             case AlertType.Warning:
                 return 'warning';
         }
+    }
+
+    ngOnDestroy() { 
+        this.alive = false;
     }
 }

@@ -39,7 +39,9 @@ export class MediaStatComponent extends CommonComponent {
     }    
 
     loadMediaCounters(mediaId: number) { 
-        this.partnerService.getMediaStat(this.authService.sessionId, mediaId, '2017-08-10', '2017-08-17').subscribe( res => {  
+        this.partnerService.getMediaStat(this.authService.sessionId, mediaId, '2017-08-10', '2017-08-17')
+        .takeWhile(() => this.alive)
+        .subscribe( res => {  
             let data = this.respondHandler(res);
             if (data !== undefined) {
                 data.Data.map((item:any) =>  this.counters.push(new Counter(item)));  

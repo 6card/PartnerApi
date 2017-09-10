@@ -57,7 +57,9 @@ export class MediaDetailComponent extends CommonComponent implements DoCheck{
     }
 
     loadChannels() { 
-        this.partnerService.getChannels(this.authService.sessionId).subscribe( res => {  
+        this.partnerService.getChannels(this.authService.sessionId)
+        .takeWhile(() => this.alive)  
+        .subscribe( res => {  
             let data = this.respondHandler(res);
             if (data.Data !== undefined) {
                 data.Data.map((item:any) =>  this.channels.push(new Channel(item)));  
@@ -69,7 +71,9 @@ export class MediaDetailComponent extends CommonComponent implements DoCheck{
 
     loadMedia(mediaId: number) { 
         this.loadingMedia = true;
-        this.partnerService.getMedia(this.authService.sessionId, mediaId, 1).subscribe( res => {  
+        this.partnerService.getMedia(this.authService.sessionId, mediaId, 1)
+        .takeWhile(() => this.alive)  
+        .subscribe( res => {  
             let data = this.respondHandler(res);
             if (data !== undefined) {
                 this.media = new Media(data.Data); 
@@ -93,7 +97,9 @@ export class MediaDetailComponent extends CommonComponent implements DoCheck{
 
     mediaBlock() {
         if(confirm("Вы действительно хотите заблокировать ролик?")) {
-            this.partnerService.blockMedia(this.authService.sessionId, this.mediaId, 1).subscribe( res => {  
+            this.partnerService.blockMedia(this.authService.sessionId, this.mediaId, 1)
+            .takeWhile(() => this.alive)  
+            .subscribe( res => {  
                 let data = this.respondHandler(res);
                 this.mediaForm.pushValues();
             }, 
@@ -104,7 +110,9 @@ export class MediaDetailComponent extends CommonComponent implements DoCheck{
     }
 
     mediaUnblock() {
-        this.partnerService.unblockMedia(this.authService.sessionId, this.mediaId, 1).subscribe( res => {  
+        this.partnerService.unblockMedia(this.authService.sessionId, this.mediaId, 1)
+        .takeWhile(() => this.alive)  
+        .subscribe( res => {  
             let data = this.respondHandler(res);
             this.mediaForm.pushValues();
         }, 
@@ -114,7 +122,9 @@ export class MediaDetailComponent extends CommonComponent implements DoCheck{
 
     getTempEmbedUrl() {
         let url: string;
-        this.partnerService.getTempEmbedUrl(this.authService.sessionId, this.mediaId, 1).subscribe( res => {  
+        this.partnerService.getTempEmbedUrl(this.authService.sessionId, this.mediaId, 1)
+        .takeWhile(() => this.alive)
+        .subscribe( res => {  
             let data = this.respondHandler(res);
             url = data.Data;
             this.TempEmbedUrl = url;
@@ -125,7 +135,9 @@ export class MediaDetailComponent extends CommonComponent implements DoCheck{
 
     getMediaReportsUrl() {
         let url: string;
-        this.partnerService.getMediaReportsUrl(this.authService.sessionId, this.mediaId).subscribe( res => {  
+        this.partnerService.getMediaReportsUrl(this.authService.sessionId, this.mediaId)
+        .takeWhile(() => this.alive)  
+        .subscribe( res => {  
             let data = this.respondHandler(res);
             url = data.Data;
             this.MediaReportsUrl = url;
@@ -136,7 +148,9 @@ export class MediaDetailComponent extends CommonComponent implements DoCheck{
 
     viewVideo() {
         let url: string;
-        this.partnerService.getTempEmbedUrl(this.authService.sessionId, this.mediaId, 1).subscribe( res => {  
+        this.partnerService.getTempEmbedUrl(this.authService.sessionId, this.mediaId, 1)
+        .takeWhile(() => this.alive)  
+        .subscribe( res => {  
             let data = this.respondHandler(res);
             url = data.Data; 
             window.open(url, "_blank");
@@ -147,7 +161,9 @@ export class MediaDetailComponent extends CommonComponent implements DoCheck{
     }
 
     updateMedia(data: any) { 
-        this.partnerService.updateMedia(this.authService.sessionId, data).subscribe( res => {  
+        this.partnerService.updateMedia(this.authService.sessionId, data)
+        .takeWhile(() => this.alive)  
+        .subscribe( res => {  
             let data = this.respondHandler(res);
             this.loadMedia(this.media.MediaId);
         }, 

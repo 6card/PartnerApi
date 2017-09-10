@@ -9,7 +9,6 @@ import { PartnerService } from '../../services/partner.service';
 import { Media, Channel } from '../../shared/media';
 
 import { Subject } from 'rxjs/Subject';
-import { ISubscription } from "rxjs/Subscription";
 
 const ITEMS_PER_PAGE = 2;
 
@@ -34,9 +33,6 @@ export class MediaListComponent extends CommonComponent {
 
     public loadingMedia: boolean = false;
 
-    private activatedRouteSubscription: ISubscription;
-    private titleChangedSubscription: ISubscription;
-
     constructor(
         protected router: Router,
         protected authService: AuthService,
@@ -51,7 +47,9 @@ export class MediaListComponent extends CommonComponent {
         let params: Params;
 
         this.loadChannels();
-        this.activatedRouteSubscription = this.activatedRoute.queryParams.subscribe( (param: Params) => {
+        this.activatedRoute.queryParams
+        .takeWhile(() => this.alive)  
+        .subscribe( (param: Params) => {
             params = param;
             this.currentPage = param['page'] || 1;
             this.channelId = param['channel'] || localStorage.getItem('channelId') || -1;
@@ -66,18 +64,14 @@ export class MediaListComponent extends CommonComponent {
             }
         });
 
-        this.titleChangedSubscription = this.titleChanged
+        this.titleChanged
             .debounceTime(500)
             .distinctUntilChanged()
+            .takeWhile(() => this.alive)
             .subscribe(title => {
                 this.title = title;
                 this.navigate();
         });    
-    }
-
-    ngOnDestroy() {
-        this.activatedRouteSubscription.unsubscribe();
-        this.titleChangedSubscription.unsubscribe();
     }
 
     getChannelName(channelId: number): string {
@@ -97,7 +91,9 @@ export class MediaListComponent extends CommonComponent {
         
         this.loadingMedia = true;
 
-        this.partnerService.getMedias(this.authService.sessionId, this.channelId, startItem, countItems, this.stateId, this.title).subscribe( data => {  
+        this.partnerService.getMedias(this.authService.sessionId, this.channelId, startItem, countItems, this.stateId, this.title)
+        .takeWhile(() => this.alive)  
+        .subscribe( data => {  
             let medias = this.respondHandler(data);
             if (medias && medias.Data !== undefined) {
                 this.medias.length = 0;
@@ -110,7 +106,9 @@ export class MediaListComponent extends CommonComponent {
     }
 
     getTotalMediaCount() {
-        this.partnerService.getMediasCount(this.authService.sessionId, this.channelId, this.stateId, this.title).subscribe( res => {  
+        this.partnerService.getMediasCount(this.authService.sessionId, this.channelId, this.stateId, this.title)
+        .takeWhile(() => this.alive)  
+        .subscribe( res => {  
             let data = this.respondHandler(res);
             if (data.Data !== undefined) {
                 this.totalItems = data.Data;
@@ -123,7 +121,9 @@ export class MediaListComponent extends CommonComponent {
     
 
     loadChannels() { 
-        this.partnerService.getChannels(this.authService.sessionId).subscribe( res => {  
+        this.partnerService.getChannels(this.authService.sessionId)
+        .takeWhile(() => this.alive)  
+        .subscribe( res => {  
             let data = this.respondHandler(res);
             if (data.Data !== undefined) {
                 data.Data.map((item:any) =>  this.channels.push(new Channel(item))); 
@@ -135,7 +135,9 @@ export class MediaListComponent extends CommonComponent {
 
     mediaBlock(mediaId: number) {
         if(confirm("Вы действительно хотите заблокировать ролик?")) {
-            this.partnerService.blockMedia(this.authService.sessionId, mediaId, 1).subscribe( res => {  
+            this.partnerService.blockMedia(this.authService.sessionId, mediaId, 1)
+            .takeWhile(() => this.alive)  
+            .subscribe( res => {  
                 let data = this.respondHandler(res);
                 this.loadMedias();
             }, 
@@ -146,7 +148,9 @@ export class MediaListComponent extends CommonComponent {
     }
 
     mediaUnblock(mediaId: number) {
-        this.partnerService.unblockMedia(this.authService.sessionId, mediaId, 1).subscribe( res => {  
+        this.partnerService.unblockMedia(this.authService.sessionId, mediaId, 1)
+        .takeWhile(() => this.alive)  
+        .subscribe( res => {  
             let data = this.respondHandler(res);
             this.loadMedias();
         }, 

@@ -29,7 +29,9 @@ export class MediaAddComponent extends CommonComponent {
     }
 
     loadChannels() { 
-        this.partnerService.getChannels(this.authService.sessionId).subscribe( res => {  
+        this.partnerService.getChannels(this.authService.sessionId)
+        .takeWhile(() => this.alive)  
+        .subscribe( res => {  
             let data = this.respondHandler(res);
             if (data.Data !== undefined) {
                 data.Data.map((item:any) =>  this.channels.push(new Channel(item)));  
@@ -40,7 +42,9 @@ export class MediaAddComponent extends CommonComponent {
     }
 
     addMedia() { 
-        this.partnerService.addMedia(this.authService.sessionId, this.media).subscribe( res => {  
+        this.partnerService.addMedia(this.authService.sessionId, this.media)
+        .takeWhile(() => this.alive)  
+        .subscribe( res => {  
             let data = this.respondHandler(res);
             this.router.navigate(['/media', data.Data]);
         }, 

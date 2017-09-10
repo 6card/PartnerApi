@@ -6,6 +6,8 @@ import { PartnerService } from '../services/partner.service';
 
 export class CommonComponent implements OnInit, AfterViewInit {
 
+    protected alive: boolean = true;
+
     constructor(        
         protected authService: AuthService,
         protected partnerService: PartnerService,
@@ -16,7 +18,9 @@ export class CommonComponent implements OnInit, AfterViewInit {
     ngOnInit(){ }    
     ngAfterViewInit() { }
 
-    ngOnDestroy() { }
+    ngOnDestroy() { 
+        this.alive = false;
+    }
 
     protected respondHandler(data: any) {
         if (!data.Success) {
