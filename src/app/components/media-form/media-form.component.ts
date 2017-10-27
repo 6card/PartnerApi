@@ -40,7 +40,7 @@ export class MediaFormComponent {
             'description': [this.description, Validators.required],
             'channelId': [this.channelId, Validators.required],
             'state': [this.state],
-            'shootDate': [this.shootDate ? this.shootDate : new Date(), Validators.required]
+            'shootDate': [this.shootDate ? this.shootDate : this.datepipe.transform(Date.now(), 'yyyy-MM-ddTHH:mm:ss+03:00'), Validators.required]
         });
     }
 
@@ -53,10 +53,11 @@ export class MediaFormComponent {
 
     onSubmit(): void {  
         this.isSended = true;
-        if(this.mediaForm.dirty && this.mediaForm.valid) {
+        if(/*this.mediaForm.dirty && */this.mediaForm.valid) {
             this.pushValues();
         }
     }
+
     onDateChange(date: any): void {
         this.tempDate = date;
     }
