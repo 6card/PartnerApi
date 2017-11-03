@@ -17,14 +17,15 @@ export class CalendarComponent implements AfterViewInit {
   @Input() fGroup: FormGroup;
   @Input() fControlName: string;
   @Input() settings: CalendarOptions = {
-    type: 'datetime', 
+      type: 'datetime', 
       ampm: false,
       firstDayOfWeek: 1,
-      monthFirst: false,
+      //monthFirst: false,
       text: {
           days: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
           /* из-за этой настройки парсинг даты сбивается */
           //months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+          monthsHeader: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
           monthsShort: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
           today: 'Сегодня',
           now: 'Сейчас',
@@ -63,7 +64,12 @@ export class CalendarComponent implements AfterViewInit {
             let total = ((day < 10 ? '0' + day : day) + '.' + (month < 10 ? '0' + month : month) + '.' + year + ' ' + (hour < 10 ? '0' + hour : hour) + ':' + (minute < 10 ? '0' + minute : minute));
            
             return total;
-        }
+        },
+        dayHeader: (date: Date, settings: CalendarOptions) => {
+          var month = settings.text.monthsHeader[date.getMonth()];
+          var year = date.getFullYear();
+          return month + ' ' + year;
+        },
     };
     
     let calendarElement: HTMLElement = this.parentElement.nativeElement.children[0];
@@ -92,9 +98,20 @@ export class CalendarComponent implements AfterViewInit {
 export interface CalendarOptions {
   type?: string;
   firstDayOfWeek? :number;
-  text?: {};
+  text?: {
+    days?: Array<string>,
+    /* из-за этой настройки парсинг даты сбивается */
+    months?: Array<string>,
+    monthsHeader?: Array<string>,
+    monthsShort?: Array<string>,
+    today?: string,
+    now?: string,
+    am?: string,
+    pm?: string,
+  };
   formatter?: {
       datetime?: Function,
+      dayHeader?: Function,
   };
   startCalendar?: HTMLElement;
   endCalendar?: HTMLElement;
