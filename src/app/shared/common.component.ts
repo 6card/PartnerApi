@@ -29,7 +29,8 @@ export class CommonComponent implements OnInit, AfterViewInit {
         .takeWhile(() => this.alive)  
         .subscribe( res => {  
             let data = this.respondHandler(res);
-            console.log(data);
+            if (data.Data.length > 0)
+                this.userAgreement.add( data.Data[0] )
         }, 
             error => this.errorHandler(error)
         );
@@ -37,12 +38,13 @@ export class CommonComponent implements OnInit, AfterViewInit {
 
     protected respondHandler(data: any) {
         if (!data.Success) {
-            /*
+            
             if (data.Message.Id && data.Message.Id == 21){
                 this.loadAgreements();
             }
-            */
+            
             this.alertService.error(data.Message.Id, data.Message.Text);
+            
         }        
         return data;        
     }

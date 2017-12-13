@@ -13,6 +13,7 @@ import 'rxjs/operators/map';
 
 export class AgreementComponent implements OnInit, OnDestroy {
     agreements: Agreement[] = [];
+    currentAgreement: Agreement;
     private alive: boolean = true;
 
     constructor(
@@ -21,23 +22,63 @@ export class AgreementComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
+
+        this.userAgreement.getAgreement()
+        .takeWhile(() => this.alive)
+        .subscribe((agreement: Agreement) => {
+            if (!agreement) {
+                // очищаем alerts получен пустой alert
+                //this.agreement = [];
+                return;
+            }
+            this.addLastAgreement(agreement);
+        });
+
+        /*
         this.userAgreement.getAgreements(this.authService.sessionId)
         .takeWhile(() => this.alive)
         .subscribe((agreements: Agreement[]) => {
             if (!agreements) {
                 // очищаем agreements получен пустой agreements
-                this.agreements = [];
+                //this.agreements = [];
+                this.currentAgreement = null;
                 return;
             }
             //добавляем agreements в массив
             //agreements.map(item => this.agreements.push(item));
             this.agreements = agreements;
-            $('.ui.modal').modal('show');
+            //this.addLastAgreement(agreements[0]);
+            //this.openDialog();
             //document.getElementById("agreement").scrollIntoView();
         });
+
+        */
+    }
+
+    addLastAgreement(agreement: Agreement) {
+
+        this.userAgreement.getFullAgreement(agreement.RequestToken)
+        .takeWhile(() => this.alive)
+        .subscribe((data: Agreement) => {
+            if (!data) {
+                // очищаем alerts получен пустой alert
+                //this.agreement = [];
+                return;
+            }
+            this.currentAgreement = data;
+            setTimeout( ()=> {
+                $('#last_agreement').modal('show'); // без таймаута не работает.
+                document.getElementById("last_agreement_text").scrollIntoView();
+            }, 100 );
+        });        
     }
 
     ngOnDestroy() { 
         this.alive = false;
+    }
+
+    openDialog() {
+        setTimeout( ()=> $('.ui.modal').modal('show'), 100 );
+        
     }
 }

@@ -59,3 +59,8 @@ body > .grid {
 .messages .message:last-child {
     margin-bottom: 1em;
 }
+
+.ui.modal .scrolling.content {
+    max-height: calc(70vh);
+    overflow: auto;
+}

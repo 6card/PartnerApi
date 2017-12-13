@@ -1,24 +1,16 @@
-<div class="ui modal" *ngFor="let agreement of agreements">
+<div class="ui modal" id="last_agreement" *ngIf="currentAgreement">
   <i class="close icon"></i>
-  <div class="header">
-    Profile Picture
-  </div>
-  <div class="image content">
-    <div class="ui medium image">
-
-    </div>
+  <div class="scrolling content">
     <div class="description">
-      <div class="ui header">We've auto-chosen a profile image for you.</div>
-      <p>{{agreement.Name}}</p>
-      <p>Is it okay to use this photo?</p>
+      <p id="last_agreement_text" [innerHTML]="currentAgreement.HTML"></p>
     </div>
   </div>
   <div class="actions">
     <div class="ui black deny button">
-      Nope
+      Отмена
     </div>
     <div class="ui positive right labeled icon button">
-      Yep, that's me
+      Принять
       <i class="checkmark icon"></i>
     </div>
   </div>
