@@ -3,6 +3,7 @@ import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { AlertService } from '../services/alert.service';
 import { PartnerService } from '../services/partner.service';
+import { UserAgreement } from '../services/user-agreement.service';
 
 export class CommonComponent implements OnInit, AfterViewInit {
 
@@ -11,7 +12,8 @@ export class CommonComponent implements OnInit, AfterViewInit {
     constructor(        
         protected authService: AuthService,
         protected partnerService: PartnerService,
-        protected alertService: AlertService
+        protected alertService: AlertService,
+        protected userAgreement: UserAgreement
     ) { }
 
 
@@ -22,8 +24,24 @@ export class CommonComponent implements OnInit, AfterViewInit {
         this.alive = false;
     }
 
+    loadAgreements() {
+        this.userAgreement.getAgreements(this.authService.sessionId)
+        .takeWhile(() => this.alive)  
+        .subscribe( res => {  
+            let data = this.respondHandler(res);
+            console.log(data);
+        }, 
+            error => this.errorHandler(error)
+        );
+    }
+
     protected respondHandler(data: any) {
         if (!data.Success) {
+            /*
+            if (data.Message.Id && data.Message.Id == 21){
+                this.loadAgreements();
+            }
+            */
             this.alertService.error(data.Message.Id, data.Message.Text);
         }        
         return data;        

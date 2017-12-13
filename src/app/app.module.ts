@@ -14,6 +14,7 @@ import { MediaAddComponent } from './components/media-add/media-add.component';
 import { MediaFormComponent } from "./components/media-form/media-form.component";
 import { VideoUploadComponent } from './components/video-upload/video-upload.component';
 import { VideoViewComponent } from "./components/video-view/video-view.component";
+import { AgreementComponent } from "./components/agreement/agreement.component";
 
 import { NavigationComponent } from "./components/navigation/navigation.component"
 import { AlertComponent } from "./components/alert/alert.component"
@@ -23,6 +24,7 @@ import { CalendarComponent } from "./components/calendar/calendar.component"
 import { AlertService } from './services/alert.service';
 import { AuthService } from './services/auth.service';
 import { PartnerService } from './services/partner.service';
+import { UserAgreement } from './services/user-agreement.service';
 
 import { AuthGuard } from './shared/auth.guard';
 
@@ -52,6 +54,7 @@ const	routes:	Routes	=	[
     MediaFormComponent,
     VideoUploadComponent,
     VideoViewComponent,
+    AgreementComponent,
 
     NavigationComponent,
     AlertComponent,
@@ -74,7 +77,8 @@ const	routes:	Routes	=	[
     AlertService,
     AuthService,
     PartnerService,
-    AuthGuard
+    AuthGuard,
+    UserAgreement
   ],
   bootstrap: [AppComponent]
 })

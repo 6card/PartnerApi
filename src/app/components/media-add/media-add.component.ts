@@ -6,6 +6,8 @@ import { CommonComponent }  from '../../shared/common.component';
 import { AuthService } from '../../services/auth.service';
 import { AlertService } from '../../services/alert.service';
 import { PartnerService } from '../../services/partner.service';
+import { UserAgreement } from '../../services/user-agreement.service';
+
 import { Media, Channel } from '../../shared/media';
 @Component({
   selector: 'media-add',
@@ -19,9 +21,10 @@ export class MediaAddComponent extends CommonComponent {
         private router: Router,
         protected authService: AuthService,
         protected partnerService: PartnerService,
-        protected alertService: AlertService
+        protected alertService: AlertService,
+        protected userAgreement: UserAgreement,
     ) { 
-        super(authService, partnerService, alertService);
+        super(authService, partnerService, alertService, userAgreement);
     }
 
     ngOnInit(){   

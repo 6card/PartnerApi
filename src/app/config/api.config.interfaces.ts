@@ -17,6 +17,9 @@ export interface ApiUrls {
   VIDEO_UPLOAD_START: string;
   VIDEO_UPLOAD_UPLOAD: string;
   VIDEO_UPLOAD_COMPLETE: string;
+
+  USER_GET_AGREEMENTS: string;
+  USER_GET_AGREEMENT: string;
 }
 
 export interface ErrorKeys {

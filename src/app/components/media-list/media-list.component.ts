@@ -6,6 +6,8 @@ import { CommonComponent }  from '../../shared/common.component';
 import { AuthService } from '../../services/auth.service';
 import { AlertService } from '../../services/alert.service';
 import { PartnerService } from '../../services/partner.service';
+import { UserAgreement } from '../../services/user-agreement.service';
+
 import { Media, Channel } from '../../shared/media';
 
 import { Subject } from 'rxjs/Subject';
@@ -38,9 +40,10 @@ export class MediaListComponent extends CommonComponent {
         protected authService: AuthService,
         protected partnerService: PartnerService,
         protected alertService: AlertService,
+        protected userAgreement: UserAgreement,
         protected activatedRoute: ActivatedRoute
     ) { 
-        super(authService, partnerService, alertService);
+        super(authService, partnerService, alertService, userAgreement);
     }
 
     ngOnInit(){

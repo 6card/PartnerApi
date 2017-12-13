@@ -1,7 +1,7 @@
 import { ApiUrls } from './api.config.interfaces';
 
 export const API_URLS: ApiUrls = {
-  ROOT: 'https://api.newstube.ru/v2',
+  ROOT: 'https://api.newstube.ru/dev',
   AUTH_LOGIN: '/Auth/Login',
   MEDIA_CHANNELS: '/Media/Channels',
   MEDIA_GET_MEDIA: '/Media/GetMedia',
@@ -18,5 +18,8 @@ export const API_URLS: ApiUrls = {
   STAT_GET_REPORTS_URL: '/Stat/GetReportsUrl',
   VIDEO_UPLOAD_START: '/VideoUpload/Start',
   VIDEO_UPLOAD_UPLOAD:'/VideoUpload/UploadData',
-  VIDEO_UPLOAD_COMPLETE: '/VideoUpload/Complete'
+  VIDEO_UPLOAD_COMPLETE: '/VideoUpload/Complete',
+
+  USER_GET_AGREEMENTS: '/UserAgreement/GetAgreements',
+  USER_GET_AGREEMENT: '/UserAgreement/GetAgreement',
 };
