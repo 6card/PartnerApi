@@ -1,11 +1,11 @@
 <div class="ui modal" id="last_agreement" *ngIf="currentAgreement">
-  <div class="scrolling content">
+  <div class="scrolling content" (scroll)="onScroll($event)">
     <div class="description">
       <p id="last_agreement_text" [innerHTML]="currentAgreement.HTML"></p>
     </div>
   </div>
   <div class="actions">
-    <button class="ui positive right labeled icon button" (click)="accept()">
+    <button class="ui positive right labeled icon button" (click)="accept()" [disabled]="acceptDisabled">
       Принять
       <i class="checkmark icon"></i>
     </button>

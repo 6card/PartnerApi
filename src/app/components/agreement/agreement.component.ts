@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { UserAgreement } from '../../services/user-agreement.service';
 
 import 'rxjs/operators/map';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
     selector: 'app-agreement',
@@ -17,6 +18,8 @@ export class AgreementComponent implements OnInit, OnDestroy {
     currentAgreement: Agreement;
     private alive: boolean = true;
 
+    acceptDisabled: boolean = true;
+
     constructor(    
         private router: Router,
         private authService: AuthService,
@@ -24,6 +27,13 @@ export class AgreementComponent implements OnInit, OnDestroy {
     ) {
         
      }
+    
+    onScroll(event: any) {
+        //console.log(`scrollTop=${event.target.scrollTop} scrollTopMax=${event.target.scrollTopMax}`);
+        if (event.target.scrollTop == event.target.scrollTopMax) {
+            this.acceptDisabled =false;
+        }
+    }
 
     ngOnInit() {
         //подписываемся на события: если есть ошибка 21, сервис добавит сюда первое в списке соглашение
@@ -82,8 +92,13 @@ export class AgreementComponent implements OnInit, OnDestroy {
         });        
     }
 
+    getAcceptDisabled() {
+        return this.acceptDisabled;
+    }
+
     accept() {        
         this.userAgreement.clear();
+        this.acceptDisabled = true;
         $('#last_agreement').modal('hide');
     }
 
