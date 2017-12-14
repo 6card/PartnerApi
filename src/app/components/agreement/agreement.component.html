@@ -1,17 +1,13 @@
 <div class="ui modal" id="last_agreement" *ngIf="currentAgreement">
-  <i class="close icon"></i>
   <div class="scrolling content">
     <div class="description">
       <p id="last_agreement_text" [innerHTML]="currentAgreement.HTML"></p>
     </div>
   </div>
   <div class="actions">
-    <div class="ui black deny button">
-      Отмена
-    </div>
-    <div class="ui positive right labeled icon button">
+    <button class="ui positive right labeled icon button" (click)="accept()">
       Принять
       <i class="checkmark icon"></i>
-    </div>
+    </button>
   </div>
 </div>

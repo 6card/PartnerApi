@@ -20,6 +20,7 @@ export interface ApiUrls {
 
   USER_GET_AGREEMENTS: string;
   USER_GET_AGREEMENT: string;
+  USER_ACCEPT_AGREEMENT: string;
 }
 
 export interface ErrorKeys {

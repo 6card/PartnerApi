@@ -22,4 +22,5 @@ export const API_URLS: ApiUrls = {
 
   USER_GET_AGREEMENTS: '/UserAgreement/GetAgreements',
   USER_GET_AGREEMENT: '/UserAgreement/GetAgreement',
+  USER_ACCEPT_AGREEMENT: '/UserAgreement/UserAccept',
 };

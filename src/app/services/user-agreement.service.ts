@@ -23,14 +23,14 @@ export class UserAgreement {
     private router: Router,
     private http: Http
   ) { 
-    // clear alert messages on route change unless 'keepAfterRouteChange' flag is true
+    // clear agreement on route change unless 'keepAfterRouteChange' flag is true
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
           if (this.keepAfterRouteChange) {
               // only keep for a single route change
               this.keepAfterRouteChange = false;
           } else {
-              // clear alert messages
+              // clear agreement messages
               this.clear();
           }
       }
@@ -44,7 +44,6 @@ export class UserAgreement {
   }
 
   clear() {
-    // clear alerts
     this.subject.next();
   }
 
@@ -76,15 +75,23 @@ export class UserAgreement {
         return res.json();
     }).catch(this.handleError);
   }
+
+  acceptAgreement(token: string) {
+    const apiURL = `${this.apiRoot}${API_URLS.USER_ACCEPT_AGREEMENT}`;
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+    let options = new RequestOptions({ headers: headers });
+
+
+    return this.http.post(apiURL, JSON.stringify({ token: token }), options )
+      .map((res:Response) => {
+        return res.json();
+    }).catch(this.handleError);
+  }
   
 
   private handleError(error: Response) {
-      //console.error(error);
       return Observable.throw(error.json().Message || 'Server error');
   }
-
 }
-
-// Success: false
-// Id: 1
-// Message: "Ошибка авторизации. Получите заново SessionId"

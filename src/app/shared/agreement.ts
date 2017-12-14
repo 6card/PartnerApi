@@ -1,4 +1,4 @@
-export class Agreement {
+export interface Agreement {
     Name: string;
     HTML: string;
     RequestToken: string;

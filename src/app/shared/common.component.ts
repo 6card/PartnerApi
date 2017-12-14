@@ -38,13 +38,10 @@ export class CommonComponent implements OnInit, AfterViewInit {
 
     protected respondHandler(data: any) {
         if (!data.Success) {
-            
             if (data.Message.Id && data.Message.Id == 21){
                 this.loadAgreements();
-            }
-            
-            this.alertService.error(data.Message.Id, data.Message.Text);
-            
+            }                       
+            this.alertService.error(data.Message.Id, data.Message.Text);            
         }        
         return data;        
     }
