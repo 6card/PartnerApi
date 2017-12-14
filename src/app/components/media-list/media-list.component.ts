@@ -12,7 +12,7 @@ import { Media, Channel } from '../../shared/media';
 
 import { Subject } from 'rxjs/Subject';
 
-const ITEMS_PER_PAGE = 2;
+const ITEMS_PER_PAGE = 5;
 
 @Component({
   selector: 'media-list',
@@ -22,7 +22,7 @@ const ITEMS_PER_PAGE = 2;
 export class MediaListComponent extends CommonComponent {
     public medias: Array<Media> = [];
     public currentPage: number = 1;
-    public itemsPerPage: number = 2;
+    public itemsPerPage: number = 5;
     public totalItems: number;
     public error: any;
     public channelId: number = -1;

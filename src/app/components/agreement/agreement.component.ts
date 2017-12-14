@@ -1,9 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
+import { CommonComponent }  from '../../shared/common.component';
+
 import { Agreement } from '../../shared/agreement';
 import { AuthService } from '../../services/auth.service';
+import { AlertService } from '../../services/alert.service';
 import { UserAgreement } from '../../services/user-agreement.service';
+import { PartnerService } from '../../services/partner.service';
 
 import 'rxjs/operators/map';
 import { Subject } from 'rxjs/Subject';
@@ -13,28 +17,22 @@ import { Subject } from 'rxjs/Subject';
     templateUrl: 'agreement.component.html'
 })
 
-export class AgreementComponent implements OnInit, OnDestroy {
+export class AgreementComponent extends CommonComponent implements OnInit, OnDestroy {
     agreements: Agreement[] = [];
     currentAgreement: Agreement;
-    private alive: boolean = true;
 
     acceptDisabled: boolean = true;
 
     constructor(    
         private router: Router,
-        private authService: AuthService,
-        private userAgreement: UserAgreement
+        protected authService: AuthService,
+        protected partnerService: PartnerService,
+        protected alertService: AlertService,
+        protected userAgreement: UserAgreement
     ) {
-        
+        super(authService, partnerService, alertService, userAgreement);
      }
     
-    onScroll(event: any) {
-        //console.log(`scrollTop=${event.target.scrollTop} scrollTopMax=${event.target.scrollTopMax}`);
-        if (event.target.scrollTop == event.target.scrollTopMax) {
-            this.acceptDisabled =false;
-        }
-    }
-
     ngOnInit() {
         //подписываемся на события: если есть ошибка 21, сервис добавит сюда первое в списке соглашение
         this.userAgreement.getAgreement()
@@ -46,16 +44,21 @@ export class AgreementComponent implements OnInit, OnDestroy {
             this.addLastAgreement(agreement);
         });
 
-        this.loadAgreements()
+        //this.loadAgreements()
     }
 
     loadAgreements() {
+        console.log('loadAgreements');
         this.userAgreement.getAgreements(this.authService.sessionId)
         .takeWhile(() => this.alive)  
         .subscribe( (res: any) => {  
-            let data = res;
-            if (data.Data.length > 0)
-                this.userAgreement.add( data.Data[0] )
+            const data = res;
+            if (data.Data.length > 0) {
+                this.userAgreement.add( data.Data[0] );
+            }
+            else {
+                this.refreshPage();
+            }
         }, 
             error => console.error(error)
         );
@@ -92,8 +95,10 @@ export class AgreementComponent implements OnInit, OnDestroy {
         });        
     }
 
-    getAcceptDisabled() {
-        return this.acceptDisabled;
+    onScroll(event: any) {
+        if (event.target.scrollTop == event.target.scrollTopMax) {
+            this.acceptDisabled =false;
+        }
     }
 
     accept() {        
@@ -106,8 +111,5 @@ export class AgreementComponent implements OnInit, OnDestroy {
         this.router.navigate([this.router.url]);
     }
 
-    ngOnDestroy() { 
-        this.alive = false;
-    }
 
 }

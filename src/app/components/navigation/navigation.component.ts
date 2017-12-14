@@ -14,8 +14,8 @@ import {Observable} from 'rxjs/Rx';
   templateUrl: './navigation.component.html'
 })
 export class NavigationComponent extends CommonComponent implements OnInit{
-  reportsUrl: any;
-  isLoggedIn : boolean = false;
+  //reportsUrl: any;
+  //isLoggedIn : boolean = false;
 
   constructor(
     protected authService:AuthService,
@@ -28,6 +28,7 @@ export class NavigationComponent extends CommonComponent implements OnInit{
   }
 
   ngOnInit(){
+    /*
       this.authService.isLoggedIn()
       .takeWhile(() => this.alive)  
       .subscribe( res => {  
@@ -41,12 +42,13 @@ export class NavigationComponent extends CommonComponent implements OnInit{
           }, 
               error => this.errorHandler(error)
           );
-        }
+        }        
         else {
           this.reportsUrl = false;
-        }
+        }        
     }, 
         error => this.errorHandler(error)
     );
+    */
   }
 }

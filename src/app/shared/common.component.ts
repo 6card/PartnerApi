@@ -25,10 +25,11 @@ export class CommonComponent implements OnInit, AfterViewInit {
     }
 
     loadAgreements() {
+        console.log('loadAgreements');
         this.userAgreement.getAgreements(this.authService.sessionId)
         .takeWhile(() => this.alive)  
         .subscribe( res => {  
-            let data = this.respondHandler(res);
+            const data = this.respondHandler(res);
             if (data.Data.length > 0)
                 this.userAgreement.add( data.Data[0] )
         }, 
