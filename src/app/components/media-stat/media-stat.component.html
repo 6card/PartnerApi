@@ -14,7 +14,7 @@
           <tbody>
             <tr *ngFor="let counter of counters | orderBy: ['+CreateDate']">
               <td>{{counter.Location}}</td>
-              <td>{{counter.CreateDate | date:'dd.MM.yyyy'}}</td>
+              <td>{{counter.CreateDate | datex:'DD.MM.YYYY'}}</td>
               <td>{{counter.Counter}}</td>
             </tr>
           </tbody>

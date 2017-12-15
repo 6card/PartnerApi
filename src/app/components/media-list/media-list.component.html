@@ -65,8 +65,8 @@
               <td>
                 {{getChannelName(media.ChannelId)}}
               </td>
-              <td>{{media.ShootDateUtc | date:'dd.MM.yyyy HH:mm'}}</td>
-              <td>{{media.PubDateGMT | date:'dd.MM.yyyy HH:mm'}}</td>
+              <td>{{media.ShootDateUtc | datex:'DD.MM.YYYY HH:mm'}}</td>
+              <td>{{media.PubDateGMT | datex:'DD.MM.YYYY HH:mm'}}</td>
               <td><img class="ui tiny image" [src]="media.ThumbnailUrl"></td>
               <td><div [ngClass]="media.StateColor" class="ui label">{{media.StateName}}</div></td>
               <td>

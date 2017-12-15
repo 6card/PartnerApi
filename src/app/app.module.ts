@@ -32,6 +32,7 @@ import { SafePipe } from './pipes/safe.pipe';
 import { KeysPipe } from './pipes/keys.pipe';
 import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe';
 import { OrderByPipe } from './pipes/order-by.pipe';
+import { DatexPipe } from './pipes/datex.pipe';
 
 const	routes:	Routes	=	[
 		{path:	'',	redirectTo:	'media',	pathMatch:	'full'},
@@ -64,7 +65,8 @@ const	routes:	Routes	=	[
     SafePipe,
     KeysPipe,
     SecondsToTimePipe,
-    OrderByPipe
+    OrderByPipe,
+    DatexPipe
   ],
   imports: [
     BrowserModule,

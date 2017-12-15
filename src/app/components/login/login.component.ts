@@ -12,7 +12,6 @@ import { AuthService } from '../../services/auth.service';
 export class LoginComponent implements OnInit, OnDestroy {
   loading = false;
   error = '';
-  returnUrl: string;
   private alive: boolean = true;
 
   isSended: boolean = false;
@@ -32,22 +31,23 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit() {
       //сброс авторизации
       this.authService.logout();
-
-      //получаем returnUrl
-      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   doLogin(event:any) {
+    let returnUrl: string;
+
     this.isSended = true;
     this.error = '';
+    
     if(this.loginForm.dirty && this.loginForm.valid) {
       this.loading = true;
       this.authService.login(this.loginForm.controls['UserName'].value, this.loginForm.controls['Password'].value)
         .takeWhile(() => this.alive)  
         .subscribe(result => {
             if (result === true) {
-                // login successful
-                this.router.navigate([this.returnUrl]);
+                // login successful                
+                returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/'; //получаем returnUrl
+                this.router.navigate([returnUrl]);
             } else {
                 // login failed
                 this.error = 'Неправильный логин или пароль';

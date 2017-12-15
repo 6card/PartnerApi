@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { CommonComponent }  from '../../shared/common.component';
@@ -18,6 +18,8 @@ import { Subject } from 'rxjs/Subject';
 })
 
 export class AgreementComponent extends CommonComponent implements OnInit, OnDestroy {
+    @ViewChild('agreementTextBlock') textBlock: ElementRef;
+
     agreements: Agreement[] = [];
     currentAgreement: Agreement;
 
@@ -52,7 +54,7 @@ export class AgreementComponent extends CommonComponent implements OnInit, OnDes
         this.userAgreement.getAgreements(this.authService.sessionId)
         .takeWhile(() => this.alive)  
         .subscribe( (res: any) => {  
-            const data = res;
+            const data = this.respondHandler(res);
             if (data.Data.length > 0) {
                 this.userAgreement.add( data.Data[0] );
             }
@@ -60,7 +62,7 @@ export class AgreementComponent extends CommonComponent implements OnInit, OnDes
                 this.refreshPage();
             }
         }, 
-            error => console.error(error)
+            error => this.errorHandler(error)
         );
     }
 
@@ -81,8 +83,11 @@ export class AgreementComponent extends CommonComponent implements OnInit, OnDes
             setTimeout( ()=> {
                 $('#last_agreement').modal({ 
                     closable: false,
+                    onShow: function(){
+                        that.modalShowHandler();
+                    },
                     onHidden: function(){
-                        that.loadAgreements();//проверка на оставшиеся соглашения
+                        that.modalHideHandler();
                     },
                     selector    : {
                         close    : ' ',
@@ -95,15 +100,52 @@ export class AgreementComponent extends CommonComponent implements OnInit, OnDes
         });        
     }
 
+
+
     onScroll(event: any) {
-        if (event.target.scrollTop == event.target.scrollTopMax) {
-            this.acceptDisabled =false;
+        //console.log(event);
+        //console.log(`${event.target.scrollTop + event.target.offsetHeight} = ${event.target.scrollHeight}`);
+        if ( (event.target.scrollTop + event.target.offsetHeight) == event.target.scrollHeight) {
+            this.acceptDisabled = false;
         }
     }
 
-    accept() {        
+    onClick(event: any) {
+        console.log(`${event.target.scrollTop + event.target.offsetHeight} = ${event.target.scrollHeight}`);
+    }
+
+    modalShowHandler() {
+        let el = this.textBlock.nativeElement;
+        if ( (el.scrollTop + el.offsetHeight) == el.scrollHeight) {
+            this.acceptDisabled = false;
+        }
+        //console.log(`${el.scrollTop + el.offsetHeight} = ${el.scrollHeight}`);
+    }
+
+    modalHideHandler() {
+        this.loadAgreements();//проверка на оставшиеся соглашения
         this.userAgreement.clear();
         this.acceptDisabled = true;
+    }
+
+    accept() {
+        console.log(this.currentAgreement.AcceptToken);
+        /*
+        this.userAgreement.acceptAgreement(this.currentAgreement.AcceptToken)
+        .takeWhile(() => this.alive)  
+        .subscribe( (res: any) => {  
+            const data = res;
+            if (data.Data.length > 0) {
+                this.userAgreement.add( data.Data[0] );
+            }
+            else {
+                this.refreshPage();
+            }
+        }, 
+            error => this.errorHandler(error)
+        );
+        */
+
         $('#last_agreement').modal('hide');
     }
 

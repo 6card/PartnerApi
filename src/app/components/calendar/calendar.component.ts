@@ -2,13 +2,13 @@
 
 import {Component, ElementRef, AfterViewInit, Output, EventEmitter, Input, Self} from '@angular/core';
 import {ControlValueAccessor, FormGroup, FormControl} from '@angular/forms';
-import { DatePipe } from '@angular/common';
+import { DatexPipe } from '../../pipes/datex.pipe';
 
 declare var $: any;
 @Component({
   selector: 'calendar',
   templateUrl: './calendar.component.html',
-  providers: [DatePipe]
+  providers: [DatexPipe]
 })
 export class CalendarComponent implements AfterViewInit {
   @Output() changeDate: EventEmitter<any> = new EventEmitter<any>();
@@ -39,7 +39,7 @@ export class CalendarComponent implements AfterViewInit {
   //public onTouched: any = Function.prototype;
   private selectedDate: Date;
   constructor(
-    public datepipe: DatePipe,
+    public datepipe: DatexPipe,
     private parentElement: ElementRef
   ){
   }
@@ -85,7 +85,7 @@ export class CalendarComponent implements AfterViewInit {
     //2017-07-15T19:06:00+03:00
     if (value instanceof Date) {
       
-        let transformDate = this.datepipe.transform(value, 'dd.MM.yyyy HH:mm');
+        let transformDate = this.datepipe.transform(value, 'DD.MM.YYYY HH:mm');
         this.fGroup.controls[this.fControlName].setValue(transformDate);
         this.changeDate.emit(value);
     }
