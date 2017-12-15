@@ -30,7 +30,7 @@ export class CommonComponent implements OnInit, AfterViewInit {
         .takeWhile(() => this.alive)  
         .subscribe( res => {  
             const data = this.respondHandler(res);
-            if (data.Data.length > 0)
+            if (data && data.Data.length > 0)
                 this.userAgreement.add( data.Data[0] )
         }, 
             error => this.errorHandler(error)

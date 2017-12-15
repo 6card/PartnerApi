@@ -20,9 +20,7 @@ import { Subject } from 'rxjs/Subject';
 export class AgreementComponent extends CommonComponent implements OnInit, OnDestroy {
     @ViewChild('agreementTextBlock') textBlock: ElementRef;
 
-    agreements: Agreement[] = [];
     currentAgreement: Agreement;
-
     acceptDisabled: boolean = true;
 
     constructor(    
@@ -36,17 +34,14 @@ export class AgreementComponent extends CommonComponent implements OnInit, OnDes
      }
     
     ngOnInit() {
-        //подписываемся на события: если есть ошибка 21, сервис добавит сюда первое в списке соглашение
         this.userAgreement.getAgreement()
         .takeWhile(() => this.alive)
         .subscribe((agreement: Agreement) => {
             if (!agreement) {
                 return;
             }
-            this.addLastAgreement(agreement);
+            this.addFullAgreement(agreement);
         });
-
-        //this.loadAgreements()
     }
 
     loadAgreements() {
@@ -66,7 +61,7 @@ export class AgreementComponent extends CommonComponent implements OnInit, OnDes
         );
     }
 
-    addLastAgreement(agreement: Agreement) { //получаем полное соглашение
+    addFullAgreement(agreement: Agreement) { //получаем полное соглашение
         const that = this;
 
         this.userAgreement.getFullAgreement(agreement.RequestToken)
@@ -78,8 +73,7 @@ export class AgreementComponent extends CommonComponent implements OnInit, OnDes
             }
             this.currentAgreement = data;
 
-            //console.log(data.AcceptToken);
-             // без таймаута не успевает обработаться, надо будет убрать
+             // без таймаута не успевает обработаться
             setTimeout( ()=> {
                 $('#last_agreement').modal({ 
                     closable: false,
@@ -103,55 +97,37 @@ export class AgreementComponent extends CommonComponent implements OnInit, OnDes
 
 
     onScroll(event: any) {
-        //console.log(event);
-        //console.log(`${event.target.scrollTop + event.target.offsetHeight} = ${event.target.scrollHeight}`);
         if ( (event.target.scrollTop + event.target.offsetHeight) == event.target.scrollHeight) {
             this.acceptDisabled = false;
         }
     }
 
-    onClick(event: any) {
-        console.log(`${event.target.scrollTop + event.target.offsetHeight} = ${event.target.scrollHeight}`);
-    }
-
-    modalShowHandler() {
+    modalShowHandler() { //проверка на наличие скролла, вкучение кнопки при его отсутствии
         let el = this.textBlock.nativeElement;
         if ( (el.scrollTop + el.offsetHeight) == el.scrollHeight) {
             this.acceptDisabled = false;
         }
-        //console.log(`${el.scrollTop + el.offsetHeight} = ${el.scrollHeight}`);
     }
 
     modalHideHandler() {
-        this.loadAgreements();//проверка на оставшиеся соглашения
+        this.loadAgreements(); //проверка на оставшиеся соглашения
         this.userAgreement.clear();
         this.acceptDisabled = true;
     }
 
     accept() {
-        console.log(this.currentAgreement.AcceptToken);
-        /*
         this.userAgreement.acceptAgreement(this.currentAgreement.AcceptToken)
         .takeWhile(() => this.alive)  
-        .subscribe( (res: any) => {  
-            const data = res;
-            if (data.Data.length > 0) {
-                this.userAgreement.add( data.Data[0] );
-            }
-            else {
-                this.refreshPage();
+        .subscribe( (status: number) => {  
+            if (status == 204) {
+                $('#last_agreement').modal('hide');
             }
         }, 
             error => this.errorHandler(error)
         );
-        */
-
-        $('#last_agreement').modal('hide');
     }
 
     refreshPage() {
         this.router.navigate([this.router.url]);
     }
-
-
 }

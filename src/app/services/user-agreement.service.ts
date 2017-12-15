@@ -23,6 +23,7 @@ export class UserAgreement {
     private router: Router,
     private http: Http
   ) { 
+    /*
     // clear agreement on route change unless 'keepAfterRouteChange' flag is true
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -35,6 +36,7 @@ export class UserAgreement {
           }
       }
     });
+    */
 
   }
 
@@ -76,7 +78,7 @@ export class UserAgreement {
     }).catch(this.handleError);
   }
 
-  acceptAgreement(token: string) {
+  acceptAgreement(token: string): Observable<number> {
     const apiURL = `${this.apiRoot}${API_URLS.USER_ACCEPT_AGREEMENT}`;
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -86,7 +88,7 @@ export class UserAgreement {
 
     return this.http.post(apiURL, JSON.stringify({ token: token }), options )
       .map((res:Response) => {
-        return res.json();
+        return res.status;
     }).catch(this.handleError);
   }
   

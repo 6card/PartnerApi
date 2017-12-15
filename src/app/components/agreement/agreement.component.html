@@ -1,5 +1,5 @@
 <div class="ui modal" id="last_agreement" *ngIf="currentAgreement">
-  <div class="scrolling content" (click)="onClick($event)" (scroll)="onScroll($event)" #agreementTextBlock >
+  <div class="scrolling content" (scroll)="onScroll($event)" #agreementTextBlock >
     <div class="description">
       <p id="last_agreement_text" [innerHTML]="currentAgreement.HTML"></p>
     </div>
