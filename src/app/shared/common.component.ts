@@ -25,7 +25,7 @@ export class CommonComponent implements OnInit, AfterViewInit {
     }
 
     loadAgreements() {
-        console.log('loadAgreements');
+        //console.log('loadAgreements');
         this.userAgreement.getAgreements(this.authService.sessionId)
         .takeWhile(() => this.alive)  
         .subscribe( res => {  

@@ -45,7 +45,7 @@ export class AgreementComponent extends CommonComponent implements OnInit, OnDes
     }
 
     loadAgreements() {
-        console.log('loadAgreements');
+        //console.log('loadAgreements');
         this.userAgreement.getAgreements(this.authService.sessionId)
         .takeWhile(() => this.alive)  
         .subscribe( (res: any) => {  
