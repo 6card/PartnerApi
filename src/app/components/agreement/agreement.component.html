@@ -5,7 +5,7 @@
     </div>
   </div>
   <div class="actions">
-    <button class="ui positive right labeled icon button" (click)="accept()" [disabled]="acceptDisabled">
+    <button class="ui positive right labeled icon button" (click)="accept()" [disabled]="acceptDisabled" [class.loading]="loading">
       Принять
       <i class="checkmark icon"></i>
     </button>
