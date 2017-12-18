@@ -1,12 +1,12 @@
 {
     "compilerOptions": {
         "target": "es5",
-        //"module": "commonjs",
+        "module": "commonjs",
         "moduleResolution": "node",
         "sourceMap": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "lib": ["es2017", "dom"],
+        "lib": ["es2015", "dom"],
         "noImplicitAny": true,
         "suppressImplicitAnyIndexErrors": true,
         //"types": ["node", "jquery", "semantic-ui"],

@@ -116,7 +116,7 @@ export class AgreementComponent extends CommonComponent implements OnInit, OnDes
 
     modalShowHandler() { //проверка на наличие скролла, вкучение кнопки при его отсутствии
         let el = this.textBlock.nativeElement;
-        if ( (el.scrollTop + el.offsetHeight) >= el.scrollHeight) {
+        if ( (Math.round(el.scrollTop + el.offsetHeight)) >= el.scrollHeight) {
             this.acceptDisabled = false;
         }
     }
@@ -129,8 +129,8 @@ export class AgreementComponent extends CommonComponent implements OnInit, OnDes
     }
 
     onScroll(event: any) {
-        //console.log(`${event.target.scrollTop + event.target.offsetHeight} == ${event.target.scrollHeight}`);
-        if ( !this.loading && (event.target.scrollTop + event.target.offsetHeight) >= event.target.scrollHeight) {
+        //console.log(`${Math.round(event.target.scrollTop + event.target.offsetHeight)} >= ${event.target.scrollHeight}`);
+        if ( !this.loading && (Math.round(event.target.scrollTop + event.target.offsetHeight)) >= event.target.scrollHeight) {
             this.acceptDisabled = false;
         }
     }
