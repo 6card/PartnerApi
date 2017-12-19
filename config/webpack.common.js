@@ -2,6 +2,7 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 var helpers = require('./helpers');
 
 module.exports = {
@@ -60,6 +61,15 @@ module.exports = {
     ]
   },
   plugins: [
+    new CleanWebpackPlugin(
+      ['dist/*.*', 'dist/assets'],
+      {
+        root: helpers.root(),
+        verbose:  true,
+        dry:      false
+      }
+    ),
+    
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery"

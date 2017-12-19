@@ -6,7 +6,7 @@ var helpers = require('./helpers');
 const path = require('path');
 const glob = require('glob');
 const PurifyCSSPlugin = require('purifycss-webpack');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+
 
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 
@@ -21,8 +21,6 @@ module.exports = webpackMerge(commonConfig,{
     },
 
     plugins: [
-
-        //new CleanWebpackPlugin(['dist']),
         
         new webpack.LoaderOptionsPlugin({
             //minimize :true,
