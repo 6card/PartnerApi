@@ -6,7 +6,7 @@ var helpers = require('./helpers');
 const path = require('path');
 const glob = require('glob');
 const PurifyCSSPlugin = require('purifycss-webpack');
-
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 
@@ -21,38 +21,6 @@ module.exports = webpackMerge(commonConfig,{
     },
 
     plugins: [
-        
-        new webpack.LoaderOptionsPlugin({
-            //minimize :true,
-            debug: false
-        }),
-        
-        // Delete unused JS code
-        new webpack.optimize.UglifyJsPlugin({ // https://github.com/angular/angular/issues/10618
-            mangle: true,
-            compress: {
-              warnings: false, // Suppress uglification warnings
-              pure_getters: true,
-              unsafe: true,
-              unsafe_comps: true,
-              screw_ie8: true
-            },
-            output: {
-              comments: false,
-            },
-            exclude: [/\.min\.js$/gi] // skip pre-minified libs
-            /*
-            beautify: false,
-            mangle: {
-                screw_ie8: true,
-                keep_fnames: true
-            },
-
-            comments: false
-            */
-        }),
-
-        
 
         // Delete unused CSS styles
         /*
@@ -63,9 +31,46 @@ module.exports = webpackMerge(commonConfig,{
         }),
         */
         
-        // for production
-        new webpack.DefinePlugin({ 'process.env': {'ENV': JSON.stringify(ENV)} })
         
-
-    ]
+        // for production
+        new webpack.DefinePlugin({ 'process.env': {'ENV': JSON.stringify(ENV)} }),
+        
+         // Delete unused JS code
+         new UglifyJsPlugin({
+            "test": /\.js$/i,
+            "extractComments": false,
+            "sourceMap": false,
+            "cache": false,
+            "parallel": false,
+            "uglifyOptions": {
+              "output": {
+                "ascii_only": true,
+                "comments": false,
+                "webkit": true
+              },
+              "ecma": 5,
+              "warnings": false,
+              "ie8": false,
+              "mangle": {
+                "safari10": true
+              },
+              "compress": {
+                "typeofs": false,
+                "pure_getters": true,
+                "passes": 3
+              }
+            }
+          }),
+    ],
+    node: {
+        fs: "empty",
+        global: true,
+        crypto: "empty",
+        tls: "empty",
+        net: "empty",
+        process: true,
+        module: false,
+        clearImmediate: false,
+        setImmediate: false
+    }
 });

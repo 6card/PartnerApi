@@ -22,7 +22,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let Video of media.Videos | orderBy: ['-CreateTime']">
-                <td>{{Video.CreateTimeGMT | datex:'DD.MM.YYYY HH:mm'}}</td>
+                <td>{{Video.CreateTimeGMT | date:'dd.MM.yyyy HH:mm'}}</td>
                 <td>{{Video.Width}}x{{Video.Height}}</td>
                 <td>{{Video.Duration | secondsToTime}}</td>
                 <td>{{Video.StateName}}</td>
@@ -62,13 +62,13 @@
                   <td class="collapsing">
                       Время создания
                   </td>
-                  <td>{{media.CreateTimeGMT | datex:'DD.MM.YYYY HH:mm'}}</td>
+                  <td>{{media.CreateTimeGMT | date:'dd.MM.yyyy HH:mm'}}</td>
                 </tr>
                 <tr>
                   <td class="collapsing">
                       Время изменения
                   </td>
-                  <td>{{media.UpdateTimeGMT | datex:'DD.MM.YYYY HH:mm'}}</td>
+                  <td>{{media.UpdateTimeGMT | date:'dd.MM.yyyy HH:mm'}}</td>
                 </tr>
                 <tr>
                   <td class="collapsing">

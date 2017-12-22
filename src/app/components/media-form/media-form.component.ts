@@ -1,13 +1,13 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DatexPipe } from '../../pipes/datex.pipe';
+import { DatePipe } from '@angular/common';
 import { Channel } from '../../shared/media';
 
 
 @Component({
     selector: 'media-form',
     templateUrl: './media-form.component.html',
-    providers: [DatexPipe]
+    providers: [DatePipe]
 })
 
 export class MediaFormComponent {
@@ -28,7 +28,7 @@ export class MediaFormComponent {
 
     public mediaForm: FormGroup;
     constructor(
-        public datepipe: DatexPipe,
+        public datepipe: DatePipe,
         public fb: FormBuilder
     ) {
         
@@ -40,14 +40,14 @@ export class MediaFormComponent {
             'description': [this.description, Validators.required],
             'channelId': [this.channelId, Validators.required],
             'state': [this.state],
-            'shootDate': [this.shootDate ? this.shootDate : this.datepipe.transform(Date.now(), 'YYYY-MM-DDTHH:mm:ss+03:00'), Validators.required]
+            'shootDate': [this.shootDate ? this.shootDate : this.datepipe.transform(Date.now(), 'yyyy-MM-ddTHH:mm:ss+03:00'), Validators.required]
         });
     }
 
     pushValues(): void {
         let values = this.mediaForm.value;
         if (this.tempDate)
-            values.shootDate = this.datepipe.transform(this.tempDate, 'YYYY-MM-DDTHH:mm:ss+03:00');
+            values.shootDate = this.datepipe.transform(this.tempDate, 'yyyy-MM-ddTHH:mm:ss+03:00');
         this.formResults.emit(values);
     }
 

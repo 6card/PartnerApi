@@ -13,13 +13,13 @@ export class PaginationComponent {
 	@Output() goToPage = new EventEmitter();
 	
 	private totalPages: number;
-	private directionLinks: boolean = true;
-	private boundaryLinks: boolean = false;	
+	public directionLinks: boolean = true;
+	public boundaryLinks: boolean = false;	
 	private rotate: boolean = false;
 	private maxSize: number = 5;
 
    
-	private pages:Array<any>;
+	public pages:Array<any>;
    
 	ngOnInit() {
 		this.totalPages = this.calculateTotalPages();

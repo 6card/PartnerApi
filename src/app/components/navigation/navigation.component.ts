@@ -18,7 +18,7 @@ export class NavigationComponent extends CommonComponent implements OnInit{
   //isLoggedIn : boolean = false;
 
   constructor(
-    protected authService:AuthService,
+    public authService:AuthService,
     protected partnerService: PartnerService,
     protected alertService: AlertService,
     protected userAgreement: UserAgreement,

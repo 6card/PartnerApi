@@ -23,7 +23,9 @@ module.exports = {
         loaders: [
           {
             loader: 'awesome-typescript-loader',
-            options: { configFileName: helpers.root('src', 'tsconfig.json') }
+            options: {
+              configFileName: helpers.root('src', 'tsconfig.json')
+            }
           }, 
           'angular2-template-loader'
         ]
@@ -48,21 +50,21 @@ module.exports = {
             {
               loader: "css-loader",
               options: {
-                sourceMap: true
+                //sourceMap: true
               }
             }
           ]
         })
       },
       {
-        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
+        test: /\.(png|jpe?g|gif|ico|svg|woff|woff2|ttf|eot)$/,
         loader: 'file-loader?name=assets/[name].[ext]'
-      }
+      },
     ]
   },
   plugins: [
     new CleanWebpackPlugin(
-      ['dist/*.*', 'dist/assets'],
+      ['dist/**'],
       {
         root: helpers.root(),
         verbose:  true,
@@ -77,15 +79,19 @@ module.exports = {
 
     //Fix for warning
     new webpack.ContextReplacementPlugin(
-      /angular(\\|\/)core(\\|\/)@angular/,
+      /angular(\\|\/)core/,
       helpers.root('src')
     ),    
 
-    new ExtractTextPlugin('[name].css'),    
+    new ExtractTextPlugin("[name].css"),
 
-    new CommonsChunkPlugin({ name: ['app', 'vendor', 'polyfills'], minChunks: Infinity}),
+    new CommonsChunkPlugin({ name: ['app', 'vendor', 'polyfills'], minChunks: Infinity}),    
 
-    new HtmlWebpackPlugin({template: 'src/index.html'}),
+    new HtmlWebpackPlugin({
+      template: './src\\index.html',
+      favicon: false,
+      filename: "./index.html",
+    }),
     
   ]
 }
