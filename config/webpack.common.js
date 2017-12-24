@@ -24,6 +24,7 @@ module.exports = {
           {
             loader: 'awesome-typescript-loader',
             options: {
+              silent: true,
               configFileName: helpers.root('src', 'tsconfig.json')
             }
           }, 
@@ -67,10 +68,10 @@ module.exports = {
       ['dist/**'],
       {
         root: helpers.root(),
-        verbose:  true,
+        verbose:  false,
         dry:      false
       }
-    ),
+    ), 
     
     new webpack.ProvidePlugin({
       $: "jquery",
@@ -88,7 +89,7 @@ module.exports = {
     new CommonsChunkPlugin({ name: ['app', 'vendor', 'polyfills'], minChunks: Infinity}),    
 
     new HtmlWebpackPlugin({
-      template: './src\\index.html',
+      template: './src/index.html',
       favicon: false,
       filename: "./index.html",
     }),

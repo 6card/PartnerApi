@@ -1,3 +1,4 @@
+/*
 // Angular
 import '@angular/platform-browser';
 import '@angular/platform-browser-dynamic';
@@ -13,6 +14,7 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/Observable';
 import 'rxjs/Subject';
 import 'rxjs/BehaviorSubject';
+*/
 
 // Other vendors for example jQuery, Lodash or Bootstrap
 import 'jquery';
